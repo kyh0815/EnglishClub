@@ -61,16 +61,6 @@ export default function Home() {
             <div className="difference-head">
               <span className="label rv">{landingContent.difference.label}</span>
               <h2 className="rv d1">{landingContent.difference.title}</h2>
-              <div className="round-table-mark rv d2" aria-hidden="true">
-                <span className="table-ring" />
-                <span className="table-core" />
-                <span className="seat seat-1" />
-                <span className="seat seat-2" />
-                <span className="seat seat-3" />
-                <span className="seat seat-4" />
-                <span className="seat seat-5" />
-                <span className="seat seat-6" />
-              </div>
             </div>
             <div className="difference-list">
               {landingContent.difference.items.map((item, index) => (
@@ -97,10 +87,12 @@ export default function Home() {
 
         <section className="free">
           <div className="wrap">
-            <span className="label rv">왜 무료냐면</span>
+            <span className="label rv">비용이 궁금하신가요?</span>
             <p className="big rv">1기는 전액 무료로 모십니다.</p>
             <p className="sub rv d1">
-              부담 없이 오셔서 영어로 떠들고, The Round의 첫 분위기를 함께 만들어주세요.
+              부담 없이 오셔서 영어로 떠들고, The Round의 첫 분위기를
+              <br />
+              함께 만들어주세요.
             </p>
           </div>
         </section>

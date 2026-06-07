@@ -417,77 +417,6 @@ h2 {
   max-width: 10.5em;
 }
 
-.round-table-mark {
-  position: relative;
-  width: clamp(148px, 16vw, 196px);
-  aspect-ratio: 1;
-  margin-top: clamp(48px, 7vw, 78px);
-  margin-left: 2px;
-  opacity: 0.74;
-}
-
-.round-table-mark .table-ring,
-.round-table-mark .table-core,
-.round-table-mark .seat {
-  position: absolute;
-  display: block;
-  border: 1px solid rgba(28, 26, 22, 0.08);
-  pointer-events: none;
-}
-
-.round-table-mark .table-ring {
-  inset: 19%;
-  border-radius: 50%;
-}
-
-.round-table-mark .table-core {
-  inset: 38%;
-  border-radius: 50%;
-  border-color: rgba(28, 26, 22, 0.055);
-}
-
-.round-table-mark .seat {
-  width: 20%;
-  height: 7%;
-  border-radius: 999px;
-  border-color: rgba(28, 26, 22, 0.07);
-  transform-origin: 50% 50%;
-}
-
-.round-table-mark .seat-1 {
-  left: 40%;
-  top: 5%;
-}
-
-.round-table-mark .seat-2 {
-  right: 12%;
-  top: 26%;
-  transform: rotate(60deg);
-}
-
-.round-table-mark .seat-3 {
-  right: 12%;
-  bottom: 26%;
-  transform: rotate(-60deg);
-}
-
-.round-table-mark .seat-4 {
-  left: 40%;
-  bottom: 5%;
-}
-
-.round-table-mark .seat-5 {
-  left: 12%;
-  bottom: 26%;
-  transform: rotate(60deg);
-}
-
-.round-table-mark .seat-6 {
-  left: 12%;
-  top: 26%;
-  transform: rotate(-60deg);
-}
-
 .difference-list {
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
@@ -1053,11 +982,6 @@ footer {
 
   .difference-head h2 {
     max-width: 100%;
-  }
-
-  .round-table-mark {
-    width: 136px;
-    margin-top: 30px;
   }
 
   .difference-item {
