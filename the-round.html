@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Round — 떠들다 보면, 영어가 트입니다</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<style>
+  :root{
+    --paper:#FFFDF8;
+    --paper-2:#FFFDF8;
+    --ink:#1C1A16;
+    --ink-soft:#6B6459;
+    --ink-faint:#9C968A;
+    --line:#E7E1D3;
+    --accent:#1C1A16;
+    --accent-deep:#000;
+    --maxw:1080px;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:"Pretendard","Pretendard Variable",-apple-system,"Apple SD Gothic Neo",sans-serif;background:var(--paper);color:var(--ink);line-height:1.72;-webkit-font-smoothing:antialiased;letter-spacing:-.011em;font-size:16px;overflow-x:hidden;font-weight:400}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;position:relative;z-index:1}
+  .label{font-size:.82rem;color:var(--ink-faint);font-weight:500;display:block;margin-bottom:20px}
+  .label::before{content:"— "}
+
+  nav{position:sticky;top:0;z-index:50;backdrop-filter:saturate(115%) blur(8px);background:rgba(255,253,248,.8);transition:border-color .4s;border-bottom:1px solid transparent}
+  nav.scrolled{border-color:var(--line)}
+  .nav-in{max-width:var(--maxw);margin:0 auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between}
+  .logo{font-size:1.18rem;font-weight:600;letter-spacing:-.02em}
+  .nav-cta{font-size:.88rem;font-weight:500;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink);padding-bottom:2px;transition:.3s}
+  .nav-cta:hover{opacity:.55}
+
+  .btn{font-family:inherit;font-size:.96rem;font-weight:500;cursor:pointer;border:none;background:var(--accent);color:#fff;padding:15px 30px;border-radius:2px;text-decoration:none;display:inline-block;transition:.35s var(--ease)}
+  .btn:hover{background:var(--accent-deep);transform:translateY(-1px)}
+
+  /* HERO */
+  .hero{position:relative;width:100%;min-height:88vh;display:flex;align-items:flex-end;overflow:hidden}
+  .hero-img{position:absolute;inset:0;background:linear-gradient(135deg,#BDB4A4,#A79E8E 70%,#948B7B);display:flex;align-items:center;justify-content:center}
+  .ph-c{color:rgba(255,255,255,.7);font-size:.85rem;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;z-index:1;padding:0 24px}
+  .ph-c svg{width:30px;height:30px;stroke:rgba(255,255,255,.7)}
+  .hero-shade{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,18,14,.66),rgba(20,18,14,.18) 48%,rgba(20,18,14,.05))}
+  .hero-content{position:relative;z-index:2;width:100%;padding-bottom:clamp(48px,7vw,84px)}
+  .hero-content .label{color:rgba(255,255,255,.78)}
+  .hero h1{color:#fff;font-size:clamp(2rem,4.6vw,3.25rem);line-height:1.18;font-weight:600;letter-spacing:-.03em;margin-bottom:18px;max-width:18em}
+  .hero .sub{color:rgba(255,255,255,.85);font-size:clamp(1rem,1.5vw,1.12rem);max-width:27em;margin-bottom:30px;line-height:1.7}
+  .hero .actions{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+  .hero .note{color:rgba(255,255,255,.7);font-size:.86rem}
+
+  section{padding:clamp(68px,10vw,120px) 0;position:relative}
+  .alt{background:var(--paper);border-top:1px solid var(--line)}
+  h2{font-size:clamp(1.45rem,3vw,2.05rem);line-height:1.3;font-weight:600;letter-spacing:-.025em}
+  .lede{color:var(--ink-soft);font-size:1.05rem;max-width:34em;margin-top:18px;line-height:1.78}
+
+  /* what (one-line differentiator) */
+  .what p{font-size:clamp(1.3rem,2.6vw,1.85rem);font-weight:600;letter-spacing:-.025em;line-height:1.5;max-width:26em}
+  .what .sub{color:var(--ink-soft);font-size:1.05rem;font-weight:400;margin-top:20px;max-width:32em;line-height:1.78}
+
+  /* teams */
+  .trow{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:26px 0;border-top:1px solid var(--line);flex-wrap:wrap}
+  .trow:last-child{border-bottom:1px solid var(--line)}
+  .trow .tl{flex:1;min-width:240px}
+  .trow h3{font-size:1.2rem;font-weight:600;letter-spacing:-.02em}
+  .trow .desc{color:var(--ink-soft);font-size:1rem;margin-top:6px}
+  .trow .meta{color:var(--ink-faint);font-size:.9rem;white-space:nowrap;display:flex;align-items:center;gap:8px}
+  .stat-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block}
+  .teams-note{font-size:.9rem;color:var(--ink-faint);margin-top:22px}
+
+  /* free (deep section) */
+  .free{background:var(--ink);color:var(--paper);text-align:center}
+  .free .label{color:rgba(255,255,255,.6);display:inline-block}
+  .free .big{font-size:clamp(1.35rem,2.6vw,1.85rem);font-weight:600;letter-spacing:-.025em;line-height:1.5;max-width:24em;margin:0 auto}
+  .free .sub{color:rgba(255,255,255,.7);max-width:30em;margin:20px auto 0;font-size:1.02rem}
+
+  /* apply */
+  .apply-wrap{max-width:560px;margin:0 auto}
+  .apply-wrap h2{text-align:center}
+  .apply-wrap .lede{text-align:center;margin:18px auto 40px}
+  .field{margin-bottom:24px}
+  .field label{display:block;font-size:.82rem;font-weight:500;color:var(--ink-soft);margin-bottom:8px}
+  .field label .opt{color:var(--ink-faint);font-weight:400}
+  .field input,.field select,.field textarea{width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:transparent;border:none;border-bottom:1px solid var(--line);border-radius:0;padding:11px 2px;transition:.25s}
+  .field textarea{resize:vertical;min-height:40px;line-height:1.6}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-bottom-color:var(--accent)}
+  .field input::placeholder,.field textarea::placeholder{color:var(--ink-faint)}
+  .submit{width:100%;margin-top:12px;padding:16px;font-size:1rem;border-radius:2px}
+  .form-foot{text-align:center;font-size:.8rem;color:var(--ink-faint);margin-top:16px}
+  .success{display:none;text-align:center;padding:30px 10px}
+  .success.show{display:block;animation:fade .6s var(--ease)}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .success .mk{width:54px;height:54px;border-radius:50%;border:1px solid var(--accent);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin:0 auto 22px}
+  .success h3{font-size:1.4rem;font-weight:600;letter-spacing:-.02em;margin-bottom:10px}
+  .success p{color:var(--ink-soft)}
+
+  footer{padding:60px 0 50px;border-top:1px solid var(--line)}
+  .foot-grid{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px}
+  .foot-logo{font-size:1.15rem;font-weight:600;margin-bottom:8px}
+  .foot-tag{font-size:.92rem;color:var(--ink-faint)}
+  .foot-links{display:flex;gap:24px;font-size:.88rem}
+  .foot-links a{color:var(--ink-soft);text-decoration:none;transition:.3s}
+  .foot-links a:hover{color:var(--ink)}
+  .foot-copy{margin-top:34px;font-size:.76rem;color:var(--ink-faint)}
+
+  .rv{opacity:0;transform:translateY(20px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+  .rv.in{opacity:1;transform:none}
+  .rv.d1{transition-delay:.1s}
+
+  @media(max-width:760px){.hero{min-height:82vh}}
+  @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}*{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-in">
+    <div class="logo">The Round</div>
+    <a href="#apply" class="nav-cta">무료 1기 신청</a>
+  </div>
+</nav>
+
+<!-- 1. HERO -->
+<section class="hero">
+  <div class="hero-img"><div class="ph-c"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="m21 16-4.5-4.5L7 21"/></svg>메인 이미지 — 둘러앉아 웃으며 영어로 대화하는 장면</div></div>
+  <div class="hero-shade"></div>
+  <div class="hero-content"><div class="wrap">
+    <span class="label rv">무료 베타 1기 모집</span>
+    <h1 class="rv d1">떠들다 보면,<br>영어가 트입니다.</h1>
+    <p class="sub rv d1">영어 실력이 부족한 게 아니에요. 마음 편히 말할 기회가 없었을 뿐. 그 기회를 여는 영어 소셜 클럽.</p>
+    <div class="actions rv d1"><a href="#apply" class="btn">무료 1기 신청</a><span class="note">초급·중급·고급 각 6–8명 한정</span></div>
+  </div></div>
+</section>
+
+<!-- 2. WHAT (한 줄 차별점) -->
+<section class="what">
+  <div class="wrap">
+    <span class="label rv">그냥 수다 모임이 아니에요</span>
+    <p class="rv">편하게 떠드는 자리, 그런데 옆엔 진짜 잘하는 진행자가 있어요.</p>
+    <p class="sub rv d1">막히면 바로 풀어주고, 더 좋은 표현을 그 자리에서 건네요. 틀려도 되는 분위기라 자꾸 말하게 되고, 자꾸 말하다 보면 어느새 트입니다.</p>
+  </div>
+</section>
+
+<!-- 3. WHO (이런 분 오세요) -->
+<section class="alt">
+  <div class="wrap">
+    <span class="label rv">이런 분 오세요</span>
+    <h2 class="rv">내 레벨로, 편하게.</h2>
+    <div class="rv d1" style="margin-top:clamp(30px,4vw,46px)">
+      <div class="trow"><div class="tl"><h3>초급팀</h3><div class="desc">입을 떼는 것부터. 왕초보도 환영해요.</div></div><div class="meta"><span class="stat-dot"></span>6–8명 · 모집 중</div></div>
+      <div class="trow"><div class="tl"><h3>중급팀</h3><div class="desc">더듬더듬은 되는데, 더 자연스럽게 말하고 싶은 분께.</div></div><div class="meta"><span class="stat-dot"></span>6–8명 · 모집 중</div></div>
+      <div class="trow"><div class="tl"><h3>고급팀</h3><div class="desc">편하게 대화는 되지만, 감을 유지하고 다듬고 싶은 분께.</div></div><div class="meta"><span class="stat-dot"></span>6–8명 · 모집 중</div></div>
+    </div>
+    <p class="teams-note rv">각 팀은 마감되는 대로 다음 기수 대기로 전환돼요.</p>
+  </div>
+</section>
+
+<!-- 4. FREE (무료 1기) -->
+<section class="free">
+  <div class="wrap">
+    <span class="label rv">왜 무료냐면</span>
+    <p class="big rv">1기는 함께 클럽을 완성할 파운딩 멤버니까요. 그래서 전액 무료로 모십니다.</p>
+    <p class="sub rv d1">대신 인원은 초급·중급·고급 각 한 팀, 6–8명씩만.</p>
+  </div>
+</section>
+
+<!-- 5. APPLY (신청서) -->
+<section id="apply">
+  <div class="wrap apply-wrap">
+    <div id="formView">
+      <span class="label rv" style="text-align:center">무료 베타 1기 신청</span>
+      <h2 class="rv">지금, 자리를 맡아두세요.</h2>
+      <p class="lede rv d1">각 6–8명 한정. 마감 전에 남겨주시면 가장 먼저 연락드릴게요.</p>
+      <form id="applyForm" class="rv d1" novalidate>
+        <div class="field"><label for="name">이름</label><input id="name" type="text" placeholder="홍길동" required></div>
+        <div class="field"><label for="contact">연락처 <span class="opt">(이메일 또는 전화)</span></label><input id="contact" type="text" placeholder="you@email.com" required></div>
+        <div class="field"><label for="level">영어 레벨</label>
+          <select id="level" required>
+            <option value="" disabled selected>선택해주세요</option>
+            <option>초급 — 입을 떼는 것부터 (왕초보 포함)</option>
+            <option>중급 — 더듬더듬 대화는 돼요</option>
+            <option>고급 — 편하게 대화, 더 다듬고 싶어요</option>
+            <option>잘 모르겠어요 — 추천해주세요</option>
+          </select>
+        </div>
+        <div class="field"><label for="motive">지원 동기 <span class="opt">(한두 줄이면 충분해요)</span></label><textarea id="motive" placeholder="오고 싶은 이유를 짧게 적어주세요."></textarea></div>
+        <div class="field"><label for="time">가능한 요일 · 시간대</label><input id="time" type="text" placeholder="예: 평일 저녁, 주말 오후"></div>
+        <button type="submit" class="btn submit">무료로 신청하기</button>
+        <p class="form-foot">1기는 전액 무료 · 인원 마감 시 조기 종료될 수 있어요.</p>
+      </form>
+    </div>
+    <div class="success" id="successView">
+      <div class="mk">✓</div>
+      <h3>신청이 접수됐어요.</h3>
+      <p>1기 자리를 맡아두었어요. 가장 먼저 연락드릴게요.<br>곧 The Round에서 만나요.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div><div class="foot-logo">The Round</div><div class="foot-tag">떠들다 보면, 영어가 트입니다.</div></div>
+      <div class="foot-links"><a href="#apply">무료 신청</a><a href="mailto:hello@theround.club">문의</a><a href="#" target="_blank" rel="noopener">Instagram</a></div>
+    </div>
+    <div class="foot-copy">© 2026 The Round — English Social Club.</div>
+  </div>
+</footer>
+
+<script>
+  const nav=document.getElementById('nav');
+  addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>10));
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+  const form=document.getElementById('applyForm');
+  form.addEventListener('submit',(e)=>{
+    e.preventDefault();
+    const n=document.getElementById('name').value.trim();
+    const c=document.getElementById('contact').value.trim();
+    const l=document.getElementById('level').value;
+    if(!n){document.getElementById('name').focus();return;}
+    if(!c){document.getElementById('contact').focus();return;}
+    if(!l){document.getElementById('level').focus();return;}
+    document.getElementById('formView').style.display='none';
+    const s=document.getElementById('successView');s.classList.add('show');
+    s.scrollIntoView({behavior:'smooth',block:'center'});
+  });
+</script>
+</body>
+</html>
