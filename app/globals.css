@@ -404,31 +404,50 @@ h2 {
 
 .difference-wrap {
   display: grid;
-  grid-template-columns: minmax(240px, 0.72fr) minmax(0, 1.28fr);
-  gap: clamp(38px, 7vw, 86px);
-  align-items: start;
+  grid-template-columns: minmax(300px, 0.95fr) minmax(0, 1.05fr);
+  gap: clamp(34px, 6vw, 70px);
+  align-items: stretch;
 }
 
 .difference-head {
-  padding-top: 6px;
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
 }
 
 .difference-head h2 {
   max-width: 10.5em;
 }
 
-.difference-list {
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+.recap-photo {
+  width: clamp(310px, 34vw, 420px);
+  aspect-ratio: 3 / 2;
+  margin: auto 0 0;
+  overflow: hidden;
+  border: 1px solid rgba(28, 26, 22, 0.1);
+  border-radius: 2px;
+  background: var(--paper);
+}
+
+.recap-photo img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center center;
 }
 
 .difference-item {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(150px, 0.46fr) minmax(0, 1fr);
-  gap: clamp(24px, 4vw, 44px);
-  align-items: start;
-  padding: clamp(26px, 4vw, 38px) 0;
+  padding: clamp(18px, 2.4vw, 22px) 0;
+}
+
+.difference-item:first-child {
+  padding-top: 0;
+}
+
+.difference-item:last-child {
+  padding-bottom: 0;
 }
 
 .difference-item + .difference-item {
@@ -438,13 +457,12 @@ h2 {
 .difference-name {
   color: var(--ink-soft);
   display: block;
-  align-self: start;
-  padding-top: 0.26em;
   font-family: "Inter", "Pretendard", sans-serif;
   font-size: clamp(0.78rem, 0.92vw, 0.86rem);
   font-weight: 400;
   letter-spacing: 0.01em;
   line-height: 1.35;
+  margin-bottom: 8px;
   text-transform: none;
   white-space: nowrap;
 }
@@ -454,14 +472,14 @@ h2 {
   font-weight: 600;
   line-height: 1.45;
   letter-spacing: -0.02em;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
   word-break: keep-all;
 }
 
 .difference-item p {
   color: var(--ink-soft);
   font-size: 0.98rem;
-  line-height: 1.75;
+  line-height: 1.68;
   max-width: 31em;
   word-break: keep-all;
 }
@@ -978,15 +996,24 @@ footer {
   .difference-wrap {
     grid-template-columns: 1fr;
     gap: 28px;
+    align-items: start;
+  }
+
+  .difference-head {
+    display: block;
+    min-height: 0;
   }
 
   .difference-head h2 {
     max-width: 100%;
   }
 
+  .recap-photo {
+    width: min(232px, 72vw);
+    margin: 28px 0 0;
+  }
+
   .difference-item {
-    grid-template-columns: 1fr;
-    gap: 12px;
     padding: 26px 0;
   }
 

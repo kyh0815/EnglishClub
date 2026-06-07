@@ -1,3 +1,4 @@
+import Image from "next/image";
 import ApplicationForm from "@/components/ApplicationForm";
 import HeroImagePlaceholder from "@/components/HeroImagePlaceholder";
 import Nav from "@/components/Nav";
@@ -61,15 +62,23 @@ export default function Home() {
             <div className="difference-head">
               <span className="label rv">{landingContent.difference.label}</span>
               <h2 className="rv d1">{landingContent.difference.title}</h2>
+              <figure className="recap-photo rv d2">
+                <Image
+                  src="/images/recap-table.png"
+                  alt="라운드 테이블 위에 놓인 Recap 노트와 대화 카드"
+                  width={1536}
+                  height={1024}
+                  sizes="(max-width: 760px) 180px, 280px"
+                  unoptimized
+                />
+              </figure>
             </div>
             <div className="difference-list">
               {landingContent.difference.items.map((item, index) => (
                 <article className={`difference-item rv d${index + 1}`} key={item.name}>
                   <span className="difference-name">{item.name}</span>
-                  <div>
-                    <h3>{item.title}</h3>
-                    <p>{item.description}</p>
-                  </div>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
                 </article>
               ))}
             </div>
