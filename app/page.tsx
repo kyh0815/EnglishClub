@@ -61,6 +61,16 @@ export default function Home() {
             <div className="difference-head">
               <span className="label rv">{landingContent.difference.label}</span>
               <h2 className="rv d1">{landingContent.difference.title}</h2>
+              <div className="round-table-mark rv d2" aria-hidden="true">
+                <span className="table-ring" />
+                <span className="table-core" />
+                <span className="seat seat-1" />
+                <span className="seat seat-2" />
+                <span className="seat seat-3" />
+                <span className="seat seat-4" />
+                <span className="seat seat-5" />
+                <span className="seat seat-6" />
+              </div>
             </div>
             <div className="difference-list">
               {landingContent.difference.items.map((item, index) => (
