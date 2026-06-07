@@ -43,16 +43,36 @@ export default function Home() {
 
         <section className="what">
           <div className="wrap">
-            <span className="label rv">그냥 수다 모임이 아니에요</span>
-            <p className="rv">레슨보다 가볍고, 모임보다 깊게</p>
+            <span className="label rv">레슨보다 가볍고, 모임보다 깊게</span>
+            <p className="rv">자연스러운 영어는 외워서 만들어지지 않습니다</p>
             <p className="sub rv d1">
-              The Round에서 영어는 공부의 대상이 아닙니다.
+              영어는 책상 앞에서 외운 문장보다, 좋은 대화 속에서 더 오래 남습니다.
               <br />
-              좋은 사람들과 연결되고, 다시 만나고 싶은 대화를 나누기 위한 언어입니다.
+              The Round에서는 영어를 말하는 자신감을 키우는 것에서 끝나지 않아요.
               <br />
-              소수 인원, 레벨별 팀, 그리고 대화의 흐름을 이끄는 진행자와 함께 누구나 편하게
-              참여할 수 있어요.
+              실제로 쓰이는 표현과 대화의 흐름을 경험하며, 영어를 조금씩{" "}
+              <span className="keep-together">내 것으로 만들어갑니다.</span>
             </p>
+          </div>
+        </section>
+
+        <section className="difference">
+          <div className="wrap difference-wrap">
+            <div className="difference-head">
+              <span className="label rv">{landingContent.difference.label}</span>
+              <h2 className="rv d1">{landingContent.difference.title}</h2>
+            </div>
+            <div className="difference-list">
+              {landingContent.difference.items.map((item, index) => (
+                <article className={`difference-item rv d${index + 1}`} key={item.name}>
+                  <span className="difference-name">{item.name}</span>
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p>{item.description}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 

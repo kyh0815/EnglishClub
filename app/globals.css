@@ -353,6 +353,7 @@ h2 {
   line-height: 1.3;
   font-weight: 600;
   letter-spacing: -0.025em;
+  word-break: keep-all;
 }
 
 .lede {
@@ -371,6 +372,7 @@ h2 {
   max-width: 26em;
   margin: 0 auto;
   text-align: center;
+  word-break: keep-all;
 }
 
 .what .sub {
@@ -381,10 +383,83 @@ h2 {
   max-width: 32em;
   line-height: 1.78;
   text-align: center;
+  word-break: keep-all;
 }
 
 .what .label {
   text-align: center;
+}
+
+.keep-together {
+  white-space: nowrap;
+}
+
+.difference {
+  padding-top: clamp(24px, 4vw, 44px);
+}
+
+.difference-wrap {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.72fr) minmax(0, 1.28fr);
+  gap: clamp(38px, 7vw, 86px);
+  align-items: start;
+}
+
+.difference-head {
+  padding-top: 6px;
+}
+
+.difference-head h2 {
+  max-width: 10.5em;
+}
+
+.difference-list {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.difference-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(150px, 0.46fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 44px);
+  align-items: start;
+  padding: clamp(26px, 4vw, 38px) 0;
+}
+
+.difference-item + .difference-item {
+  border-top: 1px solid var(--line);
+}
+
+.difference-name {
+  color: var(--ink-soft);
+  display: block;
+  align-self: start;
+  padding-top: 0.26em;
+  font-family: "Inter", "Pretendard", sans-serif;
+  font-size: clamp(0.78rem, 0.92vw, 0.86rem);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.difference-item h3 {
+  font-size: clamp(1.12rem, 1.75vw, 1.38rem);
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+  word-break: keep-all;
+}
+
+.difference-item p {
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.75;
+  max-width: 31em;
+  word-break: keep-all;
 }
 
 .teams-list {
@@ -884,9 +959,32 @@ footer {
   transition-delay: 0.1s;
 }
 
+.rv.d2 {
+  transition-delay: 0.2s;
+}
+
+.rv.d3 {
+  transition-delay: 0.3s;
+}
+
 @media (max-width: 760px) {
   .hero {
     min-height: 82vh;
+  }
+
+  .difference-wrap {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .difference-head h2 {
+    max-width: 100%;
+  }
+
+  .difference-item {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 26px 0;
   }
 
   .teams-list {

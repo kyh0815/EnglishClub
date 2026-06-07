@@ -15,6 +15,30 @@ export const landingContent = {
     imageSrc: "/images/the-round-hero.png",
     imagePlaceholder: "메인 이미지 — 둘러앉아 웃으며 영어로 대화하는 장면"
   },
+  difference: {
+    label: "The Round가 다른 이유",
+    title: "내 영어가 자신감에서 끝나지 않도록",
+    items: [
+      {
+        name: "Guided Conversation",
+        title: "좋은 대화를 위한 원활한 진행",
+        description:
+          "경험 많은 진행자가 흐름을 잡아주기 때문에 누구나 부담 없이 참여할 수 있고, 대화는 더 깊어집니다."
+      },
+      {
+        name: "Expression Recap",
+        title: "재밌는 대화에서 유익함을",
+        description:
+          "대화 끝 짧은 Recap 세션을 통해 대화 속에서 나온 표현과 흐름을 정리하며 내 것으로 만듭니다."
+      },
+      {
+        name: "Real-World English",
+        title: "실제로 쓰이는 영어를",
+        description:
+          "교과서 속 상황이 아닌 실제 대화 상황 속에서 가장 자연스러운 영어를 익힙니다."
+      }
+    ]
+  },
   teams: [
     {
       name: "초급반",
