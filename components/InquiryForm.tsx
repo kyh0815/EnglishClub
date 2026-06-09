@@ -8,9 +8,12 @@ type SubmitState = "idle" | "submitting" | "success";
 export default function InquiryForm() {
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [error, setError] = useState("");
+  const [contact, setContact] = useState("");
+  const [message, setMessage] = useState("");
   const contactRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
   const successRef = useRef<HTMLDivElement>(null);
+  const canSubmit = contact.trim().length > 0 && message.trim().length > 0;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -18,15 +21,15 @@ export default function InquiryForm() {
 
     const form = event.currentTarget;
     const formData = new FormData(form);
-    const contact = String(formData.get("contact") ?? "").trim();
-    const message = String(formData.get("message") ?? "").trim();
+    const submittedContact = contact.trim();
+    const submittedMessage = message.trim();
 
-    if (!contact) {
+    if (!submittedContact) {
       contactRef.current?.focus();
       return;
     }
 
-    if (!message) {
+    if (!submittedMessage) {
       messageRef.current?.focus();
       return;
     }
@@ -41,8 +44,8 @@ export default function InquiryForm() {
         },
         body: JSON.stringify({
           name: String(formData.get("name") ?? "").trim(),
-          contact,
-          message,
+          contact: submittedContact,
+          message: submittedMessage,
           website: String(formData.get("website") ?? "").trim()
         })
       });
@@ -96,7 +99,9 @@ export default function InquiryForm() {
       </div>
 
       <div className="field">
-        <label htmlFor="inquiry-contact">연락처</label>
+        <label htmlFor="inquiry-contact">
+          연락처 <span className="req" aria-hidden="true">*</span>
+        </label>
         <input
           id="inquiry-contact"
           name="contact"
@@ -104,17 +109,23 @@ export default function InquiryForm() {
           placeholder="이메일 또는 전화번호"
           required
           ref={contactRef}
+          value={contact}
+          onChange={(event) => setContact(event.target.value)}
         />
       </div>
 
       <div className="field">
-        <label htmlFor="inquiry-message">문의 내용</label>
+        <label htmlFor="inquiry-message">
+          문의 내용 <span className="req" aria-hidden="true">*</span>
+        </label>
         <textarea
           id="inquiry-message"
           name="message"
           placeholder="궁금한 점을 남겨주세요."
           required
           ref={messageRef}
+          value={message}
+          onChange={(event) => setMessage(event.target.value)}
         />
       </div>
 
@@ -124,7 +135,7 @@ export default function InquiryForm() {
         </p>
       ) : null}
 
-      <button type="submit" className="btn submit" disabled={submitState === "submitting"}>
+      <button type="submit" className="btn submit" disabled={submitState === "submitting" || !canSubmit}>
         {submitState === "submitting" ? "접수 중..." : "문의 남기기"}
       </button>
       <p className="form-foot">레벨, 일정, 장소 등 편하게 남겨주세요.</p>

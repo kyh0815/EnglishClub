@@ -26,11 +26,14 @@ export default function ApplicationForm() {
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [error, setError] = useState("");
   const [teamStatuses, setTeamStatuses] = useState<Record<string, TeamStatus>>({});
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [level, setLevel] = useState("");
   const nameRef = useRef<HTMLInputElement>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
   const levelTriggerRef = useRef<HTMLButtonElement>(null);
   const successRef = useRef<HTMLDivElement>(null);
+  const canSubmit = name.trim().length > 0 && phone.trim().length > 0 && level.trim().length > 0;
 
   useEffect(() => {
     let isMounted = true;
@@ -63,17 +66,17 @@ export default function ApplicationForm() {
 
     const form = event.currentTarget;
     const formData = new FormData(form);
-    const name = String(formData.get("name") ?? "").trim();
-    const phone = String(formData.get("phone") ?? "").trim();
+    const submittedName = name.trim();
+    const submittedPhone = phone.trim();
     const email = String(formData.get("email") ?? "").trim();
     const selectedLevel = level.trim();
 
-    if (!name) {
+    if (!submittedName) {
       nameRef.current?.focus();
       return;
     }
 
-    if (!phone) {
+    if (!submittedPhone) {
       phoneRef.current?.focus();
       return;
     }
@@ -92,8 +95,8 @@ export default function ApplicationForm() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          name,
-          phone,
+          name: submittedName,
+          phone: submittedPhone,
           email,
           level: selectedLevel,
           motivation: String(formData.get("motivation") ?? "").trim(),
@@ -163,12 +166,25 @@ export default function ApplicationForm() {
         </div>
 
         <div className="field">
-          <label htmlFor="name">이름</label>
-          <input id="name" name="name" type="text" placeholder="홍길동" required ref={nameRef} />
+          <label htmlFor="name">
+            이름 <span className="req" aria-hidden="true">*</span>
+          </label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            placeholder="홍길동"
+            required
+            ref={nameRef}
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+          />
         </div>
 
         <div className="field">
-          <label htmlFor="phone">전화번호</label>
+          <label htmlFor="phone">
+            전화번호 <span className="req" aria-hidden="true">*</span>
+          </label>
           <input
             id="phone"
             name="phone"
@@ -177,6 +193,8 @@ export default function ApplicationForm() {
             required
             ref={phoneRef}
             autoComplete="tel"
+            value={phone}
+            onChange={(event) => setPhone(event.target.value)}
           />
         </div>
 
@@ -188,7 +206,9 @@ export default function ApplicationForm() {
         </div>
 
         <div className="field">
-          <label htmlFor="level">영어 레벨</label>
+          <label htmlFor="level">
+            영어 레벨 <span className="req" aria-hidden="true">*</span>
+          </label>
           <Select value={level} onValueChange={setLevel} name="level">
             <SelectTrigger id="level" ref={levelTriggerRef} aria-required="true">
               <SelectValue placeholder="선택해주세요" />
@@ -228,7 +248,7 @@ export default function ApplicationForm() {
           </p>
         ) : null}
 
-        <button type="submit" className="btn submit" disabled={submitState === "submitting"}>
+        <button type="submit" className="btn submit" disabled={submitState === "submitting" || !canSubmit}>
           {submitState === "submitting" ? "신청 중..." : "무료로 신청하기"}
         </button>
         <p className="form-foot">1기는 전액 무료 · 인원 마감 시 조기 종료될 수 있어요.</p>
