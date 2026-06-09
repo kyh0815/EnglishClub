@@ -68,9 +68,9 @@ alter table public.inquiries enable row level security;
 
 문의 폼 입력값은 `inquiries` 테이블에 이렇게 저장합니다.
 
-- `name`: 이름(선택)
-- `contact`: 이메일 또는 전화번호
-- `message`: 문의 내용
+- `name`: 이름
+- `contact`: 휴대폰번호 / 이메일
+- `message`: 문의사항
 - `source`: 문의 유입 source
 
 ## Vercel 배포

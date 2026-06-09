@@ -8,12 +8,20 @@ type SubmitState = "idle" | "submitting" | "success";
 export default function InquiryForm() {
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [error, setError] = useState("");
-  const [contact, setContact] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const contactRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const phoneRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
   const successRef = useRef<HTMLDivElement>(null);
-  const canSubmit = contact.trim().length > 0 && message.trim().length > 0;
+  const canSubmit =
+    name.trim().length > 0 &&
+    phone.trim().length > 0 &&
+    email.trim().length > 0 &&
+    message.trim().length > 0;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -21,11 +29,23 @@ export default function InquiryForm() {
 
     const form = event.currentTarget;
     const formData = new FormData(form);
-    const submittedContact = contact.trim();
+    const submittedName = name.trim();
+    const submittedPhone = phone.trim();
+    const submittedEmail = email.trim();
     const submittedMessage = message.trim();
 
-    if (!submittedContact) {
-      contactRef.current?.focus();
+    if (!submittedName) {
+      nameRef.current?.focus();
+      return;
+    }
+
+    if (!submittedPhone) {
+      phoneRef.current?.focus();
+      return;
+    }
+
+    if (!submittedEmail) {
+      emailRef.current?.focus();
       return;
     }
 
@@ -43,8 +63,9 @@ export default function InquiryForm() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          name: String(formData.get("name") ?? "").trim(),
-          contact: submittedContact,
+          name: submittedName,
+          phone: submittedPhone,
+          email: submittedEmail,
           message: submittedMessage,
           website: String(formData.get("website") ?? "").trim()
         })
@@ -93,30 +114,57 @@ export default function InquiryForm() {
 
       <div className="field">
         <label htmlFor="inquiry-name">
-          이름 <span className="opt">(선택)</span>
+          이름 <span className="req" aria-hidden="true">*</span>
         </label>
-        <input id="inquiry-name" name="name" type="text" placeholder="홍길동" />
+        <input
+          id="inquiry-name"
+          name="name"
+          type="text"
+          placeholder="홍길동"
+          required
+          ref={nameRef}
+          value={name}
+          onChange={(event) => setName(event.target.value)}
+        />
       </div>
 
       <div className="field">
-        <label htmlFor="inquiry-contact">
-          연락처 <span className="req" aria-hidden="true">*</span>
+        <label htmlFor="inquiry-phone">
+          휴대폰번호 <span className="req" aria-hidden="true">*</span>
         </label>
         <input
-          id="inquiry-contact"
-          name="contact"
-          type="text"
-          placeholder="이메일 또는 전화번호"
+          id="inquiry-phone"
+          name="phone"
+          type="tel"
+          placeholder="010-0000-0000"
           required
-          ref={contactRef}
-          value={contact}
-          onChange={(event) => setContact(event.target.value)}
+          ref={phoneRef}
+          autoComplete="tel"
+          value={phone}
+          onChange={(event) => setPhone(event.target.value)}
+        />
+      </div>
+
+      <div className="field">
+        <label htmlFor="inquiry-email">
+          이메일 <span className="req" aria-hidden="true">*</span>
+        </label>
+        <input
+          id="inquiry-email"
+          name="email"
+          type="email"
+          placeholder="you@email.com"
+          required
+          ref={emailRef}
+          autoComplete="email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
         />
       </div>
 
       <div className="field">
         <label htmlFor="inquiry-message">
-          문의 내용 <span className="req" aria-hidden="true">*</span>
+          문의사항 <span className="req" aria-hidden="true">*</span>
         </label>
         <textarea
           id="inquiry-message"

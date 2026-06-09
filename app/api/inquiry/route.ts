@@ -4,7 +4,8 @@ import { createServerSupabaseClient } from "@/lib/server/applications";
 
 type InquiryRequest = {
   name?: unknown;
-  contact?: unknown;
+  phone?: unknown;
+  email?: unknown;
   message?: unknown;
   website?: unknown;
 };
@@ -24,6 +25,16 @@ function jsonError(message: string, status = 400) {
   return NextResponse.json({ ok: false, message }, { status });
 }
 
+function isValidPhone(value: string): boolean {
+  const phone = /^[0-9+\-\s().]{8,20}$/;
+  return phone.test(value);
+}
+
+function isValidEmail(value: string): boolean {
+  const email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return email.test(value);
+}
+
 export async function POST(request: Request) {
   let body: InquiryRequest;
 
@@ -39,11 +50,20 @@ export async function POST(request: Request) {
   }
 
   const name = clean(body.name, MAX_SHORT);
-  const contact = clean(body.contact, MAX_SHORT);
+  const phone = clean(body.phone, MAX_SHORT);
+  const email = clean(body.email, MAX_SHORT);
   const message = clean(body.message, MAX_MESSAGE);
 
-  if (!contact || !message) {
-    return jsonError("연락처와 문의 내용을 입력해주세요.");
+  if (!name || !phone || !email || !message) {
+    return jsonError("이름, 휴대폰번호, 이메일, 문의사항을 입력해주세요.");
+  }
+
+  if (!isValidPhone(phone)) {
+    return jsonError("휴대폰번호 형식으로 입력해주세요.");
+  }
+
+  if (!isValidEmail(email)) {
+    return jsonError("이메일 형식으로 입력해주세요.");
   }
 
   const supabase = createServerSupabaseClient();
@@ -53,8 +73,8 @@ export async function POST(request: Request) {
   }
 
   const { error } = await supabase.from("inquiries").insert({
-    name: name || null,
-    contact,
+    name,
+    contact: `${phone} / ${email}`,
     message,
     source: landingContent.inquiry.source,
     status: "new"
