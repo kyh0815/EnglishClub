@@ -41,9 +41,22 @@ create table if not exists public.applications (
 );
 
 alter table public.applications enable row level security;
+
+create table if not exists public.inquiries (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  name text,
+  contact text not null,
+  message text not null,
+  source text,
+  status text not null default 'new'
+);
+
+alter table public.inquiries enable row level security;
 ```
 
 이 폼은 클라이언트에서 Supabase 테이블에 직접 접근하지 않습니다. 모든 insert는 `app/api/apply/route.ts`에서 service role 키로 실행됩니다.
+문의 폼도 같은 방식으로 `app/api/inquiry/route.ts`에서 service role 키로 `inquiries` 테이블에 저장합니다.
 
 현재 폼 입력값은 기존 스키마에 이렇게 저장합니다.
 
@@ -52,6 +65,13 @@ alter table public.applications enable row level security;
 - `level`: 영어 레벨
 - `motivation`: 지원 동기
 - `availability`: 이메일(선택)
+
+문의 폼 입력값은 `inquiries` 테이블에 이렇게 저장합니다.
+
+- `name`: 이름(선택)
+- `contact`: 이메일 또는 전화번호
+- `message`: 문의 내용
+- `source`: 문의 유입 source
 
 ## Vercel 배포
 

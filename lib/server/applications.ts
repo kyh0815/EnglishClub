@@ -40,6 +40,36 @@ type Database = {
         };
         Relationships: [];
       };
+      inquiries: {
+        Row: {
+          contact: string;
+          created_at: string;
+          id: string;
+          message: string;
+          name: string | null;
+          source: string | null;
+          status: string;
+        };
+        Insert: {
+          contact: string;
+          created_at?: string;
+          id?: string;
+          message: string;
+          name?: string | null;
+          source?: string | null;
+          status?: string;
+        };
+        Update: {
+          contact?: string;
+          created_at?: string;
+          id?: string;
+          message?: string;
+          name?: string | null;
+          source?: string | null;
+          status?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;

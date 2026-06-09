@@ -666,13 +666,26 @@ h2 {
   margin: 0 auto;
 }
 
-.apply-wrap h2 {
+.apply-wrap h2,
+.inquiry-wrap h2 {
   text-align: center;
 }
 
-.apply-wrap .lede {
+.apply-wrap .lede,
+.inquiry-wrap .lede {
   text-align: center;
   margin: 18px auto 40px;
+}
+
+.inquiry {
+  padding-top: 0;
+}
+
+.inquiry-wrap {
+  max-width: 560px;
+  margin: 0 auto;
+  border-top: 1px solid var(--line);
+  padding-top: clamp(68px, 10vw, 110px);
 }
 
 .form-label-center {

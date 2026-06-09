@@ -72,6 +72,14 @@ export const landingContent = {
       "1기 자리를 맡아두었어요. 가장 먼저 연락드릴게요.",
       "곧 The Round에서 만나요."
     ]
+  },
+  inquiry: {
+    source: "the-round-landing",
+    successTitle: "문의가 접수됐어요",
+    successMessageLines: [
+      "남겨주신 연락처로 답변드릴게요.",
+      "The Round에 관심 가져주셔서 감사합니다."
+    ]
   }
 } as const;
 
