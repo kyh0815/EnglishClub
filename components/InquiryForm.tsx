@@ -20,7 +20,6 @@ export default function InquiryForm() {
   const canSubmit =
     name.trim().length > 0 &&
     phone.trim().length > 0 &&
-    email.trim().length > 0 &&
     message.trim().length > 0;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -41,11 +40,6 @@ export default function InquiryForm() {
 
     if (!submittedPhone) {
       phoneRef.current?.focus();
-      return;
-    }
-
-    if (!submittedEmail) {
-      emailRef.current?.focus();
       return;
     }
 
@@ -147,14 +141,13 @@ export default function InquiryForm() {
 
       <div className="field">
         <label htmlFor="inquiry-email">
-          이메일 <span className="req" aria-hidden="true">*</span>
+          이메일 <span className="opt">(선택)</span>
         </label>
         <input
           id="inquiry-email"
           name="email"
           type="email"
           placeholder="you@email.com"
-          required
           ref={emailRef}
           autoComplete="email"
           value={email}

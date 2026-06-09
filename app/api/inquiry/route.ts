@@ -54,15 +54,15 @@ export async function POST(request: Request) {
   const email = clean(body.email, MAX_SHORT);
   const message = clean(body.message, MAX_MESSAGE);
 
-  if (!name || !phone || !email || !message) {
-    return jsonError("이름, 휴대폰번호, 이메일, 문의사항을 입력해주세요.");
+  if (!name || !phone || !message) {
+    return jsonError("이름, 휴대폰번호, 문의사항을 입력해주세요.");
   }
 
   if (!isValidPhone(phone)) {
     return jsonError("휴대폰번호 형식으로 입력해주세요.");
   }
 
-  if (!isValidEmail(email)) {
+  if (email && !isValidEmail(email)) {
     return jsonError("이메일 형식으로 입력해주세요.");
   }
 
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
 
   const { error } = await supabase.from("inquiries").insert({
     name,
-    contact: `${phone} / ${email}`,
+    contact: email ? `${phone} / ${email}` : phone,
     message,
     source: landingContent.inquiry.source,
     status: "new"

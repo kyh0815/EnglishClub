@@ -69,7 +69,7 @@ alter table public.inquiries enable row level security;
 문의 폼 입력값은 `inquiries` 테이블에 이렇게 저장합니다.
 
 - `name`: 이름
-- `contact`: 휴대폰번호 / 이메일
+- `contact`: 휴대폰번호, 이메일이 있으면 `휴대폰번호 / 이메일`
 - `message`: 문의사항
 - `source`: 문의 유입 source
 
