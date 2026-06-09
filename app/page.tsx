@@ -1,7 +1,7 @@
 import Image from "next/image";
 import ApplicationForm from "@/components/ApplicationForm";
+import Footer from "@/components/Footer";
 import HeroImagePlaceholder from "@/components/HeroImagePlaceholder";
-import InquiryForm from "@/components/InquiryForm";
 import Nav from "@/components/Nav";
 import RevealController from "@/components/RevealController";
 import TeamsPanel from "@/components/TeamsPanel";
@@ -112,33 +112,9 @@ export default function Home() {
             <ApplicationForm />
           </div>
         </section>
-
-        <section id="inquiry" className="inquiry">
-          <div className="wrap inquiry-wrap">
-            <span className="label rv form-label-center">문의</span>
-            <h2 className="rv">궁금한 점이 있나요?</h2>
-            <p className="lede rv d1">레벨, 일정, 장소가 궁금하면 남겨주세요. 확인 후 연락드릴게요.</p>
-            <InquiryForm />
-          </div>
-        </section>
       </main>
 
-      <footer>
-        <div className="wrap">
-          <div className="foot-grid">
-            <div>
-              <div className="foot-logo">The Round</div>
-              <div className="foot-tag">떠들다 보면, 영어가 트입니다.</div>
-            </div>
-            <div className="foot-links">
-              <a href="#apply">무료 신청</a>
-              <span aria-hidden="true">|</span>
-              <a href="#inquiry">문의</a>
-            </div>
-          </div>
-          <div className="foot-copy">© 2026 The Round — English Social Club.</div>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }

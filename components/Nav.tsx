@@ -1,9 +1,14 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { landingContent } from "@/lib/content";
 
-export default function Nav() {
+type NavProps = {
+  ctaHref?: string;
+};
+
+export default function Nav({ ctaHref = "#apply" }: NavProps) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -16,8 +21,10 @@ export default function Nav() {
   return (
     <nav className={scrolled ? "scrolled" : undefined}>
       <div className="nav-in">
-        <div className="logo">{landingContent.nav.logo}</div>
-        <a href="#apply" className="nav-cta">
+        <Link href="/" className="logo">
+          {landingContent.nav.logo}
+        </Link>
+        <a href={ctaHref} className="nav-cta">
           {landingContent.nav.cta}
         </a>
       </div>
