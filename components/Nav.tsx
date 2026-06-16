@@ -8,7 +8,7 @@ type NavProps = {
   ctaHref?: string;
 };
 
-export default function Nav({ ctaHref = "#apply" }: NavProps) {
+export default function Nav({ ctaHref = "/apply" }: NavProps) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -24,9 +24,11 @@ export default function Nav({ ctaHref = "#apply" }: NavProps) {
         <Link href="/" className="logo">
           {landingContent.nav.logo}
         </Link>
-        <a href={ctaHref} className="nav-cta">
-          {landingContent.nav.cta}
-        </a>
+        <div className="nav-links" aria-label="Primary navigation">
+          <Link href="/who-we-are">Who we are</Link>
+          <Link href="/timeslots">시간표</Link>
+          <Link href={ctaHref}>{landingContent.nav.cta}</Link>
+        </div>
       </div>
     </nav>
   );

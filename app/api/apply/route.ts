@@ -92,6 +92,10 @@ export async function POST(request: Request) {
     const matchedTeam = landingContent.teams.find((team) => team.levelOption === level);
 
     if (matchedTeam) {
+      if (matchedTeam.status === "준비중") {
+        return jsonError(`${matchedTeam.name}은 현재 준비중이에요.`, 409);
+      }
+
       const currentCount = await countApplicationsByLevel(supabase, level, source);
 
       if (currentCount >= TEAM_CAPACITY) {

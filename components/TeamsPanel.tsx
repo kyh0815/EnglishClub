@@ -7,7 +7,7 @@ type TeamStatus = {
   capacity: number;
   count: number | null;
   isClosed: boolean;
-  status: "모집 중" | "모집 마감";
+  status: "모집 중" | "모집 마감" | "준비중";
 };
 
 type StatusResponse = {

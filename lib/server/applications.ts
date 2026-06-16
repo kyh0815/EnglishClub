@@ -85,7 +85,7 @@ export type TeamApplicationStatus = {
   count: number | null;
   isClosed: boolean;
   level: string;
-  status: "모집 중" | "모집 마감";
+  status: "모집 중" | "모집 마감" | "준비중";
 };
 
 export function createServerSupabaseClient(): SupabaseServerClient | null {
@@ -128,6 +128,19 @@ export async function getTeamApplicationStatuses(
 ): Promise<Record<string, TeamApplicationStatus>> {
   const entries = await Promise.all(
     landingContent.teams.map(async (team) => {
+      if (team.status === "준비중") {
+        return [
+          team.englishName,
+          {
+            capacity: TEAM_CAPACITY,
+            count: null,
+            isClosed: true,
+            level: team.levelOption,
+            status: "준비중"
+          }
+        ] as const;
+      }
+
       const count = await countApplicationsByLevel(supabase, team.levelOption);
       const isClosed = count >= TEAM_CAPACITY;
 
@@ -154,9 +167,9 @@ export function getFallbackTeamApplicationStatuses(): Record<string, TeamApplica
       {
         capacity: TEAM_CAPACITY,
         count: null,
-        isClosed: false,
+        isClosed: team.status === "준비중",
         level: team.levelOption,
-        status: "모집 중" as const
+        status: team.status === "준비중" ? "준비중" : "모집 중"
       }
     ])
   );

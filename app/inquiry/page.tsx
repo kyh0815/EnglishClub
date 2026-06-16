@@ -7,7 +7,7 @@ export default function InquiryPage() {
   return (
     <>
       <RevealController />
-      <Nav ctaHref="/#apply" />
+      <Nav />
 
       <main>
         <section className="inquiry-page">
@@ -20,7 +20,7 @@ export default function InquiryPage() {
         </section>
       </main>
 
-      <Footer applyHref="/#apply" inquiryHref="/inquiry" />
+      <Footer applyHref="/apply" inquiryHref="/inquiry" />
     </>
   );
 }

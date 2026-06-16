@@ -1,6 +1,7 @@
 import Image from "next/image";
 import ApplicationForm from "@/components/ApplicationForm";
 import Footer from "@/components/Footer";
+import FAQSection from "@/components/FAQSection";
 import HeroImagePlaceholder from "@/components/HeroImagePlaceholder";
 import Nav from "@/components/Nav";
 import RevealController from "@/components/RevealController";
@@ -31,7 +32,7 @@ export default function Home() {
               <p className="sub rv d1">
                 {landingContent.hero.subtitleLines[0]}
                 <br />
-                {landingContent.hero.subtitleLines[1]}
+                <span className="hero-tagline">{landingContent.hero.subtitleLines[1]}</span>
               </p>
               <div className="actions rv d1">
                 <a href="#apply" className="btn">
@@ -91,14 +92,13 @@ export default function Home() {
             <span className="label rv">영어 수준은 상관 없어요</span>
             <h2 className="rv">내 레벨에 맞게, 편하게 시작해요</h2>
             <TeamsPanel />
-            <p className="teams-note rv">각 팀은 마감되는 대로 다음 기수 대기로 전환돼요.</p>
           </div>
         </section>
 
         <section className="free">
           <div className="wrap">
             <span className="label rv">비용이 궁금하신가요?</span>
-            <p className="big rv">1기는 전액 무료로 모십니다.</p>
+            <p className="big rv">1기는 한달간 전액 무료로 모십니다.</p>
             <p className="sub rv d1">
               부담 없이 오셔서 영어로 떠들고, The Round의 첫 분위기를
               <br />
@@ -112,6 +112,8 @@ export default function Home() {
             <ApplicationForm />
           </div>
         </section>
+
+        <FAQSection />
       </main>
 
       <Footer />

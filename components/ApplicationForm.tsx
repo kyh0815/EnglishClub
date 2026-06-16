@@ -14,7 +14,7 @@ import {
 type SubmitState = "idle" | "submitting" | "success";
 type TeamStatus = {
   isClosed: boolean;
-  status: "모집 중" | "모집 마감";
+  status: "모집 중" | "모집 마감" | "준비중";
 };
 
 type StatusResponse = {
@@ -158,7 +158,7 @@ export default function ApplicationForm() {
     <div id="formView">
       <span className="label rv form-label-center">무료 베타 1기 신청</span>
       <h2 className="rv">지금, 자리를 맡아두세요</h2>
-      <p className="lede rv d1">각 6명 한정. 마감 전에 남겨주시면 가장 먼저 연락드릴게요.</p>
+      <p className="lede rv d1">중급·고급 각 6명 한정. 마감 전에 남겨주시면 가장 먼저 연락드릴게요.</p>
       <form id="applyForm" className="rv d1" noValidate onSubmit={handleSubmit}>
         <div className="hp" aria-hidden="true">
           <label htmlFor="website">웹사이트</label>
@@ -222,7 +222,7 @@ export default function ApplicationForm() {
                   return (
                     <SelectItem key={option} value={option} disabled={isClosed}>
                       {option}
-                      {isClosed ? " (모집 마감)" : ""}
+                      {isClosed ? ` (${optionStatus?.status ?? "모집 마감"})` : ""}
                     </SelectItem>
                   );
                 })}

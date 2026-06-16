@@ -8,10 +8,10 @@ export const landingContent = {
     titleLines: ["떠들다 보면,", "영어가 트입니다"],
     subtitleLines: [
       "영어 실력이 부족한 게 아니에요. 마음 편히 말할 기회가 없었을 뿐.",
-      "그 기회를 만드는 영어 소셜 클럽."
+      "Your First and Last English Social Club"
     ],
     cta: "무료 1기 신청",
-    note: "초급·중급·고급 각 6명 한정",
+    note: "중급·고급 각 6명 한정",
     imageSrc: "/images/the-round-hero.png",
     imagePlaceholder: "메인 이미지 — 둘러앉아 웃으며 영어로 대화하는 장면"
   },
@@ -46,7 +46,7 @@ export const landingContent = {
       levelOption: "초급 — 입을 떼는 것부터 (왕초보 포함)",
       description: "영어로 한마디 꺼내는 것부터 연습이 필요해요.",
       capacity: "6명",
-      status: "모집 중"
+      status: "준비중"
     },
     {
       name: "중급반",

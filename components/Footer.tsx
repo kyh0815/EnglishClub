@@ -3,7 +3,7 @@ type FooterProps = {
   inquiryHref?: string;
 };
 
-export default function Footer({ applyHref = "#apply", inquiryHref = "/inquiry" }: FooterProps) {
+export default function Footer({ applyHref = "/apply", inquiryHref = "/inquiry" }: FooterProps) {
   return (
     <footer>
       <div className="wrap">

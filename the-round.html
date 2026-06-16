@@ -28,10 +28,13 @@
 
   nav{position:sticky;top:0;z-index:50;backdrop-filter:saturate(115%) blur(8px);background:rgba(255,253,248,.8);transition:border-color .4s;border-bottom:1px solid transparent}
   nav.scrolled{border-color:var(--line)}
-  .nav-in{max-width:var(--maxw);margin:0 auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between}
-  .logo{font-size:1.18rem;font-weight:600;letter-spacing:-.02em}
-  .nav-cta{font-size:.88rem;font-weight:500;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink);padding-bottom:2px;transition:.3s}
-  .nav-cta:hover{opacity:.55}
+  .nav-in{max-width:var(--maxw);margin:0 auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:28px}
+  .logo{font-size:1.18rem;font-weight:600;letter-spacing:-.02em;white-space:nowrap}
+  .nav-links{display:flex;align-items:center;justify-content:flex-end;gap:clamp(18px,3vw,30px);margin-left:auto;font-size:.88rem;font-weight:500}
+  .nav-links a{position:relative;color:var(--ink-soft);text-decoration:none;padding-bottom:4px;white-space:nowrap;transition:color .28s var(--ease)}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink);transform:scaleX(0);transform-origin:left center;transition:transform .32s var(--ease)}
+  .nav-links a:hover::after{transform:scaleX(1)}
 
   .btn{font-family:inherit;font-size:.96rem;font-weight:500;cursor:pointer;border:none;background:var(--accent);color:#fff;padding:15px 30px;border-radius:2px;text-decoration:none;display:inline-block;transition:.35s var(--ease)}
   .btn:hover{background:var(--accent-deep);transform:translateY(-1px)}
@@ -39,6 +42,7 @@
   /* HERO */
   .hero{position:relative;width:100%;min-height:88vh;display:flex;align-items:flex-end;overflow:hidden}
   .hero-img{position:absolute;inset:0;background:linear-gradient(135deg,#BDB4A4,#A79E8E 70%,#948B7B);display:flex;align-items:center;justify-content:center}
+  .hero-photo{width:100%;height:100%;display:block;object-fit:cover;object-position:center center}
   .ph-c{color:rgba(255,255,255,.7);font-size:.85rem;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;z-index:1;padding:0 24px}
   .ph-c svg{width:30px;height:30px;stroke:rgba(255,255,255,.7)}
   .hero-shade{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,18,14,.66),rgba(20,18,14,.18) 48%,rgba(20,18,14,.05))}
@@ -46,6 +50,7 @@
   .hero-content .label{color:rgba(255,255,255,.78)}
   .hero h1{color:#fff;font-size:clamp(2rem,4.6vw,3.25rem);line-height:1.18;font-weight:600;letter-spacing:-.03em;margin-bottom:18px;max-width:18em}
   .hero .sub{color:rgba(255,255,255,.85);font-size:clamp(1rem,1.5vw,1.12rem);max-width:27em;margin-bottom:30px;line-height:1.7}
+  .hero-tagline{display:inline-block;font-family:Georgia,"Times New Roman",serif;font-size:1.08em;font-style:italic;font-weight:400;letter-spacing:0;color:rgba(255,255,255,.96)}
   .hero .actions{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
   .hero .note{color:rgba(255,255,255,.7);font-size:.86rem}
 
@@ -66,7 +71,6 @@
   .trow .desc{color:var(--ink-soft);font-size:1rem;margin-top:6px}
   .trow .meta{color:var(--ink-faint);font-size:.9rem;white-space:nowrap;display:flex;align-items:center;gap:8px}
   .stat-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block}
-  .teams-note{font-size:.9rem;color:var(--ink-faint);margin-top:22px}
 
   /* free (deep section) */
   .free{background:var(--ink);color:var(--paper);text-align:center}
@@ -107,7 +111,7 @@
   .rv.in{opacity:1;transform:none}
   .rv.d1{transition-delay:.1s}
 
-  @media(max-width:760px){.hero{min-height:82vh}}
+  @media(max-width:760px){.nav-in{gap:18px;flex-wrap:wrap}.nav-links{width:100%;justify-content:center;gap:22px;margin:-2px 0 0}.hero{min-height:82vh}}
   @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}*{scroll-behavior:auto}}
 </style>
 </head>
@@ -116,19 +120,19 @@
 <nav id="nav">
   <div class="nav-in">
     <div class="logo">The Round</div>
-    <a href="#apply" class="nav-cta">무료 1기 신청</a>
+    <div class="nav-links" aria-label="Primary navigation"><a href="/who-we-are">Who we are</a><a href="/timeslots">시간표</a><a href="/apply">무료 1기 신청</a></div>
   </div>
 </nav>
 
 <!-- 1. HERO -->
 <section class="hero">
-  <div class="hero-img"><div class="ph-c"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="m21 16-4.5-4.5L7 21"/></svg>메인 이미지 — 둘러앉아 웃으며 영어로 대화하는 장면</div></div>
+  <div class="hero-img"><img class="hero-photo" src="public/images/the-round-hero.png" alt="메인 이미지 — 둘러앉아 웃으며 영어로 대화하는 장면" /></div>
   <div class="hero-shade"></div>
   <div class="hero-content"><div class="wrap">
     <span class="label rv">무료 베타 1기 모집</span>
     <h1 class="rv d1">떠들다 보면,<br>영어가 트입니다.</h1>
-    <p class="sub rv d1">영어 실력이 부족한 게 아니에요. 마음 편히 말할 기회가 없었을 뿐. 그 기회를 여는 영어 소셜 클럽.</p>
-    <div class="actions rv d1"><a href="#apply" class="btn">무료 1기 신청</a><span class="note">초급·중급·고급 각 6–8명 한정</span></div>
+    <p class="sub rv d1">영어 실력이 부족한 게 아니에요. 마음 편히 말할 기회가 없었을 뿐.<br><span class="hero-tagline">Your First and Last English Social Club</span></p>
+    <div class="actions rv d1"><a href="#apply" class="btn">무료 1기 신청</a><span class="note">중급·고급 각 6명 한정</span></div>
   </div></div>
 </section>
 
@@ -147,11 +151,10 @@
     <span class="label rv">이런 분 오세요</span>
     <h2 class="rv">내 레벨로, 편하게.</h2>
     <div class="rv d1" style="margin-top:clamp(30px,4vw,46px)">
-      <div class="trow"><div class="tl"><h3>초급팀</h3><div class="desc">입을 떼는 것부터. 왕초보도 환영해요.</div></div><div class="meta"><span class="stat-dot"></span>6–8명 · 모집 중</div></div>
-      <div class="trow"><div class="tl"><h3>중급팀</h3><div class="desc">더듬더듬은 되는데, 더 자연스럽게 말하고 싶은 분께.</div></div><div class="meta"><span class="stat-dot"></span>6–8명 · 모집 중</div></div>
-      <div class="trow"><div class="tl"><h3>고급팀</h3><div class="desc">편하게 대화는 되지만, 감을 유지하고 다듬고 싶은 분께.</div></div><div class="meta"><span class="stat-dot"></span>6–8명 · 모집 중</div></div>
+      <div class="trow"><div class="tl"><h3>초급반</h3><div class="desc">입을 떼는 것부터. 왕초보도 환영해요.</div></div><div class="meta"><span class="stat-dot"></span>6명 · 준비중</div></div>
+      <div class="trow"><div class="tl"><h3>중급반</h3><div class="desc">더듬더듬은 되는데, 더 자연스럽게 말하고 싶은 분께.</div></div><div class="meta"><span class="stat-dot"></span>6명 · 모집 중</div></div>
+      <div class="trow"><div class="tl"><h3>고급반</h3><div class="desc">편하게 대화는 되지만, 감을 유지하고 다듬고 싶은 분께.</div></div><div class="meta"><span class="stat-dot"></span>6명 · 모집 중</div></div>
     </div>
-    <p class="teams-note rv">각 팀은 마감되는 대로 다음 기수 대기로 전환돼요.</p>
   </div>
 </section>
 
@@ -160,7 +163,7 @@
   <div class="wrap">
     <span class="label rv">왜 무료냐면</span>
     <p class="big rv">1기는 함께 클럽을 완성할 파운딩 멤버니까요. 그래서 전액 무료로 모십니다.</p>
-    <p class="sub rv d1">대신 인원은 초급·중급·고급 각 한 팀, 6–8명씩만.</p>
+    <p class="sub rv d1">대신 인원은 중급·고급 각 6명씩만.</p>
   </div>
 </section>
 
@@ -170,7 +173,7 @@
     <div id="formView">
       <span class="label rv" style="text-align:center">무료 베타 1기 신청</span>
       <h2 class="rv">지금, 자리를 맡아두세요.</h2>
-      <p class="lede rv d1">각 6–8명 한정. 마감 전에 남겨주시면 가장 먼저 연락드릴게요.</p>
+      <p class="lede rv d1">중급·고급 각 6명 한정. 마감 전에 남겨주시면 가장 먼저 연락드릴게요.</p>
       <form id="applyForm" class="rv d1" novalidate>
         <div class="field"><label for="name">이름</label><input id="name" type="text" placeholder="홍길동" required></div>
         <div class="field"><label for="contact">연락처 <span class="opt">(이메일 또는 전화)</span></label><input id="contact" type="text" placeholder="you@email.com" required></div>
