@@ -13,6 +13,7 @@ type ApplyRequest = {
   phone?: unknown;
   email?: unknown;
   contact?: unknown;
+  applicationDate?: unknown;
   level?: unknown;
   overseasExperience?: unknown;
   internationalSchool?: unknown;
@@ -25,6 +26,7 @@ type ApplyRequest = {
 const MAX_SHORT = 200;
 const MAX_LONG = 1200;
 const GENDER_OPTIONS = ["남자", "여자", "Others"] as const;
+const APPLICATION_DATE_OPTIONS = ["8월 6일 (목) 19:30", "8월 7일 (금) 19:30"] as const;
 const OVERSEAS_EXPERIENCE_OPTIONS = ["없음", "1~2년", "3년 이상"] as const;
 const INTERNATIONAL_SCHOOL_OPTIONS = ["없음", "있음"] as const;
 
@@ -68,6 +70,7 @@ export async function POST(request: Request) {
   const gender = clean(body.gender, MAX_SHORT);
   const phone = clean(body.phone, MAX_SHORT) || clean(body.contact, MAX_SHORT);
   const email = clean(body.email, MAX_SHORT);
+  const applicationDate = clean(body.applicationDate, MAX_SHORT);
   const level = clean(body.level, MAX_SHORT);
   const overseasExperience = clean(body.overseasExperience, MAX_SHORT);
   const internationalSchool = clean(body.internationalSchool, MAX_SHORT);
@@ -75,6 +78,7 @@ export async function POST(request: Request) {
   const legacyAvailability = clean(body.availability, MAX_LONG);
   const availability = [
     email ? `이메일: ${email}` : "",
+    `신청 일자: ${applicationDate}`,
     `성별: ${gender}`,
     `영어권 해외 거주 경험: ${overseasExperience}`,
     `국제 학교 경험: ${internationalSchool}`,
@@ -84,7 +88,15 @@ export async function POST(request: Request) {
     .join("\n");
   const source = landingContent.apply.source;
 
-  if (!name || !gender || !phone || !level || !overseasExperience || !internationalSchool) {
+  if (
+    !name ||
+    !gender ||
+    !phone ||
+    !applicationDate ||
+    !level ||
+    !overseasExperience ||
+    !internationalSchool
+  ) {
     return jsonError("필수 항목을 모두 입력해주세요.");
   }
 
@@ -102,6 +114,14 @@ export async function POST(request: Request) {
 
   if (!GENDER_OPTIONS.includes(gender as (typeof GENDER_OPTIONS)[number])) {
     return jsonError("성별을 선택해주세요.");
+  }
+
+  if (
+    !APPLICATION_DATE_OPTIONS.includes(
+      applicationDate as (typeof APPLICATION_DATE_OPTIONS)[number]
+    )
+  ) {
+    return jsonError("신청 일자를 선택해주세요.");
   }
 
   if (

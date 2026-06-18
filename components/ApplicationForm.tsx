@@ -15,6 +15,7 @@ type StatusResponse = {
 };
 
 const genderOptions = ["남자", "여자", "Others"] as const;
+const applicationDateOptions = ["8월 6일 (목) 19:30", "8월 7일 (금) 19:30"] as const;
 const overseasExperienceOptions = ["없음", "1~2년", "3년 이상"] as const;
 const internationalSchoolOptions = ["없음", "있음"] as const;
 
@@ -25,12 +26,14 @@ export default function ApplicationForm() {
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
   const [phone, setPhone] = useState("");
+  const [applicationDate, setApplicationDate] = useState("");
   const [level, setLevel] = useState("");
   const [overseasExperience, setOverseasExperience] = useState("");
   const [internationalSchool, setInternationalSchool] = useState("");
   const nameRef = useRef<HTMLInputElement>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
   const genderGroupRef = useRef<HTMLFieldSetElement>(null);
+  const applicationDateGroupRef = useRef<HTMLFieldSetElement>(null);
   const levelGroupRef = useRef<HTMLFieldSetElement>(null);
   const overseasGroupRef = useRef<HTMLFieldSetElement>(null);
   const internationalSchoolGroupRef = useRef<HTMLFieldSetElement>(null);
@@ -39,6 +42,7 @@ export default function ApplicationForm() {
     name.trim().length > 0 &&
     gender.trim().length > 0 &&
     phone.trim().length > 0 &&
+    applicationDate.trim().length > 0 &&
     level.trim().length > 0 &&
     overseasExperience.trim().length > 0 &&
     internationalSchool.trim().length > 0;
@@ -78,6 +82,7 @@ export default function ApplicationForm() {
     const selectedGender = gender.trim();
     const submittedPhone = phone.trim();
     const email = String(formData.get("email") ?? "").trim();
+    const selectedApplicationDate = applicationDate.trim();
     const selectedLevel = level.trim();
     const selectedOverseasExperience = overseasExperience.trim();
     const selectedInternationalSchool = internationalSchool.trim();
@@ -94,6 +99,11 @@ export default function ApplicationForm() {
 
     if (!submittedPhone) {
       phoneRef.current?.focus();
+      return;
+    }
+
+    if (!selectedApplicationDate) {
+      applicationDateGroupRef.current?.focus();
       return;
     }
 
@@ -125,6 +135,7 @@ export default function ApplicationForm() {
           gender: selectedGender,
           phone: submittedPhone,
           email,
+          applicationDate: selectedApplicationDate,
           level: selectedLevel,
           overseasExperience: selectedOverseasExperience,
           internationalSchool: selectedInternationalSchool,
@@ -263,6 +274,26 @@ export default function ApplicationForm() {
             <input id="email" name="email" type="email" placeholder="you@email.com" autoComplete="email" />
           </div>
         </div>
+
+        <fieldset className="field choice-field" ref={applicationDateGroupRef} tabIndex={-1}>
+          <legend>
+            신청 일자 <span className="req" aria-hidden="true">*</span>
+          </legend>
+          <div className="choice-grid choice-grid-2">
+            {applicationDateOptions.map((option) => (
+              <label className="choice-card date-card" key={option}>
+                <input
+                  type="radio"
+                  name="applicationDate"
+                  value={option}
+                  checked={applicationDate === option}
+                  onChange={(event) => setApplicationDate(event.target.value)}
+                />
+                <span>{option}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
 
         <div className="form-section">
           <div className="field">

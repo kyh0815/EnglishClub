@@ -1078,6 +1078,10 @@ h2 {
   height: 48px;
 }
 
+.date-card span {
+  font-size: 0.9rem;
+}
+
 .level-card small {
   right: auto;
   left: calc(50% + 20px);
