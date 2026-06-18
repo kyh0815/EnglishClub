@@ -9,10 +9,13 @@ import {
 
 type ApplyRequest = {
   name?: unknown;
+  gender?: unknown;
   phone?: unknown;
   email?: unknown;
   contact?: unknown;
   level?: unknown;
+  overseasExperience?: unknown;
+  internationalSchool?: unknown;
   motivation?: unknown;
   availability?: unknown;
   source?: unknown;
@@ -21,6 +24,9 @@ type ApplyRequest = {
 
 const MAX_SHORT = 200;
 const MAX_LONG = 1200;
+const GENDER_OPTIONS = ["남자", "여자", "Others"] as const;
+const OVERSEAS_EXPERIENCE_OPTIONS = ["없음", "1~2년", "3년 이상"] as const;
+const INTERNATIONAL_SCHOOL_OPTIONS = ["없음", "있음"] as const;
 
 function clean(value: unknown, maxLength: number): string {
   if (typeof value !== "string") {
@@ -59,15 +65,27 @@ export async function POST(request: Request) {
   }
 
   const name = clean(body.name, MAX_SHORT);
+  const gender = clean(body.gender, MAX_SHORT);
   const phone = clean(body.phone, MAX_SHORT) || clean(body.contact, MAX_SHORT);
   const email = clean(body.email, MAX_SHORT);
   const level = clean(body.level, MAX_SHORT);
+  const overseasExperience = clean(body.overseasExperience, MAX_SHORT);
+  const internationalSchool = clean(body.internationalSchool, MAX_SHORT);
   const motivation = clean(body.motivation, MAX_LONG);
-  const availability = email || clean(body.availability, MAX_LONG);
+  const legacyAvailability = clean(body.availability, MAX_LONG);
+  const availability = [
+    email ? `이메일: ${email}` : "",
+    `성별: ${gender}`,
+    `영어권 해외 거주 경험: ${overseasExperience}`,
+    `국제 학교 경험: ${internationalSchool}`,
+    legacyAvailability ? `기타: ${legacyAvailability}` : ""
+  ]
+    .filter(Boolean)
+    .join("\n");
   const source = landingContent.apply.source;
 
-  if (!name || !phone || !level) {
-    return jsonError("이름, 전화번호, 영어 레벨을 입력해주세요.");
+  if (!name || !gender || !phone || !level || !overseasExperience || !internationalSchool) {
+    return jsonError("필수 항목을 모두 입력해주세요.");
   }
 
   if (!isValidPhone(phone)) {
@@ -80,6 +98,26 @@ export async function POST(request: Request) {
 
   if (!levelOptions.includes(level as (typeof levelOptions)[number])) {
     return jsonError("영어 레벨을 선택해주세요.");
+  }
+
+  if (!GENDER_OPTIONS.includes(gender as (typeof GENDER_OPTIONS)[number])) {
+    return jsonError("성별을 선택해주세요.");
+  }
+
+  if (
+    !OVERSEAS_EXPERIENCE_OPTIONS.includes(
+      overseasExperience as (typeof OVERSEAS_EXPERIENCE_OPTIONS)[number]
+    )
+  ) {
+    return jsonError("영어권 해외 거주 경험을 선택해주세요.");
+  }
+
+  if (
+    !INTERNATIONAL_SCHOOL_OPTIONS.includes(
+      internationalSchool as (typeof INTERNATIONAL_SCHOOL_OPTIONS)[number]
+    )
+  ) {
+    return jsonError("국제 학교 경험을 선택해주세요.");
   }
 
   const supabase = createServerSupabaseClient();

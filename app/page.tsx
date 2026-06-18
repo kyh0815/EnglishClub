@@ -1,12 +1,14 @@
-import Image from "next/image";
 import ApplicationForm from "@/components/ApplicationForm";
 import Footer from "@/components/Footer";
 import FAQSection from "@/components/FAQSection";
 import HeroImagePlaceholder from "@/components/HeroImagePlaceholder";
 import Nav from "@/components/Nav";
 import RevealController from "@/components/RevealController";
-import TeamsPanel from "@/components/TeamsPanel";
+import TypingText from "@/components/TypingText";
 import { landingContent } from "@/lib/content";
+import { ClipboardList, Map, Sparkles } from "lucide-react";
+
+const differenceIcons = [Map, ClipboardList, Sparkles] as const;
 
 export default function Home() {
   return (
@@ -14,7 +16,7 @@ export default function Home() {
       <RevealController />
       <Nav />
 
-      <main>
+      <main className="home-main">
         <section className="hero">
           <HeroImagePlaceholder
             label={landingContent.hero.imagePlaceholder}
@@ -24,7 +26,7 @@ export default function Home() {
           <div className="hero-content">
             <div className="wrap">
               <span className="label rv">{landingContent.hero.label}</span>
-              <h1 className="rv d1">
+              <h1 className="hero-title rv d1">
                 {landingContent.hero.titleLines[0]}
                 <br />
                 {landingContent.hero.titleLines[1]}
@@ -46,8 +48,9 @@ export default function Home() {
 
         <section className="what">
           <div className="wrap">
-            <span className="label rv">레슨보다 가볍고, 모임보다 깊게</span>
-            <p className="rv">자연스러운 영어는 외워서 만들어지지 않습니다</p>
+            <p className="what-title rv">
+              <TypingText text="자연스러운 영어는 외워서 만들어지지 않습니다." />
+            </p>
             <p className="sub rv d1">
               영어는 책상 앞에서 외운 문장보다, 좋은 대화 속에서 더 오래 남습니다.
               <br />
@@ -61,44 +64,30 @@ export default function Home() {
 
         <section className="difference">
           <div className="wrap difference-wrap">
-            <div className="difference-head">
-              <span className="label rv">{landingContent.difference.label}</span>
-              <h2 className="rv d1">{landingContent.difference.title}</h2>
-              <figure className="recap-photo rv d2">
-                <Image
-                  src="/images/recap-table.png"
-                  alt="라운드 테이블 위에 놓인 Recap 노트와 대화 카드"
-                  width={1536}
-                  height={1024}
-                  sizes="(max-width: 760px) 180px, 280px"
-                  unoptimized
-                />
-              </figure>
-            </div>
             <div className="difference-list">
-              {landingContent.difference.items.map((item, index) => (
-                <article className={`difference-item rv d${index + 1}`} key={item.name}>
-                  <span className="difference-name">{item.name}</span>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
+              {landingContent.difference.items.map((item, index) => {
+                const Icon = differenceIcons[index] ?? Map;
 
-        <section className="alt">
-          <div className="wrap">
-            <span className="label rv">영어 수준은 상관 없어요</span>
-            <h2 className="rv">내 레벨에 맞게, 편하게 시작해요</h2>
-            <TeamsPanel />
+                return (
+                  <article className={`difference-item rv d${index + 1}`} key={item.name}>
+                    <span className="difference-icon-box" aria-hidden="true">
+                      <Icon className="difference-icon" />
+                    </span>
+                    <div className="difference-copy">
+                      <h3>{item.name}</h3>
+                      <p>{item.description}</p>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
           </div>
         </section>
 
         <section className="free">
           <div className="wrap">
             <span className="label rv">비용이 궁금하신가요?</span>
-            <p className="big rv">1기는 한달간 전액 무료로 모십니다.</p>
+            <p className="big rv">1기는 한 달간 전액 무료로 모십니다.</p>
             <p className="sub rv d1">
               부담 없이 오셔서 영어로 떠들고, The Round의 첫 분위기를
               <br />
@@ -114,6 +103,26 @@ export default function Home() {
         </section>
 
         <FAQSection />
+
+        <section className="ending" aria-labelledby="ending-title">
+          <div className="wrap ending-wrap">
+            <div className="ending-card rv">
+              <div className="ending-copy">
+                <h2 id="ending-title">
+                  영어가 더 이상 학습의 대상이 아닌
+                  <br />
+                  연결의 수단이 될 수 있도록
+                </h2>
+                <p className="ending-statement">The Round에서 그 변화를 함께 시작해요</p>
+                <div className="ending-actions">
+                  <a href="#apply" className="ending-cta">
+                    무료 1기 신청하기
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       <Footer />
