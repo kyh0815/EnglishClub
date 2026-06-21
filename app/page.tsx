@@ -3,14 +3,23 @@ import Footer from "@/components/Footer";
 import FAQSection from "@/components/FAQSection";
 import HeroImagePlaceholder from "@/components/HeroImagePlaceholder";
 import Nav from "@/components/Nav";
+import PriceCountdown from "@/components/PriceCountdown";
 import RevealController from "@/components/RevealController";
-import TypingText from "@/components/TypingText";
 import { landingContent } from "@/lib/content";
-import { ClipboardList, Map, Sparkles } from "lucide-react";
+import { ClipboardCheck, Compass, UsersRound } from "lucide-react";
+import type { CSSProperties } from "react";
 
-const differenceIcons = [Map, ClipboardList, Sparkles] as const;
+const introducingIcons = [UsersRound, ClipboardCheck, Compass] as const;
 
 export default function Home() {
+  const expectationItems = landingContent.expectations.items;
+  const expectationBufferItems = expectationItems.slice(-2);
+  const expectationLoopItems = [...expectationBufferItems, ...expectationItems, ...expectationItems];
+  const expectationStepSeconds = 1.6;
+  const expectationFocusLeadSeconds = 0.22;
+  const expectationBufferSize = expectationBufferItems.length;
+  const expectationLastFocusIndex = expectationBufferSize + expectationItems.length;
+
   return (
     <>
       <RevealController />
@@ -27,9 +36,7 @@ export default function Home() {
             <div className="wrap">
               <span className="label rv">{landingContent.hero.label}</span>
               <h1 className="hero-title rv d1">
-                {landingContent.hero.titleLines[0]}
-                <br />
-                {landingContent.hero.titleLines[1]}
+                {landingContent.hero.titleLines.join(" ")}
               </h1>
               <p className="sub rv d1">
                 {landingContent.hero.subtitleLines[0]}
@@ -48,51 +55,103 @@ export default function Home() {
 
         <section className="what">
           <div className="wrap">
-            <p className="what-title rv">
-              <TypingText text="자연스러운 영어는 외워서 만들어지지 않습니다." />
-            </p>
-            <p className="sub rv d1">
-              영어는 책상 앞에서 외운 문장보다, 좋은 대화 속에서 더 오래 남습니다.
-              <br />
-              The Round에서는 영어를 말하는 자신감을 키우는 것에서 끝나지 않아요.
-              <br />
-              실제로 쓰이는 표현과 대화의 흐름을 경험하며, 영어를 조금씩{" "}
-              <span className="keep-together">내 것으로 만들어갑니다.</span>
+            <p className="what-statement rv">
+              <strong>
+                자연스러운 영어는 외워서 만들어지지 않습니다. 외운 문장보다 좋은 대화 속에서 더
+                오래 남아요.
+              </strong>{" "}
+              <span>
+                The Round에서는 실제 표현과 대화의 흐름을 경험하며, 자연스러운 영어를 내
+                것으로 만들어갑니다.
+              </span>
             </p>
           </div>
         </section>
 
-        <section className="difference">
-          <div className="wrap difference-wrap">
-            <div className="difference-list">
-              {landingContent.difference.items.map((item, index) => {
-                const Icon = differenceIcons[index] ?? Map;
+        <section className="introducing" aria-labelledby="introducing-title">
+          <div className="wrap introducing-wrap">
+            <div className="introducing-panel rv d1">
+              <div className="introducing-head">
+                <span className="label">{landingContent.introducing.eyebrow}</span>
+                <h2 id="introducing-title">{landingContent.introducing.headline}</h2>
+              </div>
+              <div className="introducing-grid">
+                {landingContent.introducing.steps.map((step, index) => {
+                  const Icon = introducingIcons[index] ?? UsersRound;
 
-                return (
-                  <article className={`difference-item rv d${index + 1}`} key={item.name}>
-                    <span className="difference-icon-box" aria-hidden="true">
-                      <Icon className="difference-icon" />
-                    </span>
-                    <div className="difference-copy">
-                      <h3>{item.name}</h3>
-                      <p>{item.description}</p>
-                    </div>
-                  </article>
-                );
-              })}
+                  return (
+                    <article className={`introducing-card d${index + 1}`} key={step.name}>
+                      <span className="introducing-icon-box" aria-hidden="true">
+                        <Icon className="introducing-icon" />
+                      </span>
+                      <h3>{step.name}</h3>
+                      <p>{step.description}</p>
+                    </article>
+                  );
+                })}
+              </div>
             </div>
+
           </div>
         </section>
 
-        <section className="free">
-          <div className="wrap">
-            <span className="label rv">비용이 궁금하신가요?</span>
-            <p className="big rv">1기는 한 달간 전액 무료로 모십니다.</p>
-            <p className="sub rv d1">
-              부담 없이 오셔서 영어로 떠들고, The Round의 첫 분위기를
-              <br />
-              함께 만들어주세요.
+        <section className="expectations" aria-labelledby="expectations-title">
+          <div className="wrap expectations-wrap">
+            <h2 id="expectations-title" className="sr-only">
+              {landingContent.expectations.headline}
+            </h2>
+            <div className="expectations-phrase rv d1">
+              <span className="expectations-prefix">{landingContent.expectations.headline}</span>
+              <div className="expectations-loop">
+                <ul className="expectations-list">
+                  {expectationLoopItems.map((item, index) => {
+                    const focusIndex = index - expectationBufferSize;
+                    const shouldFocus =
+                      index >= expectationBufferSize && index <= expectationLastFocusIndex;
+                    const focusDelay = shouldFocus
+                      ? Math.max(focusIndex * expectationStepSeconds - expectationFocusLeadSeconds, 0)
+                      : 0;
+
+                    return (
+                      <li
+                        key={`${item}-${index}`}
+                        className={shouldFocus ? undefined : "is-buffer"}
+                        style={{ "--focus-delay": `${focusDelay}s` } as CSSProperties}
+                      >
+                        {item}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </div>
+            <ul className="sr-only">
+              {landingContent.expectations.items.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section className="pricing" aria-labelledby="pricing-title">
+          <div className="wrap pricing-wrap">
+            <span className="label rv">{landingContent.pricing.eyebrow}</span>
+            <h2 id="pricing-title" className="pricing-title rv d1">
+              {landingContent.pricing.headline}
+            </h2>
+            <p className="pricing-subtitle rv d1">
+              <span>{landingContent.pricing.sublinePrefix}</span>{" "}
+              <PriceCountdown from={100000} to={0} suffix="원" />
             </p>
+            <p className="pricing-message rv d1">{landingContent.pricing.message}</p>
+            <div className="membership-benefits rv d1">
+              {landingContent.pricing.benefits.map((benefit) => (
+                <article className="membership-benefit-card" key={benefit.name}>
+                  <h3>{benefit.name}</h3>
+                  <p>{benefit.description}</p>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 

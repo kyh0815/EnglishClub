@@ -14,15 +14,42 @@ type StatusResponse = {
   teams?: Record<string, TeamStatus>;
 };
 
+type CountdownValue = {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  isClosed: boolean;
+};
+
+const APPLICATION_DEADLINE = new Date("2026-07-31T23:59:59+09:00").getTime();
 const genderOptions = ["남자", "여자", "Others"] as const;
 const applicationDateOptions = ["8월 6일 (목) 19:30", "8월 7일 (금) 19:30"] as const;
 const overseasExperienceOptions = ["없음", "1~2년", "3년 이상"] as const;
 const internationalSchoolOptions = ["없음", "있음"] as const;
 
+function getCountdownValue(): CountdownValue {
+  const remaining = APPLICATION_DEADLINE - Date.now();
+  const safeRemaining = Math.max(remaining, 0);
+
+  return {
+    days: Math.floor(safeRemaining / 86_400_000),
+    hours: Math.floor((safeRemaining % 86_400_000) / 3_600_000),
+    minutes: Math.floor((safeRemaining % 3_600_000) / 60_000),
+    seconds: Math.floor((safeRemaining % 60_000) / 1000),
+    isClosed: remaining <= 0
+  };
+}
+
+function twoDigits(value: number): string {
+  return String(value).padStart(2, "0");
+}
+
 export default function ApplicationForm() {
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [error, setError] = useState("");
   const [teamStatuses, setTeamStatuses] = useState<Record<string, TeamStatus>>({});
+  const [countdown, setCountdown] = useState<CountdownValue>(() => getCountdownValue());
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
   const [phone, setPhone] = useState("");
@@ -70,6 +97,14 @@ export default function ApplicationForm() {
     return () => {
       isMounted = false;
     };
+  }, []);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setCountdown(getCountdownValue());
+    }, 1000);
+
+    return () => window.clearInterval(timer);
   }, []);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -197,13 +232,23 @@ export default function ApplicationForm() {
   return (
     <div id="formView">
       <div className="form-intro">
-        <span className="label rv form-label-center">무료 베타 1기 신청</span>
+        <span className="label rv form-label-center apply-eyebrow" aria-live="polite">
+          무료 베타 1기 신청
+          <span className="apply-deadline">
+            {countdown.isClosed
+              ? "모집 마감"
+              : `D-${countdown.days} ${twoDigits(countdown.hours)}:${twoDigits(
+                  countdown.minutes
+                )}:${twoDigits(countdown.seconds)} 후 마감`}
+          </span>
+        </span>
         <h2 className="rv">지금, 자리를 맡아두세요</h2>
         <p className="lede rv d1">
-          현재는 중급·고급 각 6명을 모집하고 있어요. 마감 전에 남겨주시면 가장 먼저
-          연락드릴게요.
+          현재는 중급·고급 각 6명을 모집하고 있어요.
+          <br />
+          마감 전에 남겨주시면 가장 먼저 연락드릴게요.
         </p>
-        <p className="apply-note rv d1">초급은 준비중이에요.</p>
+        <p className="apply-note rv d1">* 초급은 준비중이에요.</p>
       </div>
       <form id="applyForm" className="application-form rv d1" noValidate onSubmit={handleSubmit}>
         <div className="hp" aria-hidden="true">
@@ -391,7 +436,7 @@ export default function ApplicationForm() {
         <button type="submit" className="btn submit" disabled={submitState === "submitting" || !canSubmit}>
           {submitState === "submitting" ? "신청 중..." : "무료로 신청하기"}
         </button>
-        <p className="form-foot">1기는 전액 무료 · 인원 마감 시 조기 종료될 수 있어요.</p>
+        <p className="form-foot">1기는 한 달 무료 · 인원 마감 시 조기 종료될 수 있어요.</p>
       </form>
     </div>
   );

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -53,15 +52,7 @@ export default function Nav({ ctaHref = "/apply" }: NavProps) {
     <nav ref={navRef} className={navClassName}>
       <div className="nav-in">
         <Link href="/" className="logo">
-          <Image
-            src="/images/the-round-logo.svg"
-            alt=""
-            width={24}
-            height={24}
-            className="logo-mark"
-            aria-hidden="true"
-            priority
-          />
+          <span className="logo-mark" aria-hidden="true" />
           <span>{landingContent.nav.logo}</span>
         </Link>
         <div className="nav-links" aria-label="Primary navigation">

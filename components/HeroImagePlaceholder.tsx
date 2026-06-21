@@ -18,21 +18,10 @@ export default function HeroImagePlaceholder({ label, src }: HeroImagePlaceholde
           sizes="100vw"
           className="hero-photo"
         />
-      ) : (
+      ) : null}
+      {src ? null : (
         <div className="ph-c">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <rect x="3" y="5" width="18" height="14" rx="2" />
-            <circle cx="8.5" cy="10" r="1.5" />
-            <path d="m21 16-4.5-4.5L7 21" />
-          </svg>
-          {label}
+          <span className="sr-only">{label}</span>
         </div>
       )}
     </div>
