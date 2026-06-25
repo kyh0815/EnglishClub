@@ -13,11 +13,15 @@ export const landingContent = {
     cta: "무료 1기 신청",
     note: "중급·고급 각 6명 한정",
     imageSrc: undefined,
+    videoSrc: "/landing_hero.mp4",
+    videoSources: ["/landing_hero_2.mp4", "/landing_hero.mp4"],
     imagePlaceholder: "메인 이미지 — 둘러앉아 웃으며 영어로 대화하는 장면"
   },
   introducing: {
     eyebrow: "Introducing The Round",
     headline: "The Round는 이렇게 운영돼요",
+    subline:
+      "공부보다 가볍고, 모임보다 깊게. The Round는 대화가 흐르고 성장이 남는 영어 소셜 클럽을 지향합니다.",
     steps: [
       {
         name: "레벨 기수제",
@@ -40,38 +44,35 @@ export const landingContent = {
     ]
   },
   expectations: {
-    headline: "The Round에서 기대할 수 있는 것",
+    headline: "The Round에서",
     items: [
-      "레벨별 기수제",
-      "Session Recap",
-      "정기 리포트",
-      "Conversation tips",
-      "개인 피드백",
-      "전문 영어 MC",
-      "Monthly events",
-      "Real-world English",
-      "다양한 주제"
+      "비슷한 레벨로 만나요",
+      "부담 없이 입을 떼요",
+      "새로운 표현을 내 것으로 만들어요",
+      "좋은 표현을 다시 봐요",
+      "내 말하기를 돌아봐요",
+      "성장을 기록해요",
+      "영어로만 어울려요",
+      "다양한 주제로 이어가요"
     ]
   },
   pricing: {
-    eyebrow: "The Round Membership",
-    headline: "이 모든 경험을 무료로",
-    sublinePrefix: "The Round 멤버십",
-    originalPrice: "100,000원",
-    freePrice: "0원",
-    message: "1기는 무료로 운영해요. 편하게 오셔서 The Round의 첫 분위기를 만들어주세요.",
+    eyebrow: "1기 한정 무료 모집",
+    headline: "The Round의 첫 테이블을 함께 채워주세요",
+    message:
+      "1기는 The Round의 첫 분위기를 함께 만들어갈 파운딩 멤버를 모시는 자리입니다.\n무료로 시작하지만, 가볍게 운영하지 않습니다.\n한 달 4회, 같은 멤버와 끝까지 함께하며\n편안하지만 진심 있는 영어 대화를 만들어갈 분을 기다립니다.",
     benefits: [
       {
-        name: "레벨별 기수제",
-        description: "비슷한 수준의 멤버와 한 달 4회, 꾸준히 영어로 대화해요."
+        name: "월 4회 정규 세션",
+        description: "정해진 시간에 같은 멤버와 꾸준히 영어로 대화해요."
       },
       {
-        name: "전문 영어 MC",
+        name: "전문 MC 진행",
         description: "대화가 한쪽으로 치우치지 않도록 흐름을 잡고 모두가 말할 수 있게 이끌어요."
       },
       {
-        name: "Real-world English",
-        description: "교과서 표현보다 실제 대화에서 자연스럽게 쓰이는 표현을 익혀요."
+        name: "실시간 표현 코칭",
+        description: "말하는 순간 막히는 표현을 더 자연스러운 영어로 바꿔봐요."
       },
       {
         name: "Session Recap",
@@ -82,7 +83,7 @@ export const landingContent = {
         description: "내 말하기 습관과 약점을 개인별로 짚어 다음 대화에 반영해요."
       },
       {
-        name: "정기 리포트",
+        name: "Monthly Report",
         description: "한 달 동안의 참여와 성장을 눈에 보이게 확인해요."
       }
     ]
@@ -94,7 +95,7 @@ export const landingContent = {
       levelOption: "초급",
       description: "영어로 한마디 꺼내는 것부터 연습이 필요해요.",
       capacity: "6명",
-      status: "준비중"
+      status: "사전예약"
     },
     {
       name: "중급반",

@@ -77,7 +77,7 @@ body::before {
 
 .label {
   font-size: var(--type-label);
-  color: var(--ink-faint);
+  color: var(--ink-soft);
   font-weight: 600;
   display: block;
   margin-bottom: 20px;
@@ -336,9 +336,16 @@ nav.on-hero.hovered .nav-links a::after {
   justify-content: center;
 }
 
-.hero-photo {
+.hero-photo,
+.hero-video {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: center center;
+}
+
+.hero-video {
+  display: block;
 }
 
 .ph-c {
@@ -569,8 +576,25 @@ h2 {
 }
 
 .introducing-head .label {
-  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 20px;
+  padding: 8px 14px;
+  border: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--paper) 72%, transparent);
+  backdrop-filter: saturate(130%) blur(10px);
+  color: var(--ink);
+}
+
+.introducing-head p {
+  max-width: 36em;
+  margin: 18px auto 0;
+  color: var(--ink-soft);
+  font-size: var(--type-caption);
+  line-height: var(--lh-caption);
+  word-break: keep-all;
 }
 
 .introducing-panel {
@@ -657,7 +681,7 @@ h2 {
 
 .expectations-wrap {
   max-width: var(--navw);
-  min-height: clamp(420px, 52vw, 620px);
+  min-height: clamp(280px, 34vw, 410px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -667,7 +691,7 @@ h2 {
 
 .expectations-phrase {
   --expectation-row: 72px;
-  --expectation-duration: 14.4s;
+  --expectation-duration: 12.8s;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
@@ -738,62 +762,57 @@ h2 {
 
 @keyframes expectationsLoop {
   0%,
-  6.667% {
+  7.5% {
     transform: translateY(0);
   }
 
-  11.111%,
-  17.778% {
+  12.5%,
+  20% {
     transform: translateY(calc(var(--expectation-row) * -1));
   }
 
-  22.222%,
-  28.889% {
+  25%,
+  32.5% {
     transform: translateY(calc(var(--expectation-row) * -2));
   }
 
-  33.333%,
-  40% {
+  37.5%,
+  45% {
     transform: translateY(calc(var(--expectation-row) * -3));
   }
 
-  44.444%,
-  51.111% {
+  50%,
+  57.5% {
     transform: translateY(calc(var(--expectation-row) * -4));
   }
 
-  55.556%,
-  62.222% {
+  62.5%,
+  70% {
     transform: translateY(calc(var(--expectation-row) * -5));
   }
 
-  66.667%,
-  73.333% {
+  75%,
+  82.5% {
     transform: translateY(calc(var(--expectation-row) * -6));
   }
 
-  77.778%,
-  84.444% {
+  87.5%,
+  95% {
     transform: translateY(calc(var(--expectation-row) * -7));
   }
 
-  88.889%,
-  95.556% {
-    transform: translateY(calc(var(--expectation-row) * -8));
-  }
-
   100% {
-    transform: translateY(calc(var(--expectation-row) * -9));
+    transform: translateY(calc(var(--expectation-row) * -8));
   }
 }
 
 @keyframes expectationsFocus {
   0%,
-  9.3% {
+  10.5% {
     color: var(--paper);
   }
 
-  11%,
+  12.3%,
   100% {
     color: rgba(255, 255, 255, 0.28);
   }
@@ -812,10 +831,12 @@ h2 {
   align-items: center;
   justify-content: center;
   margin-bottom: 28px;
-  padding: 10px 16px;
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--line) 24%, var(--paper));
-  color: var(--ink-soft);
+  padding: 8px 14px;
+  border: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--paper) 72%, transparent);
+  backdrop-filter: saturate(130%) blur(10px);
+  color: var(--ink);
   font-size: var(--type-label);
   font-weight: 600;
   letter-spacing: 0;
@@ -830,34 +851,14 @@ h2 {
   word-break: keep-all;
 }
 
-.pricing-subtitle {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.28em;
-  margin-top: 18px;
-  color: var(--ink);
-  font-size: var(--type-form-title);
-  font-weight: 500;
-  line-height: var(--lh-heading);
-  word-break: keep-all;
-}
-
-.price-countdown {
-  min-width: 5.2em;
-  display: inline-flex;
-  justify-content: center;
-  font-variant-numeric: tabular-nums;
-}
-
 .pricing-message {
-  max-width: 34em;
-  margin: 18px auto 0;
+  max-width: 38em;
+  margin: 20px auto 0;
   color: var(--ink-soft);
   font-size: var(--type-caption);
   font-weight: 400;
   line-height: var(--lh-caption);
+  white-space: pre-line;
   word-break: keep-all;
 }
 
@@ -865,7 +866,7 @@ h2 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
-  margin-top: clamp(42px, 6vw, 72px);
+  margin-top: clamp(34px, 5vw, 58px);
   text-align: left;
 }
 
@@ -1152,15 +1153,14 @@ h2 {
   align-items: center;
   justify-content: center;
   gap: 0;
-  overflow: hidden;
-  padding: 0;
-  border: 1px solid var(--line);
+  max-width: 100%;
+  border: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--line) 14%, var(--paper));
+  background: color-mix(in srgb, var(--paper) 72%, transparent);
+  backdrop-filter: saturate(130%) blur(10px);
   color: var(--ink);
   font-weight: 600;
-  line-height: 1;
-  white-space: nowrap;
+  line-height: 1.2;
 }
 
 .apply-deadline {
@@ -1169,11 +1169,11 @@ h2 {
   align-self: stretch;
   margin-left: 12px;
   padding-left: 12px;
-  border-left: 1px solid var(--line);
-  color: var(--ink-soft);
+  border-left: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
+  color: var(--ink);
   font-size: var(--type-label);
   font-weight: 500;
-  line-height: 1;
+  line-height: 1.2;
   font-variant-numeric: tabular-nums;
 }
 
@@ -1194,6 +1194,11 @@ h2 {
   width: auto;
   margin-bottom: 20px;
   padding: 10px 14px;
+  color: var(--ink);
+}
+
+.form-intro .label.apply-eyebrow {
+  padding: 9px 14px;
 }
 
 .form-intro h2 {
@@ -1569,13 +1574,15 @@ h2 {
 
 .faq-item {
   overflow: hidden;
-  border-radius: 999px;
+  border-radius: 34px;
   background: color-mix(in srgb, var(--line) 24%, var(--paper));
-  transition: border-radius 0.24s var(--ease);
+  transition:
+    background-color 0.24s var(--ease),
+    border-radius 0.24s var(--ease);
 }
 
 .faq-item[open] {
-  border-radius: 28px;
+  border-radius: 34px;
 }
 
 .faq-item summary {
@@ -1613,10 +1620,10 @@ h2 {
 
 .faq-item p {
   color: var(--ink-soft);
-  font-size: var(--type-card-caption);
+  font-size: 17px;
   line-height: var(--lh-body);
-  max-width: 38em;
-  padding: 0 76px 30px 36px;
+  max-width: 62em;
+  padding: 0 92px 34px 36px;
   word-break: keep-all;
 }
 
@@ -1956,6 +1963,10 @@ footer {
     display: flex;
   }
 
+  .expectations {
+    padding: 34px 0;
+  }
+
   .expectations-phrase {
     --expectation-row: 58px;
     grid-template-columns: 1fr;
@@ -2024,7 +2035,8 @@ footer {
   }
 
   .faq-item p {
-    padding: 0 24px 24px;
+    padding: 0 24px 28px;
+    font-size: 16px;
   }
 
   #formView {

@@ -150,14 +150,18 @@ export async function POST(request: Request) {
     const matchedTeam = landingContent.teams.find((team) => team.levelOption === level);
 
     if (matchedTeam) {
-      if (matchedTeam.status === "준비중") {
+      const matchedTeamStatus = matchedTeam.status as string;
+
+      if (matchedTeamStatus === "준비중") {
         return jsonError(`${matchedTeam.name}은 현재 준비중이에요.`, 409);
       }
 
-      const currentCount = await countApplicationsByLevel(supabase, level, source);
+      if (matchedTeamStatus !== "사전예약") {
+        const currentCount = await countApplicationsByLevel(supabase, level, source);
 
-      if (currentCount >= TEAM_CAPACITY) {
-        return jsonError(`${matchedTeam.name}은 현재 모집이 마감됐어요.`, 409);
+        if (currentCount >= TEAM_CAPACITY) {
+          return jsonError(`${matchedTeam.name}은 현재 모집이 마감됐어요.`, 409);
+        }
       }
     } else {
       const statuses = await getTeamApplicationStatuses(supabase);

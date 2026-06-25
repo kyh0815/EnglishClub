@@ -6,7 +6,7 @@ import { landingContent, levelOptions } from "@/lib/content";
 type SubmitState = "idle" | "submitting" | "success";
 type TeamStatus = {
   isClosed: boolean;
-  status: "모집 중" | "모집 마감" | "준비중";
+  status: "모집 중" | "모집 마감" | "준비중" | "사전예약";
 };
 
 type StatusResponse = {
@@ -207,10 +207,12 @@ export default function ApplicationForm() {
       return undefined;
     }
 
+    const matchedTeamStatus = matchedTeam.status as TeamStatus["status"];
+
     return (
       teamStatuses[matchedTeam.englishName] ?? {
-        isClosed: matchedTeam.status === "준비중",
-        status: matchedTeam.status
+        isClosed: matchedTeamStatus === "준비중",
+        status: matchedTeamStatus
       }
     );
   }
@@ -248,7 +250,7 @@ export default function ApplicationForm() {
           <br />
           마감 전에 남겨주시면 가장 먼저 연락드릴게요.
         </p>
-        <p className="apply-note rv d1">* 초급은 준비중이에요.</p>
+        <p className="apply-note rv d1">* 초급은 사전예약으로 신청할 수 있어요.</p>
       </div>
       <form id="applyForm" className="application-form rv d1" noValidate onSubmit={handleSubmit}>
         <div className="hp" aria-hidden="true">
@@ -367,7 +369,9 @@ export default function ApplicationForm() {
                         onChange={(event) => setLevel(event.target.value)}
                       />
                       <span>{option}</span>
-                      {isClosed ? <small>{optionStatus?.status ?? "준비중"}</small> : null}
+                      {optionStatus?.status === "사전예약" || isClosed ? (
+                        <small>{optionStatus?.status ?? "준비중"}</small>
+                      ) : null}
                     </label>
                   );
                 })}

@@ -3,7 +3,6 @@ import Footer from "@/components/Footer";
 import FAQSection from "@/components/FAQSection";
 import HeroImagePlaceholder from "@/components/HeroImagePlaceholder";
 import Nav from "@/components/Nav";
-import PriceCountdown from "@/components/PriceCountdown";
 import RevealController from "@/components/RevealController";
 import { landingContent } from "@/lib/content";
 import { ClipboardCheck, Compass, UsersRound } from "lucide-react";
@@ -30,6 +29,8 @@ export default function Home() {
           <HeroImagePlaceholder
             label={landingContent.hero.imagePlaceholder}
             src={landingContent.hero.imageSrc}
+            videoSrc={landingContent.hero.videoSrc}
+            videoSources={landingContent.hero.videoSources}
           />
           <div className="hero-shade" />
           <div className="hero-content">
@@ -74,6 +75,7 @@ export default function Home() {
               <div className="introducing-head">
                 <span className="label">{landingContent.introducing.eyebrow}</span>
                 <h2 id="introducing-title">{landingContent.introducing.headline}</h2>
+                <p>{landingContent.introducing.subline}</p>
               </div>
               <div className="introducing-grid">
                 {landingContent.introducing.steps.map((step, index) => {
@@ -139,10 +141,6 @@ export default function Home() {
             <h2 id="pricing-title" className="pricing-title rv d1">
               {landingContent.pricing.headline}
             </h2>
-            <p className="pricing-subtitle rv d1">
-              <span>{landingContent.pricing.sublinePrefix}</span>{" "}
-              <PriceCountdown from={100000} to={0} suffix="원" />
-            </p>
             <p className="pricing-message rv d1">{landingContent.pricing.message}</p>
             <div className="membership-benefits rv d1">
               {landingContent.pricing.benefits.map((benefit) => (
