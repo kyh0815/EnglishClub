@@ -31,7 +31,6 @@ export default function Home() {
             src={landingContent.hero.imageSrc}
             videoSrc={landingContent.hero.videoSrc}
             videoSources={landingContent.hero.videoSources}
-            videoPlaybackRate={landingContent.hero.videoPlaybackRate}
           />
           <div className="hero-shade" />
           <div className="hero-content">
