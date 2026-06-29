@@ -18,7 +18,7 @@ export default function HeroImagePlaceholder({
   videoSources,
   videoPlaybackRate = 1
 }: HeroImagePlaceholderProps) {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoRefs = useRef<Array<HTMLVideoElement | null>>([]);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const resolvedVideoSources = useMemo(
     () => (videoSources?.length ? videoSources : videoSrc ? [videoSrc] : []),
@@ -27,26 +27,53 @@ export default function HeroImagePlaceholder({
   const currentVideoSrc = resolvedVideoSources[currentVideoIndex] ?? resolvedVideoSources[0];
 
   useEffect(() => {
-    const video = videoRef.current;
+    videoRefs.current.forEach((video) => {
+      if (!video) {
+        return;
+      }
 
-    if (video) {
+      video.muted = true;
+      video.defaultMuted = true;
+      video.volume = 0;
       video.playbackRate = videoPlaybackRate;
-    }
+    });
   }, [videoPlaybackRate]);
 
   useEffect(() => {
-    const video = videoRef.current;
+    const activeVideo = videoRefs.current[currentVideoIndex];
 
-    if (!video || !currentVideoSrc) {
+    if (!activeVideo || !currentVideoSrc) {
       return;
     }
 
-    video.playbackRate = videoPlaybackRate;
-    video.load();
-    void video.play();
-  }, [currentVideoSrc, videoPlaybackRate]);
+    videoRefs.current.forEach((video, index) => {
+      if (!video) {
+        return;
+      }
 
-  const handleVideoEnded = () => {
+      video.muted = true;
+      video.defaultMuted = true;
+      video.volume = 0;
+      video.playbackRate = videoPlaybackRate;
+
+      if (index !== currentVideoIndex) {
+        video.pause();
+      }
+    });
+
+    activeVideo.currentTime = 0;
+    activeVideo.muted = true;
+    activeVideo.defaultMuted = true;
+    activeVideo.volume = 0;
+    activeVideo.playbackRate = videoPlaybackRate;
+    void activeVideo.play().catch(() => undefined);
+  }, [currentVideoIndex, currentVideoSrc, videoPlaybackRate]);
+
+  const handleVideoEnded = (endedIndex: number) => {
+    if (endedIndex !== currentVideoIndex) {
+      return;
+    }
+
     if (resolvedVideoSources.length <= 1) {
       setCurrentVideoIndex(0);
       return;
@@ -58,18 +85,23 @@ export default function HeroImagePlaceholder({
   return (
     <div className="hero-img" aria-label={label}>
       {currentVideoSrc ? (
-        <video
-          ref={videoRef}
-          className="hero-video"
-          src={currentVideoSrc}
-          autoPlay
-          muted
-          loop={resolvedVideoSources.length <= 1}
-          onEnded={handleVideoEnded}
-          playsInline
-          preload="auto"
-          aria-hidden="true"
-        />
+        resolvedVideoSources.map((source, index) => (
+          <video
+            ref={(element) => {
+              videoRefs.current[index] = element;
+            }}
+            className={`hero-video${index === currentVideoIndex ? " is-active" : ""}`}
+            key={source}
+            src={source}
+            autoPlay={index === 0}
+            muted
+            loop={resolvedVideoSources.length <= 1}
+            onEnded={() => handleVideoEnded(index)}
+            playsInline
+            preload="auto"
+            aria-hidden="true"
+          />
+        ))
       ) : src ? (
         <Image
           src={src}

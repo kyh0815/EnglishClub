@@ -13,8 +13,8 @@ export const landingContent = {
     cta: "무료 1기 신청",
     note: "중급·고급 각 6명 한정",
     imageSrc: undefined,
-    videoSrc: "/landing_hero.mp4",
-    videoSources: ["/landing_hero_2.mp4", "/landing_hero.mp4"],
+    videoSrc: "/the_round_landing_hero.mp4",
+    videoSources: undefined,
     imagePlaceholder: "메인 이미지 — 둘러앉아 웃으며 영어로 대화하는 장면"
   },
   introducing: {
