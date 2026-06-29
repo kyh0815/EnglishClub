@@ -15,7 +15,7 @@ export const landingContent = {
     imageSrc: undefined,
     videoSrc: "/the_round_landing_hero.mp4",
     videoSources: undefined,
-    videoPlaybackRate: 0.85,
+    videoPlaybackRate: 0.9,
     imagePlaceholder: "메인 이미지 — 둘러앉아 웃으며 영어로 대화하는 장면"
   },
   introducing: {
