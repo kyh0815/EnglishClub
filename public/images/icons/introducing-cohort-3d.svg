@@ -1,0 +1,53 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="tableTop" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(214 210) rotate(42) scale(250 172)">
+      <stop stop-color="#FFE7BF"/>
+      <stop offset="0.52" stop-color="#D8A66F"/>
+      <stop offset="1" stop-color="#8F5F43"/>
+    </radialGradient>
+    <linearGradient id="tableSide" x1="162" y1="274" x2="348" y2="382" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C98E60"/>
+      <stop offset="1" stop-color="#684335"/>
+    </linearGradient>
+    <linearGradient id="chairGreen" x1="114" y1="147" x2="206" y2="251" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D9F0DD"/>
+      <stop offset="0.56" stop-color="#8CBF9C"/>
+      <stop offset="1" stop-color="#4D7764"/>
+    </linearGradient>
+    <linearGradient id="chairBlue" x1="319" y1="136" x2="404" y2="252" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#DCE9F6"/>
+      <stop offset="0.55" stop-color="#92AAC7"/>
+      <stop offset="1" stop-color="#506783"/>
+    </linearGradient>
+    <linearGradient id="chairRose" x1="212" y1="285" x2="302" y2="397" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F4D5CF"/>
+      <stop offset="0.52" stop-color="#C8877D"/>
+      <stop offset="1" stop-color="#825457"/>
+    </linearGradient>
+    <radialGradient id="bubble" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(312 117) rotate(122) scale(92)">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="0.58" stop-color="#E8EEF2"/>
+      <stop offset="1" stop-color="#B9C8D0"/>
+    </radialGradient>
+    <filter id="depth" x="58" y="62" width="396" height="390" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="28" stdDeviation="24" flood-color="#2F261E" flood-opacity="0.18"/>
+      <feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#2F261E" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+  <ellipse cx="256" cy="421" rx="140" ry="28" fill="#2F261E" opacity="0.12"/>
+  <g filter="url(#depth)">
+    <path d="M114 185C114 153 140 127 172 127H190C222 127 248 153 248 185V250H114V185Z" fill="url(#chairGreen)"/>
+    <path d="M264 178C264 146 290 120 322 120H340C372 120 398 146 398 178V249H264V178Z" fill="url(#chairBlue)"/>
+    <path d="M196 313C196 279 224 252 258 252H276C310 252 338 279 338 313V382H196V313Z" fill="url(#chairRose)"/>
+    <ellipse cx="256" cy="278" rx="126" ry="68" fill="url(#tableTop)"/>
+    <path d="M132 278C157 342 355 342 380 278C365 379 147 379 132 278Z" fill="url(#tableSide)"/>
+    <ellipse cx="256" cy="265" rx="118" ry="55" fill="#F2C892"/>
+    <path d="M167 258C197 285 310 292 346 263" stroke="#FFF0CD" stroke-width="13" stroke-linecap="round" opacity="0.58"/>
+    <path d="M293 88C337 88 373 118 373 155C373 191 337 220 293 220C283 220 273 218 264 215L226 230L240 193C232 182 227 169 227 155C227 118 249 88 293 88Z" fill="url(#bubble)"/>
+    <circle cx="272" cy="155" r="8" fill="#7C8D96" opacity="0.8"/>
+    <circle cx="298" cy="155" r="8" fill="#7C8D96" opacity="0.8"/>
+    <circle cx="324" cy="155" r="8" fill="#7C8D96" opacity="0.8"/>
+    <path d="M139 155C150 136 169 126 192 127" stroke="#FFFFFF" stroke-width="11" stroke-linecap="round" opacity="0.42"/>
+    <path d="M297 147C307 131 324 122 345 123" stroke="#FFFFFF" stroke-width="11" stroke-linecap="round" opacity="0.34"/>
+  </g>
+</svg>

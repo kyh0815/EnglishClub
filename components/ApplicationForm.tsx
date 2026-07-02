@@ -2,6 +2,14 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { landingContent, levelOptions } from "@/lib/content";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
 
 type SubmitState = "idle" | "submitting" | "success";
 type TeamStatus = {
@@ -25,6 +33,15 @@ type CountdownValue = {
 const APPLICATION_DEADLINE = new Date("2026-07-31T23:59:59+09:00").getTime();
 const genderOptions = ["남자", "여자", "Others"] as const;
 const applicationDateOptions = ["8월 6일 (목) 19:30", "8월 7일 (금) 19:30"] as const;
+const opicScoreOptions = ["없음", "IL", "IM", "IH", "AL"] as const;
+const toeicSpeakingScoreOptions = [
+  "없음",
+  "레벨 4 (NH~IL)",
+  "레벨 5 (IM)",
+  "레벨 6 (IH)",
+  "레벨 7 (AM~AL)",
+  "레벨 8 (AH)"
+] as const;
 const overseasExperienceOptions = ["없음", "1~2년", "3년 이상"] as const;
 const internationalSchoolOptions = ["없음", "있음"] as const;
 
@@ -55,6 +72,8 @@ export default function ApplicationForm() {
   const [phone, setPhone] = useState("");
   const [applicationDate, setApplicationDate] = useState("");
   const [level, setLevel] = useState("");
+  const [opicScore, setOpicScore] = useState("없음");
+  const [toeicSpeakingScore, setToeicSpeakingScore] = useState("없음");
   const [overseasExperience, setOverseasExperience] = useState("");
   const [internationalSchool, setInternationalSchool] = useState("");
   const nameRef = useRef<HTMLInputElement>(null);
@@ -172,6 +191,8 @@ export default function ApplicationForm() {
           email,
           applicationDate: selectedApplicationDate,
           level: selectedLevel,
+          opicScore,
+          toeicSpeakingScore,
           overseasExperience: selectedOverseasExperience,
           internationalSchool: selectedInternationalSchool,
           motivation: String(formData.get("motivation") ?? "").trim(),
@@ -250,7 +271,7 @@ export default function ApplicationForm() {
           <br />
           마감 전에 남겨주시면 가장 먼저 연락드릴게요.
         </p>
-        <p className="apply-note rv d1">* 초급은 사전예약으로 신청할 수 있어요.</p>
+        <p className="apply-note rv d1">* 초급 선택 시, 자동으로 사전 예약 명단에 올라가요.</p>
       </div>
       <form id="applyForm" className="application-form rv d1" noValidate onSubmit={handleSubmit}>
         <div className="hp" aria-hidden="true">
@@ -324,7 +345,7 @@ export default function ApplicationForm() {
 
         <fieldset className="field choice-field" ref={applicationDateGroupRef} tabIndex={-1}>
           <legend>
-            신청 일자 <span className="req" aria-hidden="true">*</span>
+            수업 가능 일자 <span className="req" aria-hidden="true">*</span>
           </legend>
           <div className="choice-grid choice-grid-2">
             {applicationDateOptions.map((option) => (
@@ -378,6 +399,51 @@ export default function ApplicationForm() {
               </div>
             </fieldset>
           </div>
+
+          <fieldset className="field choice-field speaking-score-field">
+            <legend>영어 회화 점수</legend>
+            <div className="form-row speaking-score-row">
+              <div className="field">
+                <label htmlFor="opicScore">오픽</label>
+                <Select name="opicScore" value={opicScore} onValueChange={setOpicScore}>
+                  <SelectTrigger id="opicScore">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {opicScoreOptions.map((option) => (
+                        <SelectItem key={option} value={option}>
+                          {option}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="field">
+                <label htmlFor="toeicSpeakingScore">토익스피킹</label>
+                <Select
+                  name="toeicSpeakingScore"
+                  value={toeicSpeakingScore}
+                  onValueChange={setToeicSpeakingScore}
+                >
+                  <SelectTrigger id="toeicSpeakingScore">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {toeicSpeakingScoreOptions.map((option) => (
+                        <SelectItem key={option} value={option}>
+                          {option}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </fieldset>
 
           <fieldset className="field choice-field" ref={overseasGroupRef} tabIndex={-1}>
             <legend>

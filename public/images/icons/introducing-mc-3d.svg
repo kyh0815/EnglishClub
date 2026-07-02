@@ -1,0 +1,44 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="mic" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(235 103) rotate(76) scale(147 94)">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="0.45" stop-color="#BFCBDD"/>
+      <stop offset="1" stop-color="#48546A"/>
+    </radialGradient>
+    <linearGradient id="stand" x1="208" y1="226" x2="314" y2="382" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F7D5A3"/>
+      <stop offset="0.52" stop-color="#B77E52"/>
+      <stop offset="1" stop-color="#5B4138"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(247 197) rotate(116) scale(169)">
+      <stop stop-color="#ECFAF5"/>
+      <stop offset="0.52" stop-color="#8CC9BA"/>
+      <stop offset="1" stop-color="#3D7A72"/>
+    </radialGradient>
+    <radialGradient id="bubble" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(346 249) rotate(136) scale(92)">
+      <stop stop-color="#FFF9EA"/>
+      <stop offset="0.55" stop-color="#E5B86F"/>
+      <stop offset="1" stop-color="#936447"/>
+    </radialGradient>
+    <filter id="depth" x="75" y="45" width="363" height="404" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="28" stdDeviation="24" flood-color="#2B2723" flood-opacity="0.2"/>
+      <feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#2B2723" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  <ellipse cx="256" cy="421" rx="126" ry="29" fill="#2B2723" opacity="0.12"/>
+  <g filter="url(#depth)">
+    <circle cx="252" cy="219" r="130" fill="url(#halo)"/>
+    <circle cx="252" cy="219" r="91" fill="#F6EFE4"/>
+    <rect x="209" y="73" width="92" height="157" rx="46" fill="url(#mic)"/>
+    <path d="M228 116H282M228 150H282M228 184H282" stroke="white" stroke-width="8" stroke-linecap="round" opacity="0.55"/>
+    <path d="M185 183C185 226 216 260 255 260C294 260 326 226 326 183" stroke="#4C4744" stroke-width="19" stroke-linecap="round"/>
+    <path d="M255 260V329" stroke="#4C4744" stroke-width="19" stroke-linecap="round"/>
+    <path d="M204 351H307" stroke="#4C4744" stroke-width="22" stroke-linecap="round"/>
+    <path d="M225 296H286C303 296 317 310 317 327V369H194V327C194 310 208 296 225 296Z" fill="url(#stand)"/>
+    <path d="M224 315C239 326 272 327 288 315" stroke="#FFE3B5" stroke-width="9" stroke-linecap="round" opacity="0.56"/>
+    <path d="M322 205C363 205 397 234 397 270C397 306 363 335 322 335C311 335 300 333 291 329L254 344L267 308C260 298 256 285 256 270C256 234 280 205 322 205Z" fill="url(#bubble)"/>
+    <path d="M297 267H346" stroke="white" stroke-width="11" stroke-linecap="round" opacity="0.82"/>
+    <path d="M297 292H329" stroke="white" stroke-width="11" stroke-linecap="round" opacity="0.62"/>
+    <path d="M173 139C197 107 235 92 275 98" stroke="white" stroke-width="11" stroke-linecap="round" opacity="0.42"/>
+  </g>
+</svg>

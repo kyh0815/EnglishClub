@@ -13,23 +13,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" data-scroll-behavior="smooth" suppressHydrationWarning>
-      <head>
-        <link
-          rel="stylesheet"
-          crossOrigin="anonymous"
-          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
-        />
-        <link
-          rel="stylesheet"
-          crossOrigin="anonymous"
-          href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.2.8/400.css"
-        />
-        <link
-          rel="stylesheet"
-          crossOrigin="anonymous"
-          href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.2.8/500.css"
-        />
-      </head>
       <body>{children}</body>
     </html>
   );

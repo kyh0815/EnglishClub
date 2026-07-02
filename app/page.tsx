@@ -5,10 +5,14 @@ import HeroImagePlaceholder from "@/components/HeroImagePlaceholder";
 import Nav from "@/components/Nav";
 import RevealController from "@/components/RevealController";
 import { landingContent } from "@/lib/content";
-import { ClipboardCheck, Compass, UsersRound } from "lucide-react";
+import Image from "next/image";
 import type { CSSProperties } from "react";
 
-const introducingIcons = [UsersRound, ClipboardCheck, Compass] as const;
+const introducingIcons = [
+  "/images/icons/introducing-cohort-3d.svg",
+  "/images/icons/introducing-feedback-3d.svg",
+  "/images/icons/introducing-mc-3d.svg"
+] as const;
 
 export default function Home() {
   const expectationItems = landingContent.expectations.items;
@@ -73,18 +77,24 @@ export default function Home() {
           <div className="wrap introducing-wrap">
             <div className="introducing-panel rv d1">
               <div className="introducing-head">
-                <span className="label">{landingContent.introducing.eyebrow}</span>
                 <h2 id="introducing-title">{landingContent.introducing.headline}</h2>
-                <p>{landingContent.introducing.subline}</p>
+                <p>{landingContent.introducing.caption}</p>
               </div>
               <div className="introducing-grid">
                 {landingContent.introducing.steps.map((step, index) => {
-                  const Icon = introducingIcons[index] ?? UsersRound;
+                  const iconSrc = introducingIcons[index] ?? introducingIcons[0];
 
                   return (
                     <article className={`introducing-card d${index + 1}`} key={step.name}>
                       <span className="introducing-icon-box" aria-hidden="true">
-                        <Icon className="introducing-icon" />
+                        <Image
+                          className="introducing-icon"
+                          src={iconSrc}
+                          alt=""
+                          width={84}
+                          height={84}
+                          unoptimized
+                        />
                       </span>
                       <h3>{step.name}</h3>
                       <p>{step.description}</p>

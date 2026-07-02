@@ -18,10 +18,8 @@ export const landingContent = {
     imagePlaceholder: "메인 이미지 — 둘러앉아 웃으며 영어로 대화하는 장면"
   },
   introducing: {
-    eyebrow: "Introducing The Round",
-    headline: "The Round는 이렇게 운영돼요",
-    subline:
-      "공부보다 가볍고, 모임보다 깊게. The Round는 대화가 흐르고 성장이 남는 영어 소셜 클럽을 지향합니다.",
+    headline: "공부보다 가볍고, 모임보다 깊게",
+    caption: "The Round는 대화가 흐르고 성장이 남는 영어 소셜 클럽입니다.",
     steps: [
       {
         name: "레벨 기수제",
@@ -64,27 +62,27 @@ export const landingContent = {
     benefits: [
       {
         name: "월 4회 정규 세션",
-        description: "정해진 시간에 같은 멤버와 꾸준히 영어로 대화해요."
+        description: "정해진 시간, 같은 멤버들과 다양한 주제로 대화해요."
       },
       {
         name: "전문 MC 진행",
-        description: "대화가 한쪽으로 치우치지 않도록 흐름을 잡고 모두가 말할 수 있게 이끌어요."
+        description: "누구나 말할 수 있는 편한 분위기를 이끌어요."
       },
       {
         name: "실시간 표현 코칭",
-        description: "말하는 순간 막히는 표현을 더 자연스러운 영어로 바꿔봐요."
+        description: "자연스럽게 대화하며 새로운 표현을 배우고, 내 것으로 만들어요."
       },
       {
-        name: "Session Recap",
-        description: "그날 나온 좋은 표현과 놓치기 쉬운 포인트를 다시 정리해드려요."
+        name: "세션 Recap",
+        description: "오늘의 대화 속 좋은 표현들과 놓치기 쉬운 포인트를 정리해줘요."
       },
       {
         name: "개인 피드백",
-        description: "내 말하기 습관과 약점을 개인별로 짚어 다음 대화에 반영해요."
+        description: "내 말하기 습관과 약점을 개인별로 짚어 개선해요."
       },
       {
         name: "Monthly Report",
-        description: "한 달 동안의 참여와 성장을 눈에 보이게 확인해요."
+        description: "한 달 동안의 참여와 성장을 눈으로 직접 확인해요."
       }
     ]
   },

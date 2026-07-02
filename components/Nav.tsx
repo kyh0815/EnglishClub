@@ -7,15 +7,18 @@ import { landingContent } from "@/lib/content";
 
 type NavProps = {
   ctaHref?: string;
+  transparentOnTop?: boolean;
 };
 
-export default function Nav({ ctaHref = "/apply" }: NavProps) {
+export default function Nav({ ctaHref = "/apply", transparentOnTop = false }: NavProps) {
   const navRef = useRef<HTMLElement | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const [hovered, setHovered] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === "/";
-  const navClassName = isHome && !scrolled ? `on-hero${hovered ? " hovered" : ""}` : "scrolled";
+  const usesTransparentTop = isHome || transparentOnTop;
+  const navClassName =
+    usesTransparentTop && !scrolled ? `on-hero${hovered ? " hovered" : ""}` : "scrolled";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -25,7 +28,7 @@ export default function Nav({ ctaHref = "/apply" }: NavProps) {
   }, []);
 
   useEffect(() => {
-    if (!isHome) {
+    if (!usesTransparentTop) {
       return;
     }
 
@@ -46,7 +49,7 @@ export default function Nav({ ctaHref = "/apply" }: NavProps) {
 
     window.addEventListener("pointermove", onPointerMove, { passive: true });
     return () => window.removeEventListener("pointermove", onPointerMove);
-  }, [isHome]);
+  }, [usesTransparentTop]);
 
   return (
     <nav ref={navRef} className={navClassName}>
