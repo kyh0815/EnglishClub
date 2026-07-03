@@ -17,30 +17,78 @@ export const landingContent = {
     videoSources: undefined,
     imagePlaceholder: "메인 이미지 — 둘러앉아 웃으며 영어로 대화하는 장면"
   },
+  serviceInfo: {
+    venue: "📍 서울 마포구 양화로 133 서교타워 901호 은하연 홍대 2호점 (홍대 도보 1분)"
+  },
   introducing: {
     headline: "공부보다 가볍고, 모임보다 깊게",
     caption: "The Round는 대화가 흐르고 성장이 남는 영어 소셜 클럽입니다.",
     steps: [
       {
-        name: "레벨 기수제",
+        name: "한 달, 한 테이블",
         description:
-          "한 달 4회, 영어 수준이 비슷한 멤버들이 정해진 시간에 모여 다양한 주제로 대화를 나눠요.",
-        items: ["같은 멤버", "한 달 4회", "중급·고급 각 6명"]
+          "월 4회, 세션당 2시간. 기수제로 같은 멤버들과 함께해요.",
+        items: ["월 4회", "세션당 2시간", "같은 멤버"]
       },
       {
-        name: "체계적인 피드백",
+        name: "레벨이 비슷한 사람들과",
         description:
-          "말하고 끝나는 시간이 아니라, 내가 어떻게 말했고 무엇이 좋아졌는지 개인별로 다시 보고 보완할 수 있게 정리해드려요.",
-        items: ["개인 피드백", "Recap Session", "Monthly Report"]
+          "신중한 레벨 체크를 통해 함께 배정된 사람들과 부담없이 영어로 대화해요.",
+        items: ["레벨 체크", "부담 없는 대화"]
       },
       {
-        name: "전문 영어 MC",
+        name: "전문 MC와 함께",
         description:
-          "전문 영어 MC가 대화 흐름을 잡아 모두가 고르게 말할 수 있는 분위기를 만들고, 자연스러운 표현력까지 끌어올려줘요.",
-        items: ["Guided Conversation", "Real-world English"]
+          "모두가 고르게 말할 수 있도록, 대화의 흐름을 잡아드려요.",
+        items: ["Guided Conversation", "고른 참여"]
       }
     ]
   },
+  featureBlocks: [
+    {
+      id: "conversation",
+      headline: "흥미로운 주제들로, 영어로만 대화해요.",
+      body: [
+        { text: "발표도 토론도 아니에요. " },
+        { text: "스몰토크로 몸을 풀고", strong: true },
+        {
+          text: ", 그날의 토픽 2-3개를 두고 편하게 대화를 주고받아요. 정해진 순서나 형식 없이, 대화가 흐르는 대로 이어가요."
+        }
+      ],
+    },
+    {
+      id: "level",
+      headline: "레벨에 맞는 사람들끼리, 함께 해요.",
+      body: [
+        { text: "신청서만 보고 반을 나누지 않아요. " },
+        { text: "10분 레벨 체크 콜", strong: true },
+        {
+          text: "로 실제 말하기를 확인하고, 편차가 적도록 배정해요. 첫 1-2회차엔 MC가 직접 지켜보고, 더 잘 맞는 테이블이 있다면 "
+        },
+        { text: "먼저 제안", strong: true },
+        { text: "드려요." }
+      ],
+      link: {
+        label: "내 레벨 확인하기",
+        href: "#apply"
+      }
+    },
+    {
+      id: "feedback",
+      headline: "대화에서 끝나지 않고, 함께 성장해요.",
+      body: [
+        { text: "세션이 끝나면 오늘의 좋은 표현과 내 말하기 포인트를 담은 " },
+        { text: "세션 Recap", strong: true },
+        { text: "이 도착해요. 한 달이 지나면 " },
+        { text: "Monthly Report", strong: true },
+        { text: "로 참여와 성장을 눈으로 확인해요." }
+      ],
+      link: {
+        label: "무료로 시작하기",
+        href: "#apply"
+      }
+    }
+  ],
   expectations: {
     headline: "The Round에서",
     items: [
@@ -54,19 +102,39 @@ export const landingContent = {
       "다양한 주제로 이어가요"
     ]
   },
+  levelSelfCheck: {
+    question: "What did you do last weekend?",
+    helper: "잘 모르겠어도 괜찮아요. 최종 레벨은 레벨 체크 콜에서 함께 정해드려요.",
+    levels: [
+      {
+        name: "초급",
+        status: "사전예약",
+        canDo: "문법이 틀려도 괜찮아요. 하고 싶은 말이 전해지면 충분해요.",
+        example: '"I meet friend. We eat pasta. It was good."'
+      },
+      {
+        name: "중급",
+        canDo: "시제와 문장 연결이 익숙하고, 흐름 있게 이야기할 수 있어요.",
+        example:
+          '"I met my friends. For lunch, we ate pasta, and after that we went to watch a movie."'
+      },
+      {
+        name: "고급",
+        canDo: "자연스러운 표현을 얹어 감상과 뉘앙스까지 전할 수 있어요.",
+        example:
+          '"I met my boyfriend - we hang out all the time, but this weekend we tried a cooking class for a change. I had never done anything like that before, but it was surprisingly fun."'
+      }
+    ]
+  },
   pricing: {
     eyebrow: "1기 한정 무료 모집",
     headline: "The Round의 첫 테이블을 함께 채워주세요",
     message:
-      "1기는 The Round의 첫 분위기를 함께 만들어갈 파운딩 멤버를 모시는 자리입니다.\n무료로 시작하지만, 가볍게 운영하지 않습니다.\n한 달 4회, 같은 멤버와 끝까지 함께하며\n편안하지만 진심 있는 영어 대화를 만들어갈 분을 기다립니다.",
+      "1기는 The Round의 첫 분위기를 함께 만들어갈 파운딩 멤버를 모시는 자리입니다.\n무료로 시작하지만, 가볍게 운영하지 않습니다.\n한 달 4회, 같은 멤버와 끝까지 함께하며\n편안하지만 진심 있는 영어 대화를 만들어갈 분을 기다립니다.\n📍 서울 마포구 양화로 133 서교타워 901호 은하연 홍대 2호점 (홍대 도보 1분)",
     benefits: [
       {
         name: "월 4회 정규 세션",
-        description: "정해진 시간, 같은 멤버들과 다양한 주제로 대화해요."
-      },
-      {
-        name: "전문 MC 진행",
-        description: "누구나 말할 수 있는 편한 분위기를 이끌어요."
+        description: "정기적으로 같은 멤버들과 다양한 주제로 대화해요."
       },
       {
         name: "실시간 표현 코칭",
@@ -75,10 +143,6 @@ export const landingContent = {
       {
         name: "세션 Recap",
         description: "오늘의 대화 속 좋은 표현들과 놓치기 쉬운 포인트를 정리해줘요."
-      },
-      {
-        name: "개인 피드백",
-        description: "내 말하기 습관과 약점을 개인별로 짚어 개선해요."
       },
       {
         name: "Monthly Report",
@@ -129,6 +193,11 @@ export const landingContent = {
     ]
   }
 } as const;
+
+export const applicationDateOptions = [
+  "8월 6일 (목) - 중급반 (예시)",
+  "8월 7일 (금) - 고급반 (예시)"
+] as const;
 
 export const levelOptions = [
   "초급",

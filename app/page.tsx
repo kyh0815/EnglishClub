@@ -9,10 +9,122 @@ import Image from "next/image";
 import type { CSSProperties } from "react";
 
 const introducingIcons = [
-  "/images/icons/introducing-cohort-3d.svg",
-  "/images/icons/introducing-feedback-3d.svg",
-  "/images/icons/introducing-mc-3d.svg"
+  "/images/icons/introducing-calendar-3d.png",
+  "/images/icons/introducing-chat-3d.png",
+  "/images/icons/introducing-mic-3d.png"
 ] as const;
+
+type FeatureVisualId = (typeof landingContent.featureBlocks)[number]["id"];
+
+function FeatureVisual({ id }: { id: FeatureVisualId }) {
+  if (id === "conversation") {
+    return (
+      <div className="feature-visual-collage feature-visual-conversation" aria-hidden="true">
+        <div className="feature-float-card topic-card topic-card-1 is-delay-1">
+          <span>Topic 01</span>
+          <strong>The Best Part of My Day</strong>
+          <small>Warm-up</small>
+        </div>
+        <div className="feature-float-card topic-card topic-card-2 is-delay-2">
+          <span>Topic 02</span>
+          <strong>Who Am I in Three Words?</strong>
+          <small>Table talk</small>
+        </div>
+        <div className="feature-float-card topic-card topic-card-3 is-delay-3">
+          <span>Topic 03</span>
+          <strong>My Current Obsession</strong>
+          <small>Deep dive</small>
+        </div>
+      </div>
+    );
+  }
+
+  if (id === "level") {
+    return (
+      <div className="feature-visual-collage feature-visual-level" aria-hidden="true">
+        <div className="feature-float-card level-call-chip is-delay-1">
+          <span>10 min</span>
+          <strong>Level Check Call</strong>
+        </div>
+        <div className="feature-float-card level-card-main is-delay-2">
+          <span className="feature-pill">Matching system</span>
+          <h4>Table Match</h4>
+          <div className="level-table-list">
+            <div>
+              <span>Intermediate</span>
+              <strong>Table A</strong>
+              <small>comfortable pace</small>
+            </div>
+            <div>
+              <span>Advanced</span>
+              <strong>Table B</strong>
+              <small>deeper flow</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="feature-visual-collage feature-visual-feedback" aria-hidden="true">
+      <div className="feature-float-card recap-message-card is-delay-1">
+        <div className="recap-card-head">
+          <span>Session Recap</span>
+          <small>after class</small>
+        </div>
+        <h4>오늘의 좋은 표현</h4>
+        <p>“That makes sense.”를 더 자연스럽게 이어 말해봤어요.</p>
+        <ul>
+          <li>Good expression</li>
+          <li>Speaking point</li>
+        </ul>
+      </div>
+      <div className="feature-float-card monthly-report-card is-delay-2">
+        <div className="report-card-head">
+          <span>Monthly Report</span>
+        </div>
+        <h4>Monthly Feedback</h4>
+        <div className="report-radar">
+          <div className="report-radar-visual">
+            <svg viewBox="0 0 220 220">
+              <polygon className="radar-grid" points="110,18 190,64 190,156 110,202 30,156 30,64" />
+              <polygon className="radar-grid" points="110,48 164,79 164,141 110,172 56,141 56,79" />
+              <polygon className="radar-grid" points="110,78 138,94 138,126 110,142 82,126 82,94" />
+              <line className="radar-spoke" x1="110" y1="110" x2="110" y2="18" />
+              <line className="radar-spoke" x1="110" y1="110" x2="190" y2="64" />
+              <line className="radar-spoke" x1="110" y1="110" x2="190" y2="156" />
+              <line className="radar-spoke" x1="110" y1="110" x2="110" y2="202" />
+              <line className="radar-spoke" x1="110" y1="110" x2="30" y2="156" />
+              <line className="radar-spoke" x1="110" y1="110" x2="30" y2="64" />
+              <polygon className="radar-score" points="110,42 166,78 151,134 110,154 74,131 64,83" />
+              <circle className="radar-point" cx="110" cy="42" r="3" />
+              <circle className="radar-point" cx="166" cy="78" r="3" />
+              <circle className="radar-point" cx="151" cy="134" r="3" />
+              <circle className="radar-point" cx="110" cy="154" r="3" />
+              <circle className="radar-point" cx="74" cy="131" r="3" />
+              <circle className="radar-point" cx="64" cy="83" r="3" />
+            </svg>
+          </div>
+          <div className="report-insights">
+            <div>
+              <span className="report-skeleton report-skeleton-kicker" />
+              <span className="report-skeleton report-skeleton-line" />
+            </div>
+            <div>
+              <span className="report-skeleton report-skeleton-kicker" />
+              <span className="report-skeleton report-skeleton-line is-short" />
+            </div>
+            <div>
+              <span className="report-skeleton report-skeleton-kicker" />
+              <span className="report-skeleton report-skeleton-pill" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   const expectationItems = landingContent.expectations.items;
@@ -91,8 +203,8 @@ export default function Home() {
                           className="introducing-icon"
                           src={iconSrc}
                           alt=""
-                          width={84}
-                          height={84}
+                          width={72}
+                          height={72}
                           unoptimized
                         />
                       </span>
@@ -104,6 +216,38 @@ export default function Home() {
               </div>
             </div>
 
+          </div>
+        </section>
+
+        <section className="feature-zigzag" aria-label="The Round 핵심 경험">
+          <div className="wrap feature-zigzag-wrap">
+            {landingContent.featureBlocks.map((block, index) => (
+              <article
+                className={`feature-block${index % 2 === 1 ? " is-reverse" : ""}`}
+                key={block.id}
+              >
+                <div className="feature-copy rv">
+                  <h2>{block.headline}</h2>
+                  <p>
+                    {block.body.map((part, partIndex) =>
+                      "strong" in part && part.strong ? (
+                        <strong key={`${block.id}-${partIndex}`}>{part.text}</strong>
+                      ) : (
+                        <span key={`${block.id}-${partIndex}`}>{part.text}</span>
+                      )
+                    )}
+                  </p>
+                  {"link" in block ? (
+                    <a className="feature-link" href={block.link.href}>
+                      {block.link.label} <span aria-hidden="true">→</span>
+                    </a>
+                  ) : null}
+                </div>
+                <div className="feature-visual-panel rv d1">
+                  <FeatureVisual id={block.id} />
+                </div>
+              </article>
+            ))}
           </div>
         </section>
 

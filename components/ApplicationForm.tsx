@@ -1,7 +1,8 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { landingContent, levelOptions } from "@/lib/content";
+import { ChevronDown } from "lucide-react";
+import { applicationDateOptions, landingContent, levelOptions } from "@/lib/content";
 import {
   Select,
   SelectContent,
@@ -32,7 +33,6 @@ type CountdownValue = {
 
 const APPLICATION_DEADLINE = new Date("2026-07-31T23:59:59+09:00").getTime();
 const genderOptions = ["남자", "여자", "Others"] as const;
-const applicationDateOptions = ["8월 6일 (목) 19:30", "8월 7일 (금) 19:30"] as const;
 const opicScoreOptions = ["없음", "IL", "IM", "IH", "AL"] as const;
 const toeicSpeakingScoreOptions = [
   "없음",
@@ -76,6 +76,7 @@ export default function ApplicationForm() {
   const [toeicSpeakingScore, setToeicSpeakingScore] = useState("없음");
   const [overseasExperience, setOverseasExperience] = useState("");
   const [internationalSchool, setInternationalSchool] = useState("");
+  const [isLevelGuideOpen, setIsLevelGuideOpen] = useState(false);
   const nameRef = useRef<HTMLInputElement>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
   const genderGroupRef = useRef<HTMLFieldSetElement>(null);
@@ -270,14 +271,19 @@ export default function ApplicationForm() {
           현재는 중급·고급 각 6명을 모집하고 있어요.
           <br />
           마감 전에 남겨주시면 가장 먼저 연락드릴게요.
+          <br />
+          {landingContent.serviceInfo.venue}
         </p>
         <p className="apply-note rv d1">* 초급 선택 시, 자동으로 사전 예약 명단에 올라가요.</p>
       </div>
+
       <form id="applyForm" className="application-form rv d1" noValidate onSubmit={handleSubmit}>
         <div className="hp" aria-hidden="true">
           <label htmlFor="website">웹사이트</label>
           <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
         </div>
+
+        <p className="form-balance-note">그룹 밸런스와 레벨 배정을 위해 여쭤봐요.</p>
 
         <div className="form-row">
           <div className="field">
@@ -365,9 +371,22 @@ export default function ApplicationForm() {
 
         <div className="form-section">
           <div className="field">
-            <label htmlFor="level">
-              영어 레벨 <span className="req" aria-hidden="true">*</span>
-            </label>
+            <div className="level-label-row">
+              <label>
+                영어 레벨 (자가진단) <span className="req" aria-hidden="true">*</span>
+              </label>
+              <button
+                className="level-guide-toggle"
+                type="button"
+                aria-controls="level-self-check-panel"
+                aria-expanded={isLevelGuideOpen}
+                onClick={() => setIsLevelGuideOpen((current) => !current)}
+              >
+                내 레벨을 모르겠다면?
+                <ChevronDown className="level-guide-toggle-icon" aria-hidden="true" />
+              </button>
+            </div>
+            <p className="field-helper">참고용이에요. 최종 배정은 레벨 체크 콜 후 안내드려요.</p>
             <fieldset
               className="choice-field choice-field-inner"
               ref={levelGroupRef}
@@ -398,13 +417,55 @@ export default function ApplicationForm() {
                 })}
               </div>
             </fieldset>
+            <div
+              className="level-guide-panel"
+              data-open={isLevelGuideOpen || undefined}
+              id="level-self-check-panel"
+              aria-hidden={!isLevelGuideOpen}
+            >
+              <div className="level-self-check-head">
+                <p>
+                  공통 질문: <strong>{landingContent.levelSelfCheck.question}</strong>
+                </p>
+              </div>
+              <div className="level-self-check-table" aria-label="영어 레벨 자가진단 기준">
+                <div className="level-self-check-row level-self-check-header">
+                  <span>레벨</span>
+                  <span>이렇게 말할 수 있다면</span>
+                  <span>예시 답변</span>
+                </div>
+                {landingContent.levelSelfCheck.levels.map((item) => (
+                  <button
+                    className="level-self-check-row level-self-check-option"
+                    data-selected={level === item.name || undefined}
+                    disabled={!isLevelGuideOpen}
+                    key={item.name}
+                    type="button"
+                    onClick={() => {
+                      setLevel(item.name);
+                      setIsLevelGuideOpen(false);
+                    }}
+                  >
+                    <span>
+                      <strong>{item.name}</strong>
+                      {"status" in item ? <em>{item.status}</em> : null}
+                    </span>
+                    <span>{item.canDo}</span>
+                    <span>{item.example}</span>
+                  </button>
+                ))}
+              </div>
+              <p className="level-self-check-helper">{landingContent.levelSelfCheck.helper}</p>
+            </div>
           </div>
 
           <fieldset className="field choice-field speaking-score-field">
             <legend>영어 회화 점수</legend>
             <div className="form-row speaking-score-row">
               <div className="field">
-                <label htmlFor="opicScore">오픽</label>
+                <label htmlFor="opicScore">
+                  오픽 <span className="opt">(선택)</span>
+                </label>
                 <Select name="opicScore" value={opicScore} onValueChange={setOpicScore}>
                   <SelectTrigger id="opicScore">
                     <SelectValue />
@@ -422,7 +483,9 @@ export default function ApplicationForm() {
               </div>
 
               <div className="field">
-                <label htmlFor="toeicSpeakingScore">토익스피킹</label>
+                <label htmlFor="toeicSpeakingScore">
+                  토익스피킹 <span className="opt">(선택)</span>
+                </label>
                 <Select
                   name="toeicSpeakingScore"
                   value={toeicSpeakingScore}
@@ -506,6 +569,9 @@ export default function ApplicationForm() {
         <button type="submit" className="btn submit" disabled={submitState === "submitting" || !canSubmit}>
           {submitState === "submitting" ? "신청 중..." : "무료로 신청하기"}
         </button>
+        <p className="form-process">
+          신청 후 흐름(예시): 1) 24시간 내 연락 → 2) 10분 레벨 체크 콜 → 3) 배정 결과 안내
+        </p>
         <p className="form-foot">1기는 한 달 무료 · 인원 마감 시 조기 종료될 수 있어요.</p>
       </form>
     </div>

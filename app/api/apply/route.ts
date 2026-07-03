@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { landingContent, levelOptions, TEAM_CAPACITY } from "@/lib/content";
+import { applicationDateOptions, landingContent, levelOptions, TEAM_CAPACITY } from "@/lib/content";
 import { sendNotification } from "@/lib/notifications";
 import {
   countApplicationsByLevel,
@@ -30,7 +30,6 @@ type ApplyRequest = {
 const MAX_SHORT = 200;
 const MAX_LONG = 1200;
 const GENDER_OPTIONS = ["남자", "여자", "Others"] as const;
-const APPLICATION_DATE_OPTIONS = ["8월 6일 (목) 19:30", "8월 7일 (금) 19:30"] as const;
 const SPEAKING_TEST_SCORE_OPTIONS = [
   "없음",
   "오픽 IL",
@@ -164,8 +163,8 @@ export async function POST(request: Request) {
   }
 
   if (
-    !APPLICATION_DATE_OPTIONS.includes(
-      applicationDate as (typeof APPLICATION_DATE_OPTIONS)[number]
+    !applicationDateOptions.includes(
+      applicationDate as (typeof applicationDateOptions)[number]
     )
   ) {
     return jsonError("수업 가능 일자를 선택해주세요.");
