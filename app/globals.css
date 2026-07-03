@@ -1347,6 +1347,42 @@ h2 {
   word-break: keep-all;
 }
 
+.pricing-venue {
+  width: min(100%, 680px);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px 16px;
+  align-items: center;
+  margin: 28px auto 0;
+  padding: 18px 20px;
+  border: 0;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--line) 22%, var(--paper));
+  color: var(--ink);
+  text-align: left;
+}
+
+.pricing-venue-label {
+  display: inline-block;
+  color: var(--ink-soft);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.pricing-venue-address {
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.55;
+  word-break: keep-all;
+}
+
 .membership-benefits {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2511,6 +2547,49 @@ h2 {
   transform: translateY(-50%);
 }
 
+.venue-confirmation-card {
+  min-height: 58px;
+  height: auto;
+  padding: 13px 14px;
+  text-align: left;
+}
+
+.venue-confirmation-card span {
+  position: static;
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  transform: none;
+  word-break: keep-all;
+}
+
+.venue-confirmation-card small {
+  position: static;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-faint);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 8px;
+  background: transparent;
+  transform: none;
+}
+
+.venue-confirmation-card:has(input:checked) small {
+  color: rgba(255, 255, 255, 0.74);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
 .select-trigger {
   width: 100%;
   min-height: 47px;
@@ -2644,15 +2723,6 @@ h2 {
   font-size: var(--type-label);
   color: var(--ink-faint);
   margin-top: 14px;
-}
-
-.form-process {
-  margin-top: 16px;
-  color: var(--ink-soft);
-  font-size: var(--type-label);
-  line-height: 1.6;
-  text-align: center;
-  word-break: keep-all;
 }
 
 .faq {
@@ -3333,6 +3403,17 @@ footer {
     margin-top: 34px;
   }
 
+  .pricing-venue {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 15px;
+  }
+
+  .pricing-venue-address {
+    align-items: flex-start;
+    font-size: 14px;
+  }
+
   .membership-benefit-card {
     min-height: 132px;
     padding: 22px;
@@ -3440,6 +3521,12 @@ footer {
   .choice-grid-2,
   .choice-grid-3 {
     grid-template-columns: 1fr;
+  }
+
+  .venue-confirmation-card span {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
   }
 
   .ending-card {

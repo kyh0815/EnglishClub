@@ -296,6 +296,13 @@ export default function Home() {
               {landingContent.pricing.headline}
             </h2>
             <p className="pricing-message rv d1">{landingContent.pricing.message}</p>
+            <div className="pricing-venue rv d1" aria-label={landingContent.pricing.venueLabel}>
+              <span className="pricing-venue-label">{landingContent.pricing.venueLabel}</span>
+              <span className="pricing-venue-address">
+                <span aria-hidden="true">📍</span>
+                {landingContent.pricing.venueAddress}
+              </span>
+            </div>
             <div className="membership-benefits rv d1">
               {landingContent.pricing.benefits.map((benefit) => (
                 <article className="membership-benefit-card" key={benefit.name}>

@@ -77,6 +77,7 @@ export default function ApplicationForm() {
   const [overseasExperience, setOverseasExperience] = useState("");
   const [internationalSchool, setInternationalSchool] = useState("");
   const [isLevelGuideOpen, setIsLevelGuideOpen] = useState(false);
+  const [venueConfirmed, setVenueConfirmed] = useState(false);
   const nameRef = useRef<HTMLInputElement>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
   const genderGroupRef = useRef<HTMLFieldSetElement>(null);
@@ -84,6 +85,7 @@ export default function ApplicationForm() {
   const levelGroupRef = useRef<HTMLFieldSetElement>(null);
   const overseasGroupRef = useRef<HTMLFieldSetElement>(null);
   const internationalSchoolGroupRef = useRef<HTMLFieldSetElement>(null);
+  const venueConfirmationRef = useRef<HTMLFieldSetElement>(null);
   const successRef = useRef<HTMLDivElement>(null);
   const canSubmit =
     name.trim().length > 0 &&
@@ -92,7 +94,8 @@ export default function ApplicationForm() {
     applicationDate.trim().length > 0 &&
     level.trim().length > 0 &&
     overseasExperience.trim().length > 0 &&
-    internationalSchool.trim().length > 0;
+    internationalSchool.trim().length > 0 &&
+    venueConfirmed;
 
   useEffect(() => {
     let isMounted = true;
@@ -174,6 +177,11 @@ export default function ApplicationForm() {
 
     if (!selectedInternationalSchool) {
       internationalSchoolGroupRef.current?.focus();
+      return;
+    }
+
+    if (!venueConfirmed) {
+      venueConfirmationRef.current?.focus();
       return;
     }
 
@@ -271,8 +279,6 @@ export default function ApplicationForm() {
           현재는 중급·고급 각 6명을 모집하고 있어요.
           <br />
           마감 전에 남겨주시면 가장 먼저 연락드릴게요.
-          <br />
-          {landingContent.serviceInfo.venue}
         </p>
         <p className="apply-note rv d1">* 초급 선택 시, 자동으로 사전 예약 명단에 올라가요.</p>
       </div>
@@ -547,6 +553,24 @@ export default function ApplicationForm() {
               ))}
             </div>
           </fieldset>
+
+          <fieldset className="field choice-field" ref={venueConfirmationRef} tabIndex={-1}>
+            <legend>
+              세션 장소 확인 <span className="req" aria-hidden="true">*</span>
+            </legend>
+            <label className="choice-card venue-confirmation-card">
+              <input
+                type="checkbox"
+                name="venueConfirmed"
+                checked={venueConfirmed}
+                onChange={(event) => setVenueConfirmed(event.target.checked)}
+              />
+              <span>
+                {landingContent.serviceInfo.venueAddress}
+                <small>확인했어요</small>
+              </span>
+            </label>
+          </fieldset>
         </div>
 
         <div className="field">
@@ -569,9 +593,6 @@ export default function ApplicationForm() {
         <button type="submit" className="btn submit" disabled={submitState === "submitting" || !canSubmit}>
           {submitState === "submitting" ? "신청 중..." : "무료로 신청하기"}
         </button>
-        <p className="form-process">
-          신청 후 흐름(예시): 1) 24시간 내 연락 → 2) 10분 레벨 체크 콜 → 3) 배정 결과 안내
-        </p>
         <p className="form-foot">1기는 한 달 무료 · 인원 마감 시 조기 종료될 수 있어요.</p>
       </form>
     </div>
