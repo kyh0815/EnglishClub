@@ -3139,15 +3139,15 @@ footer {
   :root {
     --type-label: 12px;
     --type-meta: 13px;
-    --type-card-title: 18px;
-    --type-card-caption: 15px;
-    --type-caption: 16px;
-    --type-hero-caption: 16px;
-    --type-form-title: 24px;
-    --type-section-title: 30px;
-    --type-statement: 30px;
-    --type-display: 32px;
-    --type-hero-title: 32px;
+    --type-card-title: 17px;
+    --type-card-caption: 14px;
+    --type-caption: 15px;
+    --type-hero-caption: 15px;
+    --type-form-title: 22px;
+    --type-section-title: 28px;
+    --type-statement: 28px;
+    --type-display: 28px;
+    --type-hero-title: 30px;
     --lh-tight: 1.18;
     --lh-heading: 1.28;
     --lh-caption: 1.68;
@@ -3175,7 +3175,7 @@ footer {
   }
 
   .introducing-head h2 {
-    font-size: 40px;
+    font-size: var(--type-section-title);
   }
 
   .about-statement-grid,
@@ -3345,7 +3345,7 @@ footer {
     padding: 0;
     color: #fff;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 40px;
+    font-size: var(--type-display);
     font-weight: 500;
     line-height: 1.12;
   }
@@ -3366,7 +3366,7 @@ footer {
     background: #fff;
     color: #0f0e0c;
     font-family: var(--font-sans, inherit);
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     line-height: 1;
   }
@@ -3449,7 +3449,7 @@ footer {
 
   .feature-copy h2 {
     max-width: 12em;
-    font-size: 28px;
+    font-size: var(--type-section-title);
   }
 
   .feature-copy p {
@@ -3603,7 +3603,7 @@ footer {
   }
 
   .expectations-phrase {
-    --expectation-row: 58px;
+    --expectation-row: 52px;
     grid-template-columns: 1fr;
     gap: 14px;
     text-align: center;
@@ -3689,7 +3689,7 @@ footer {
 
   .faq-item p {
     padding: 0 24px 28px;
-    font-size: 16px;
+    font-size: var(--type-card-caption);
   }
 
   #formView {
@@ -3849,7 +3849,7 @@ footer {
   }
 
   .foot-wordmark {
-    font-size: 58px;
+    font-size: 48px;
     line-height: 0.9;
     letter-spacing: 0;
     margin-top: 58px;
