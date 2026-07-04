@@ -5,6 +5,7 @@ import HeroImagePlaceholder from "@/components/HeroImagePlaceholder";
 import Nav from "@/components/Nav";
 import RevealController from "@/components/RevealController";
 import { landingContent } from "@/lib/content";
+import { BarChart3, CalendarDays, ClipboardList, MessageCircleMore } from "lucide-react";
 import Image from "next/image";
 import type { CSSProperties } from "react";
 
@@ -12,6 +13,13 @@ const introducingIcons = [
   "/images/icons/introducing-calendar-3d.png",
   "/images/icons/introducing-chat-3d.png",
   "/images/icons/introducing-mic-3d.png"
+] as const;
+
+const membershipBenefitIcons = [
+  CalendarDays,
+  MessageCircleMore,
+  ClipboardList,
+  BarChart3
 ] as const;
 
 type FeatureVisualId = (typeof landingContent.featureBlocks)[number]["id"];
@@ -304,12 +312,21 @@ export default function Home() {
               </span>
             </div>
             <div className="membership-benefits rv d1">
-              {landingContent.pricing.benefits.map((benefit) => (
-                <article className="membership-benefit-card" key={benefit.name}>
-                  <h3>{benefit.name}</h3>
-                  <p>{benefit.description}</p>
-                </article>
-              ))}
+              {landingContent.pricing.benefits.map((benefit, index) => {
+                const BenefitIcon = membershipBenefitIcons[index] ?? ClipboardList;
+
+                return (
+                  <article className="membership-benefit-card" key={benefit.name}>
+                    <span className="membership-benefit-icon" aria-hidden="true">
+                      <BenefitIcon size={24} strokeWidth={1.8} />
+                    </span>
+                    <div className="membership-benefit-copy">
+                      <h3>{benefit.name}</h3>
+                      <p>{benefit.description}</p>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>

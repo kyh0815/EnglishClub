@@ -49,7 +49,7 @@ export const landingContent = {
   featureBlocks: [
     {
       id: "conversation",
-      headline: "흥미로운 주제들로, 영어로만 대화해요.",
+      headline: "흥미로운 주제들로,\n영어로만 대화해요.",
       body: [
         { text: "발표도 토론도 아니에요. " },
         { text: "스몰토크로 몸을 풀고", strong: true },
@@ -60,7 +60,7 @@ export const landingContent = {
     },
     {
       id: "level",
-      headline: "레벨에 맞는 사람들끼리, 함께 해요.",
+      headline: "레벨이 맞는 사람들과\n함께해요.",
       body: [
         { text: "신청서만 보고 반을 나누지 않아요. " },
         { text: "10분 레벨 체크 콜", strong: true },
@@ -77,7 +77,7 @@ export const landingContent = {
     },
     {
       id: "feedback",
-      headline: "대화에서 끝나지 않고, 함께 성장해요.",
+      headline: "대화에서 끝나지 않고,\n함께 성장해요.",
       body: [
         { text: "세션이 끝나면 오늘의 좋은 표현과 내 말하기 포인트를 담은 " },
         { text: "세션 Recap", strong: true },
