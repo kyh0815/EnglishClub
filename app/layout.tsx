@@ -13,10 +13,10 @@ export const metadata: Metadata = {
     description: siteDescription,
     images: [
       {
-        url: "/images/the-round-hero.png",
+        url: "/images/the-round-og.png",
         width: 1200,
         height: 630,
-        alt: "The Round"
+        alt: "The Round - 떠들다 보면, 영어가 트입니다"
       }
     ],
     type: "website",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "The Round — 떠들다 보면, 영어가 트입니다",
     description: siteDescription,
-    images: ["/images/the-round-hero.png"]
+    images: ["/images/the-round-og.png"]
   }
 };
 

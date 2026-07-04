@@ -749,6 +749,17 @@ h2 {
   font-weight: 700;
 }
 
+@media (min-width: 901px) {
+  .feature-copy {
+    max-width: 560px;
+  }
+
+  .feature-copy h2 {
+    max-width: none;
+    white-space: nowrap;
+  }
+}
+
 .feature-link {
   display: inline-flex;
   align-items: center;
