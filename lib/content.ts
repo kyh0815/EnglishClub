@@ -129,7 +129,7 @@ export const landingContent = {
     ]
   },
   pricing: {
-    eyebrow: "1기 모집",
+    eyebrow: "1기 한정 무료 모집",
     headline: "The Round의 첫 테이블을 함께 채워주세요",
     message:
       "1기는 The Round의 첫 분위기를 함께 만들어갈 파운딩 멤버를 모시는 자리입니다.\n무료로 시작하지만, 가볍게 운영하지 않습니다.\n한 달 4회, 같은 멤버와 끝까지 함께하며\n편안하지만 진심 있는 영어 대화를 만들어갈 분을 기다립니다.",

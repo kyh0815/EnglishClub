@@ -2,6 +2,11 @@ import { ChevronDown } from "lucide-react";
 
 const faqItems = [
   {
+    question: "1기 이후에도 무료로 운영되나요?",
+    answer:
+      "아니요, 1기는 The Round의 첫 분위기를 함께 만들어갈 파운딩 멤버를 모시는 기간이라 무료로 운영돼요. 2기부터는 유료 멤버십으로 전환될 예정입니다. 가격은 추후 안내드릴게요."
+  },
+  {
     question: "영어를 잘 못해도 신청할 수 있나요?",
     answer:
       '네, 가능해요. "My favorite movie is Titanic. I like the acting." 정도로 좋아하는 걸 영어로 말할 수 있다면 충분합니다. 문장이 완벽하지 않아도, 조금 더듬거려도 괜찮아요. The Round는 \'영어 잘하는 사람들의 모임\'이 아니라, 편하게 입을 떼보는 자리니까요.'
