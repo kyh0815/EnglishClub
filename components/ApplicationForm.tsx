@@ -593,7 +593,9 @@ export default function ApplicationForm() {
         <button type="submit" className="btn submit" disabled={submitState === "submitting" || !canSubmit}>
           {submitState === "submitting" ? "신청 중..." : "1기 신청하기"}
         </button>
-        <p className="form-foot">1기는 한 달 무료 · 인원 마감 시 조기 종료될 수 있어요.</p>
+        <p className="form-foot">
+          1기는 한 달 무료, 노쇼 방지 보증금은 정상 참여 시 전액 환급해드려요.
+        </p>
       </form>
     </div>
   );

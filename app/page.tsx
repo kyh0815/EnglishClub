@@ -310,6 +310,7 @@ export default function Home() {
                 <span aria-hidden="true">📍</span>
                 {landingContent.pricing.venueAddress}
               </span>
+              <p className="pricing-venue-note">* {landingContent.pricing.depositNote}</p>
             </div>
             <div className="membership-benefits rv d1">
               {landingContent.pricing.benefits.map((benefit, index) => {
