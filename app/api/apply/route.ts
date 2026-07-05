@@ -3,8 +3,11 @@ import { applicationDateOptions, landingContent, levelOptions, TEAM_CAPACITY } f
 import { sendNotification } from "@/lib/notifications";
 import {
   countApplicationsByLevel,
+  createApplication,
   createServerSupabaseClient,
-  getTeamApplicationStatuses
+  getTeamApplicationStatuses,
+  updateApplicationNotification,
+  type ApplicationRow
 } from "@/lib/server/applications";
 
 type ApplyRequest = {
@@ -221,28 +224,58 @@ export async function POST(request: Request) {
     return jsonError("모집 현황을 확인하지 못했어요. 잠시 후 다시 시도해주세요.", 500);
   }
 
-  const { error } = await supabase.from("applications").insert({
-    name,
-    contact: phone,
-    level,
-    motivation: motivation || null,
-    availability: availability || null,
-    source,
-    status: "new"
-  });
+  let application: ApplicationRow;
 
-  if (error) {
+  try {
+    application = await createApplication(supabase, {
+      name,
+      phone,
+      email: email || null,
+      gender,
+      applicationDate,
+      level,
+      speakingTestScore,
+      overseasExperience,
+      internationalSchool,
+      motivation: motivation || null,
+      availability: availability || null,
+      source,
+      status: "new"
+    });
+  } catch {
     return jsonError("신청 저장에 실패했어요. 잠시 후 다시 시도해주세요.", 500);
   }
 
-  await sendNotification({
-    name,
-    phone,
-    email: email || null,
-    level,
-    motivation: motivation || null,
-    source
-  });
+  try {
+    await sendNotification({
+      applicationDate,
+      applicationId: application.id,
+      gender,
+      internationalSchool,
+      level,
+      motivation: motivation || null,
+      name,
+      phone,
+      email: email || null,
+      overseasExperience,
+      source,
+      speakingTestScore
+    });
+    await updateApplicationNotification(supabase, application.id, {
+      error: null,
+      notifiedAt: new Date().toISOString()
+    });
+  } catch (notificationError) {
+    const message =
+      notificationError instanceof Error
+        ? notificationError.message
+        : "알림 발송에 실패했어요.";
+
+    await updateApplicationNotification(supabase, application.id, {
+      error: message,
+      notifiedAt: null
+    }).catch(() => undefined);
+  }
 
   return NextResponse.json({ ok: true });
 }

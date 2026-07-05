@@ -1,7 +1,7 @@
 export const landingContent = {
   nav: {
     logo: "The Round",
-    cta: "무료 1기 신청"
+    cta: "1기 신청하기"
   },
   hero: {
     label: "베타 1기 모집 중",
@@ -10,7 +10,7 @@ export const landingContent = {
       "영어 실력이 부족한 게 아니에요. 마음 편히 말할 기회가 없었을 뿐.",
       "The Round는 영어가 자연스럽게 오가는 순간을 만드는 소셜 클럽입니다."
     ],
-    cta: "무료 1기 신청",
+    cta: "1기 신청하기",
     note: "중급·고급 각 6명 한정",
     imageSrc: undefined,
     videoSrc: "/the_round_landing_hero.mp4",
@@ -52,9 +52,9 @@ export const landingContent = {
       headline: "흥미로운 주제들로, 영어로만 대화해요.",
       body: [
         { text: "발표도 토론도 아니에요. " },
-        { text: "스몰토크로 몸을 풀고", strong: true },
+        { text: "스몰토크로 몸을 풀고, 그날의 토픽 2-3개를 두고 편하게 대화", strong: true },
         {
-          text: ", 그날의 토픽 2-3개를 두고 편하게 대화를 주고받아요. 정해진 순서나 형식 없이, 대화가 흐르는 대로 이어가요."
+          text: "를 주고받아요. 정해진 순서나 형식 없이, 대화가 흐르는 대로 이어가요."
         }
       ],
     },
@@ -129,7 +129,7 @@ export const landingContent = {
     ]
   },
   pricing: {
-    eyebrow: "1기 한정 무료 모집",
+    eyebrow: "1기 모집",
     headline: "The Round의 첫 테이블을 함께 채워주세요",
     message:
       "1기는 The Round의 첫 분위기를 함께 만들어갈 파운딩 멤버를 모시는 자리입니다.\n무료로 시작하지만, 가볍게 운영하지 않습니다.\n한 달 4회, 같은 멤버와 끝까지 함께하며\n편안하지만 진심 있는 영어 대화를 만들어갈 분을 기다립니다.",

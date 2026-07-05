@@ -265,7 +265,7 @@ export default function ApplicationForm() {
     <div id="formView">
       <div className="form-intro">
         <span className="label rv form-label-center apply-eyebrow" aria-live="polite">
-          무료 베타 1기 신청
+          1기 신청
           <span className="apply-deadline">
             {countdown.isClosed
               ? "모집 마감"
@@ -591,7 +591,7 @@ export default function ApplicationForm() {
         ) : null}
 
         <button type="submit" className="btn submit" disabled={submitState === "submitting" || !canSubmit}>
-          {submitState === "submitting" ? "신청 중..." : "무료로 신청하기"}
+          {submitState === "submitting" ? "신청 중..." : "1기 신청하기"}
         </button>
         <p className="form-foot">1기는 한 달 무료 · 인원 마감 시 조기 종료될 수 있어요.</p>
       </form>
