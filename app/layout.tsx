@@ -2,18 +2,25 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 const siteDescription =
-  "떠들다 보면, 영어가 트입니다. 비슷한 레벨의 멤버들과 편하게 영어로 수다 떠는 소셜 클럽, The Round.";
+  "영어 실력이 부족한 게 아니에요. 마음 편히 말할 기회가 없었을 뿐. The Round는 영어가 자연스럽게 오가는 순간을 만드는 소셜 클럽입니다.";
+const siteUrl = "https://english-club-vert.vercel.app";
+const ogImageUrl = "/images/the-round-og-20260706.png";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://english-club-vert.vercel.app"),
+  metadataBase: new URL(siteUrl),
   title: "The Round — 떠들다 보면, 영어가 트입니다",
   description: siteDescription,
+  alternates: {
+    canonical: "/"
+  },
   openGraph: {
     title: "The Round — 떠들다 보면, 영어가 트입니다",
     description: siteDescription,
+    url: "/",
+    siteName: "The Round",
     images: [
       {
-        url: "/images/the-round-og.png",
+        url: ogImageUrl,
         width: 1200,
         height: 630,
         alt: "The Round - 떠들다 보면, 영어가 트입니다"
@@ -26,7 +33,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "The Round — 떠들다 보면, 영어가 트입니다",
     description: siteDescription,
-    images: ["/images/the-round-og.png"]
+    images: [ogImageUrl]
   }
 };
 
