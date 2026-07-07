@@ -98,7 +98,6 @@ export default function Nav({ ctaHref = "/apply", transparentOnTop = false }: Na
     <nav ref={navRef} className={navClassName}>
       <div className="nav-in">
         <Link href="/" className="logo">
-          <span className="logo-mark" aria-hidden="true" />
           <span>{landingContent.nav.logo}</span>
         </Link>
         <button

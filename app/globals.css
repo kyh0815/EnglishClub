@@ -81,7 +81,7 @@ body::before {
 .label {
   font-size: var(--type-label);
   color: var(--ink-soft);
-  font-weight: 600;
+  font-weight: 400;
   display: block;
   margin-bottom: 20px;
   line-height: 1;
@@ -150,23 +150,13 @@ nav.on-hero.hovered .nav-in {
   padding: 0 14px 0 12px;
   gap: 9px;
   color: #fff;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-dm-serif-display), "DM Serif Display", Georgia, serif;
   font-size: 21px;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1;
   letter-spacing: 0;
   text-decoration: none;
   white-space: nowrap;
-}
-
-.logo-mark {
-  width: 24px;
-  height: 24px;
-  flex: 0 0 24px;
-  border-radius: 50%;
-  background: currentColor;
-  mask: url("/images/the-round-logo.svg") center / contain no-repeat;
-  -webkit-mask: url("/images/the-round-logo.svg") center / contain no-repeat;
 }
 
 nav.on-hero .logo {
@@ -819,32 +809,30 @@ h2 {
 
 .feature-float-card {
   --card-rotate: 0deg;
-  opacity: 0;
-  transform: translateY(14px) rotate(var(--card-rotate));
-  transition:
-    opacity 560ms var(--ease),
-    transform 560ms var(--ease);
+  opacity: 1;
+  transform: rotate(var(--card-rotate));
+  transition: none;
 }
 
 .feature-visual-panel.in .feature-float-card {
   opacity: 1;
-  transform: translateY(0) rotate(var(--card-rotate));
+  transform: rotate(var(--card-rotate));
 }
 
 .feature-float-card.is-delay-1 {
-  transition-delay: 0.1s;
+  transition-delay: 0s;
 }
 
 .feature-float-card.is-delay-2 {
-  transition-delay: 0.2s;
+  transition-delay: 0s;
 }
 
 .feature-float-card.is-delay-3 {
-  transition-delay: 0.3s;
+  transition-delay: 0s;
 }
 
 .feature-float-card.is-delay-4 {
-  transition-delay: 0.4s;
+  transition-delay: 0s;
 }
 
 .topic-card,
@@ -1845,7 +1833,7 @@ h2 {
 
 .about-hero h1 {
   max-width: 10em;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-dm-serif-display), "DM Serif Display", Georgia, serif;
   font-size: clamp(46px, 7.2vw, 92px);
   font-weight: 400;
   line-height: 1.04;
@@ -3118,10 +3106,10 @@ footer {
 }
 
 .foot-wordmark {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 132px;
-  font-weight: 600;
-  line-height: 0.86;
+  font-family: var(--font-dm-serif-display), "DM Serif Display", Georgia, serif;
+  font-size: clamp(158px, 15vw, 220px);
+  font-weight: 400;
+  line-height: 0.78;
   letter-spacing: 0;
   color: var(--ink);
   margin-top: clamp(56px, 7vw, 88px);
@@ -3130,9 +3118,9 @@ footer {
 }
 
 .rv {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+  opacity: 1;
+  transform: none;
+  transition: none;
 }
 
 .rv.in {
@@ -3141,15 +3129,15 @@ footer {
 }
 
 .rv.d1 {
-  transition-delay: 0.1s;
+  transition-delay: 0s;
 }
 
 .rv.d2 {
-  transition-delay: 0.2s;
+  transition-delay: 0s;
 }
 
 .rv.d3 {
-  transition-delay: 0.3s;
+  transition-delay: 0s;
 }
 
 @media (max-width: 900px) {
@@ -3193,10 +3181,6 @@ footer {
     --type-statement: 28px;
     --type-display: 28px;
     --type-hero-title: 30px;
-    --nav-inset: 5px;
-    --nav-control-height: 34px;
-    --nav-control-radius: 17px;
-    --nav-shell-radius: 22px;
     --lh-tight: 1.18;
     --lh-heading: 1.28;
     --lh-caption: 1.68;
@@ -3207,12 +3191,29 @@ footer {
   }
 
   nav {
-    top: 12px;
-    padding: 0 12px;
+    top: 0;
+    height: 64px;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: saturate(115%) blur(8px);
+    -webkit-backdrop-filter: saturate(115%) blur(8px);
+    pointer-events: auto;
+  }
+
+  nav.on-hero {
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  nav.on-hero.hovered {
+    background: rgba(10, 9, 7, 0.86);
+    backdrop-filter: saturate(115%) blur(8px);
+    -webkit-backdrop-filter: saturate(115%) blur(8px);
   }
 
   main {
-    padding-top: 86px;
+    padding-top: 64px;
   }
 
   .about-page {
@@ -3321,17 +3322,23 @@ footer {
   }
 
   .nav-in {
-    width: calc(100vw - 24px);
-    max-width: none;
-    min-height: calc(var(--nav-control-height) + (var(--nav-inset) * 2));
+    width: auto;
+    max-width: var(--navw);
+    min-height: 64px;
+    height: 64px;
     gap: 18px;
-    padding: var(--nav-inset);
+    padding: 0 22px;
     justify-content: space-between;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .logo {
-    min-height: var(--nav-control-height);
-    padding: 0 12px 0 10px;
+    min-height: 0;
+    padding: 0;
   }
 
   nav.menu-open .nav-in {
@@ -3346,14 +3353,18 @@ footer {
     z-index: 72;
     display: inline-flex;
     margin-left: auto;
+    border: 1px solid rgba(18, 15, 12, 0.16);
+    border-radius: 999px;
   }
 
-nav.on-hero .nav-menu-button {
+  nav.on-hero .nav-menu-button {
+    border-color: rgba(255, 255, 255, 0.42);
     background: rgba(255, 255, 255, 0.12);
     color: #fff;
   }
 
   nav.on-hero.hovered .nav-menu-button {
+    border-color: rgba(255, 255, 255, 0.38);
     background: rgba(255, 255, 255, 0.12);
     color: #fff;
   }
@@ -3371,6 +3382,7 @@ nav.on-hero .nav-menu-button {
 
   nav.menu-open .nav-menu-button,
   nav.on-hero.menu-open .nav-menu-button {
+    border-color: rgba(255, 255, 255, 0.28);
     background: transparent;
     color: #fff;
   }
@@ -3922,7 +3934,7 @@ nav.on-hero .nav-menu-button {
   }
 
   .foot-wordmark {
-    font-size: 48px;
+    font-size: 72px;
     line-height: 0.9;
     letter-spacing: 0;
     margin-top: 58px;
