@@ -45,7 +45,7 @@ const faqItems = [
 
 export default function FAQSection() {
   return (
-    <section className="faq" aria-labelledby="faq-title">
+    <section id="faq" className="faq" aria-labelledby="faq-title">
       <div className="wrap faq-wrap">
         <span className="label rv">FAQ</span>
         <h2 id="faq-title" className="rv">

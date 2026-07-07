@@ -388,7 +388,7 @@ export default function AdminDashboard() {
             <input
               autoComplete="email"
               onChange={(event) => setEmail(event.target.value)}
-              placeholder="admin@the-round.co"
+              placeholder="admin@theroundhq.com"
               type="email"
               value={email}
             />

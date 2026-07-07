@@ -3,7 +3,7 @@ import "./globals.css";
 
 const siteDescription =
   "영어 실력이 부족한 게 아니에요. 마음 편히 말할 기회가 없었을 뿐. The Round는 영어가 자연스럽게 오가는 순간을 만드는 소셜 클럽입니다.";
-const siteUrl = "https://english-club-vert.vercel.app";
+const siteUrl = "https://theroundhq.com";
 const ogImageUrl = "/images/the-round-og-20260706.png";
 
 export const metadata: Metadata = {

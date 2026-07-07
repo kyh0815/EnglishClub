@@ -297,7 +297,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="pricing" aria-labelledby="pricing-title">
+        <section id="pricing" className="pricing" aria-labelledby="pricing-title">
           <div className="wrap pricing-wrap">
             <span className="label rv">{landingContent.pricing.eyebrow}</span>
             <h2 id="pricing-title" className="pricing-title rv d1">

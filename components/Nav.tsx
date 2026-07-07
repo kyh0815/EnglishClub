@@ -19,6 +19,13 @@ export default function Nav({ ctaHref = "/apply", transparentOnTop = false }: Na
   const pathname = usePathname();
   const isHome = pathname === "/";
   const usesTransparentTop = isHome || transparentOnTop;
+  const faqHref = isHome ? "#faq" : "/#faq";
+  const resolvedCtaHref = isHome && ctaHref === "/apply" ? "#apply" : ctaHref;
+  const navItems = [
+    { href: "/who-we-are", label: "소개" },
+    { href: faqHref, label: "FAQ" },
+    { href: "/inquiry", label: "문의" }
+  ];
   const navClassName = [
     usesTransparentTop && !scrolled ? `on-hero${hovered ? " hovered" : ""}` : "scrolled",
     menuOpen ? "menu-open" : ""
@@ -116,10 +123,12 @@ export default function Nav({ ctaHref = "/apply", transparentOnTop = false }: Na
           className={`nav-links${menuOpen ? " is-open" : ""}`}
           aria-label="Primary navigation"
         >
-          <Link href="/who-we-are" onClick={() => setMenuOpen(false)}>
-            Who we are
-          </Link>
-          <Link href={ctaHref} className="nav-cta" onClick={() => setMenuOpen(false)}>
+          {navItems.map((item) => (
+            <Link href={item.href} key={item.href} onClick={() => setMenuOpen(false)}>
+              {item.label}
+            </Link>
+          ))}
+          <Link href={resolvedCtaHref} className="nav-cta" onClick={() => setMenuOpen(false)}>
             {landingContent.nav.cta}
           </Link>
         </div>

@@ -21,7 +21,7 @@ SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 ADMIN_EMAILS=admin@example.com
 RESEND_API_KEY=your-resend-api-key
 ADMIN_NOTIFICATION_EMAIL=admin@example.com
-NOTIFICATION_FROM_EMAIL=The Round <hello@your-domain.com>
+NOTIFICATION_FROM_EMAIL=The Round <hello@mail.theroundhq.com>
 ```
 
 `SUPABASE_SERVICE_ROLE_KEY`는 서버 전용 키입니다. 클라이언트 컴포넌트에서 import하거나 `NEXT_PUBLIC_` 접두사를 붙이지 마세요. 이 저장소는 public 레포이므로 실제 `.env`, `.env.local` 파일은 `.gitignore`에서 제외합니다.
