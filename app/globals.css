@@ -2038,9 +2038,7 @@ h2 {
   margin: 0;
   padding: clamp(28px, 4.2vw, 46px);
   border-radius: 28px;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(250, 247, 241, 0.96)),
-    var(--paper);
+  background: #fff;
   box-shadow:
     0 24px 70px rgba(28, 26, 22, 0.1),
     0 1px 0 rgba(28, 26, 22, 0.04);
@@ -2054,7 +2052,7 @@ h2 {
   width: 28px;
   height: 28px;
   border-radius: 6px 0 0 0;
-  background: rgba(255, 255, 255, 0.98);
+  background: #fff;
   box-shadow: -12px 14px 30px rgba(28, 26, 22, 0.05);
   transform: translateY(-50%) rotate(45deg);
   z-index: -1;
@@ -3194,9 +3192,9 @@ footer {
     top: 0;
     height: 64px;
     padding: 0;
-    background: rgba(255, 255, 255, 0.78);
-    backdrop-filter: saturate(115%) blur(8px);
-    -webkit-backdrop-filter: saturate(115%) blur(8px);
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
     pointer-events: auto;
   }
 
@@ -3207,9 +3205,9 @@ footer {
   }
 
   nav.on-hero.hovered {
-    background: rgba(10, 9, 7, 0.86);
-    backdrop-filter: saturate(115%) blur(8px);
-    -webkit-backdrop-filter: saturate(115%) blur(8px);
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   main {
@@ -3288,6 +3286,10 @@ footer {
     min-height: 320px;
   }
 
+  .about-founder-wrap-secondary .about-founder-image {
+    order: -1;
+  }
+
   .about-founder-comment {
     margin-top: 10px;
     padding: 24px;
@@ -3339,6 +3341,12 @@ footer {
   .logo {
     min-height: 0;
     padding: 0;
+    color: var(--ink);
+  }
+
+  nav.on-hero .logo,
+  nav.on-hero.hovered .logo {
+    color: #fff;
   }
 
   nav.menu-open .nav-in {
@@ -3353,19 +3361,19 @@ footer {
     z-index: 72;
     display: inline-flex;
     margin-left: auto;
-    border: 1px solid rgba(18, 15, 12, 0.16);
+    border: 0;
     border-radius: 999px;
+    background: transparent;
+    color: var(--ink);
   }
 
   nav.on-hero .nav-menu-button {
-    border-color: rgba(255, 255, 255, 0.42);
-    background: rgba(255, 255, 255, 0.12);
+    background: transparent;
     color: #fff;
   }
 
   nav.on-hero.hovered .nav-menu-button {
-    border-color: rgba(255, 255, 255, 0.38);
-    background: rgba(255, 255, 255, 0.12);
+    background: transparent;
     color: #fff;
   }
 
@@ -3382,7 +3390,6 @@ footer {
 
   nav.menu-open .nav-menu-button,
   nav.on-hero.menu-open .nav-menu-button {
-    border-color: rgba(255, 255, 255, 0.28);
     background: transparent;
     color: #fff;
   }
@@ -3884,34 +3891,50 @@ footer {
     --level-chip-edge: 6px;
     --level-chip-gap: 4px;
     --level-chip-width: 42px;
-    height: 42px;
+    min-height: 48px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 6px 6px;
   }
 
   .level-card span,
   .level-card:has(small) span {
-    left: 50%;
-    right: auto;
-    width: calc(100% - 20px);
-    transform: translate(-50%, -50%);
+    position: static;
+    width: auto;
+    max-width: 100%;
+    transform: none;
+    line-height: 1.1;
   }
 
   .level-card small {
-    top: 50%;
-    right: 4px;
+    position: static;
     width: auto;
     min-width: 34px;
     padding: 2px 5px;
     font-size: 9px;
-    transform: translateY(-50%);
+    transform: none;
   }
 
   .venue-confirmation-card span {
-    left: 12px;
-    right: 92px;
+    position: static;
+    width: 100%;
+    transform: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 13px;
+    line-height: 1.4;
   }
 
   .venue-confirmation-card small {
-    right: 12px;
+    position: static;
+    flex: 0 0 auto;
+    transform: none;
     white-space: nowrap;
   }
 

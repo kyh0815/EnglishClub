@@ -32,7 +32,7 @@ const founderComment = {
 };
 
 const partnerComment = {
-  heading: "누구나 입을 뗄 수 있어요",
+  heading: "누구나 입을 뗄 수 있어요.",
   paragraphs: [
     "10년 동안 영어 과외와 학원에서 학생들을 가르쳤어요. 그러면서 늘 마음에 남던 친구들이 있어요. 아무리 열심히 공부해도 정작 입은 떼지 못하던 친구들이요.",
     "그런데 신기한 일이 벌어지곤 했어요. 그 친구들에게 자신감을 불어넣고 일단 말을 하게 하면, 어느 순간 정말 잘하게 되더라고요. 입이 트이니 자신감이 붙고, 자신감이 붙으니 영어를 좋아하게 되고요. 부족했던 건 실력이 아니라, 편하게 말해볼 자리였던 거예요.",
@@ -90,18 +90,18 @@ export default function WhoWeArePage() {
           <div className="wrap about-founder-wrap">
             <div className="about-founder-image rv">
               <Image
-                src="/images/founder-yh.png"
-                alt="The Round founder illustration"
+                src="/images/founder-jk.png"
+                alt="The Round partner illustration"
                 fill
                 sizes="(max-width: 760px) 100vw, 48vw"
                 className="about-founder-portrait"
               />
-              <span className="about-founder-name-tag">Ian Kim</span>
+              <span className="about-founder-name-tag">Kweon Park</span>
             </div>
             <blockquote className="about-founder-comment rv d1">
               <h3>{founderComment.heading}</h3>
               <div className="about-founder-comment-body">
-                {founderComment.paragraphs.map((paragraph) => (
+                {partnerComment.paragraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
               </div>
@@ -111,20 +111,20 @@ export default function WhoWeArePage() {
             <blockquote className="about-founder-comment about-founder-comment-reverse rv d1">
               <h3>{partnerComment.heading}</h3>
               <div className="about-founder-comment-body">
-                {partnerComment.paragraphs.map((paragraph) => (
+                {founderComment.paragraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
               </div>
             </blockquote>
             <div className="about-founder-image rv">
               <Image
-                src="/images/founder-jk.png"
-                alt="The Round partner illustration"
+                src="/images/founder-yh.png"
+                alt="The Round founder illustration"
                 fill
                 sizes="(max-width: 760px) 100vw, 34vw"
                 className="about-founder-portrait"
               />
-              <span className="about-founder-name-tag">Kweon Park</span>
+              <span className="about-founder-name-tag">Ian Kim</span>
             </div>
           </div>
         </section>
