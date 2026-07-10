@@ -183,6 +183,7 @@ export const landingContent = {
     }
   ],
   apply: {
+    defaultCohort: "1기",
     source: "the-round-beta-1",
     successTitle: "신청이 접수됐어요",
     successMessageLines: [
@@ -205,6 +206,10 @@ export const applicationDateOptions = [
   "8월 7일 (금) - 고급반 (예시)"
 ] as const;
 
+export const cohortOptions = [
+  "1기"
+] as const;
+
 export const levelOptions = [
   "초급",
   "중급",
@@ -213,4 +218,5 @@ export const levelOptions = [
 
 export const TEAM_CAPACITY = 6;
 
+export type CohortOption = (typeof cohortOptions)[number];
 export type EnglishLevel = (typeof levelOptions)[number];

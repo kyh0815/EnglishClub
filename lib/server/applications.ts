@@ -1,16 +1,29 @@
 import { createClient } from "@supabase/supabase-js";
-import { APPLICATION_STATUSES, type ApplicationStatus } from "@/lib/applications";
+import {
+  APPLICATION_STATUSES,
+  INQUIRY_STATUSES,
+  type ApplicationStatus,
+  type InquiryStatus
+} from "@/lib/applications";
 import { landingContent, TEAM_CAPACITY } from "@/lib/content";
+
+export type StatusHistoryEntry = {
+  at: string;
+  from: string | null;
+  to: string;
+};
 
 type Database = {
   public: {
     Tables: {
       applications: {
         Row: {
+          admin_memo: string | null;
           admin_note: string | null;
           application_date: string | null;
           availability: string | null;
           contact: string;
+          cohort: string | null;
           created_at: string;
           email: string | null;
           gender: string | null;
@@ -25,13 +38,17 @@ type Database = {
           phone: string | null;
           source: string | null;
           speaking_test_score: string | null;
-          status: ApplicationStatus;
+          status: string;
+          status_changed_at: string | null;
+          status_history: StatusHistoryEntry[] | null;
         };
         Insert: {
+          admin_memo?: string | null;
           admin_note?: string | null;
           application_date?: string | null;
           availability?: string | null;
           contact: string;
+          cohort?: string | null;
           created_at?: string;
           email?: string | null;
           gender?: string | null;
@@ -46,13 +63,17 @@ type Database = {
           phone?: string | null;
           source?: string | null;
           speaking_test_score?: string | null;
-          status?: ApplicationStatus;
+          status?: string;
+          status_changed_at?: string | null;
+          status_history?: StatusHistoryEntry[] | null;
         };
         Update: {
+          admin_memo?: string | null;
           admin_note?: string | null;
           application_date?: string | null;
           availability?: string | null;
           contact?: string;
+          cohort?: string | null;
           created_at?: string;
           email?: string | null;
           gender?: string | null;
@@ -67,12 +88,15 @@ type Database = {
           phone?: string | null;
           source?: string | null;
           speaking_test_score?: string | null;
-          status?: ApplicationStatus;
+          status?: string;
+          status_changed_at?: string | null;
+          status_history?: StatusHistoryEntry[] | null;
         };
         Relationships: [];
       };
       inquiries: {
         Row: {
+          admin_memo: string | null;
           contact: string;
           created_at: string;
           id: string;
@@ -80,8 +104,11 @@ type Database = {
           name: string | null;
           source: string | null;
           status: string;
+          status_changed_at: string | null;
+          status_history: StatusHistoryEntry[] | null;
         };
         Insert: {
+          admin_memo?: string | null;
           contact: string;
           created_at?: string;
           id?: string;
@@ -89,8 +116,11 @@ type Database = {
           name?: string | null;
           source?: string | null;
           status?: string;
+          status_changed_at?: string | null;
+          status_history?: StatusHistoryEntry[] | null;
         };
         Update: {
+          admin_memo?: string | null;
           contact?: string;
           created_at?: string;
           id?: string;
@@ -98,6 +128,35 @@ type Database = {
           name?: string | null;
           source?: string | null;
           status?: string;
+          status_changed_at?: string | null;
+          status_history?: StatusHistoryEntry[] | null;
+        };
+        Relationships: [];
+      };
+      message_templates: {
+        Row: {
+          body: string;
+          created_at: string;
+          id: string;
+          title: string;
+          updated_at: string | null;
+          variables: string[] | null;
+        };
+        Insert: {
+          body: string;
+          created_at?: string;
+          id?: string;
+          title: string;
+          updated_at?: string | null;
+          variables?: string[] | null;
+        };
+        Update: {
+          body?: string;
+          created_at?: string;
+          id?: string;
+          title?: string;
+          updated_at?: string | null;
+          variables?: string[] | null;
         };
         Relationships: [];
       };
@@ -111,7 +170,10 @@ type Database = {
 
 type SupabaseServerClient = ReturnType<typeof createClient<Database>>;
 type ApplicationInsert = Database["public"]["Tables"]["applications"]["Insert"];
+type TemplateInsert = Database["public"]["Tables"]["message_templates"]["Insert"];
 export type ApplicationRow = Database["public"]["Tables"]["applications"]["Row"];
+export type InquiryRow = Database["public"]["Tables"]["inquiries"]["Row"];
+export type MessageTemplateRow = Database["public"]["Tables"]["message_templates"]["Row"];
 
 export type TeamApplicationStatus = {
   capacity: number;
@@ -124,6 +186,7 @@ export type TeamApplicationStatus = {
 export type ApplicationCreateInput = {
   applicationDate: string;
   availability: string | null;
+  cohort: string | null;
   email: string | null;
   gender: string;
   internationalSchool: string;
@@ -144,8 +207,24 @@ export type ApplicationListFilters = {
 };
 
 export type ApplicationUpdateInput = {
+  adminMemo?: string | null;
   adminNote?: string | null;
   status?: ApplicationStatus;
+};
+
+export type InquiryListFilters = {
+  status?: InquiryStatus;
+};
+
+export type InquiryUpdateInput = {
+  adminMemo?: string | null;
+  status?: InquiryStatus;
+};
+
+export type MessageTemplateInput = {
+  body: string;
+  title: string;
+  variables?: string[] | null;
 };
 
 export type ApplicationNotificationUpdateInput = {
@@ -172,20 +251,35 @@ export function createServerSupabaseClient(): SupabaseServerClient | null {
 export async function countApplicationsByLevel(
   supabase: SupabaseServerClient,
   level: string,
-  source = landingContent.apply.source
+  cohort: string = landingContent.apply.defaultCohort
 ): Promise<number> {
   const { count, error } = await supabase
     .from("applications")
     .select("id", { count: "exact", head: true })
     .eq("level", level)
-    .eq("source", source)
+    .eq("cohort", cohort)
     .neq("status", "waitlist");
 
-  if (error) {
+  if (error && !isMissingColumnError(error)) {
     throw error;
   }
 
-  return count ?? 0;
+  if (!error) {
+    return count ?? 0;
+  }
+
+  const { count: legacyCount, error: legacyError } = await supabase
+    .from("applications")
+    .select("id", { count: "exact", head: true })
+    .eq("level", level)
+    .eq("source", landingContent.apply.source)
+    .neq("status", "waitlist");
+
+  if (legacyError) {
+    throw legacyError;
+  }
+
+  return legacyCount ?? 0;
 }
 
 function isMissingColumnError(error: { code?: string; message?: string } | null): boolean {
@@ -206,6 +300,7 @@ export async function createApplication(
     phone: input.phone,
     email: input.email,
     gender: input.gender,
+    cohort: input.cohort,
     application_date: input.applicationDate,
     level: input.level,
     speaking_test_score: input.speakingTestScore,
@@ -214,7 +309,7 @@ export async function createApplication(
     motivation: input.motivation,
     availability: input.availability,
     source: input.source,
-    status: input.status ?? "new"
+    status: input.status ?? "신규"
   };
 
   const { data, error } = await supabase
@@ -238,7 +333,7 @@ export async function createApplication(
     motivation: input.motivation,
     availability: input.availability,
     source: input.source,
-    status: input.status ?? "new"
+    status: input.status ?? "신규"
   };
 
   const { data: legacyData, error: legacyError } = await supabase
@@ -314,14 +409,45 @@ export async function updateApplication(
   id: string,
   input: ApplicationUpdateInput
 ): Promise<ApplicationRow> {
+  const { data: existing, error: existingError } = await supabase
+    .from("applications")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (existingError) {
+    throw existingError;
+  }
+
   const update: Database["public"]["Tables"]["applications"]["Update"] = {};
+  const nextMemo =
+    Object.prototype.hasOwnProperty.call(input, "adminMemo")
+      ? input.adminMemo
+      : input.adminNote;
 
   if (input.status) {
     update.status = input.status;
+
+    if (input.status !== existing.status) {
+      const changedAt = new Date().toISOString();
+      update.status_changed_at = changedAt;
+      update.status_history = [
+        ...(Array.isArray(existing.status_history) ? existing.status_history : []),
+        {
+          at: changedAt,
+          from: existing.status ?? null,
+          to: input.status
+        }
+      ];
+    }
   }
 
-  if (Object.prototype.hasOwnProperty.call(input, "adminNote")) {
-    update.admin_note = input.adminNote ?? null;
+  if (
+    Object.prototype.hasOwnProperty.call(input, "adminMemo") ||
+    Object.prototype.hasOwnProperty.call(input, "adminNote")
+  ) {
+    update.admin_memo = nextMemo ?? null;
+    update.admin_note = nextMemo ?? null;
   }
 
   const { data, error } = await supabase
@@ -331,11 +457,39 @@ export async function updateApplication(
     .select("*")
     .single();
 
-  if (error) {
+  if (!error) {
+    return data;
+  }
+
+  if (!isMissingColumnError(error)) {
     throw error;
   }
 
-  return data;
+  const legacyUpdate: Database["public"]["Tables"]["applications"]["Update"] = {};
+
+  if (input.status) {
+    legacyUpdate.status = input.status;
+  }
+
+  if (
+    Object.prototype.hasOwnProperty.call(input, "adminMemo") ||
+    Object.prototype.hasOwnProperty.call(input, "adminNote")
+  ) {
+    legacyUpdate.admin_note = nextMemo ?? null;
+  }
+
+  const { data: legacyData, error: legacyError } = await supabase
+    .from("applications")
+    .update(legacyUpdate)
+    .eq("id", id)
+    .select("*")
+    .single();
+
+  if (legacyError) {
+    throw legacyError;
+  }
+
+  return legacyData;
 }
 
 export async function updateApplicationNotification(
@@ -358,6 +512,168 @@ export async function updateApplicationNotification(
 
 export function isApplicationStatus(value: string): value is ApplicationStatus {
   return APPLICATION_STATUSES.includes(value as ApplicationStatus);
+}
+
+export function isInquiryStatus(value: string): value is InquiryStatus {
+  return INQUIRY_STATUSES.includes(value as InquiryStatus);
+}
+
+export async function listInquiries(
+  supabase: SupabaseServerClient,
+  filters: InquiryListFilters = {}
+): Promise<InquiryRow[]> {
+  let query = supabase
+    .from("inquiries")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(500);
+
+  if (filters.status) {
+    query = query.eq("status", filters.status);
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    throw error;
+  }
+
+  return data ?? [];
+}
+
+export async function updateInquiry(
+  supabase: SupabaseServerClient,
+  id: string,
+  input: InquiryUpdateInput
+): Promise<InquiryRow> {
+  const { data: existing, error: existingError } = await supabase
+    .from("inquiries")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (existingError) {
+    throw existingError;
+  }
+
+  const update: Database["public"]["Tables"]["inquiries"]["Update"] = {};
+
+  if (input.status) {
+    update.status = input.status;
+
+    if (input.status !== existing.status) {
+      const changedAt = new Date().toISOString();
+      update.status_changed_at = changedAt;
+      update.status_history = [
+        ...(Array.isArray(existing.status_history) ? existing.status_history : []),
+        {
+          at: changedAt,
+          from: existing.status ?? null,
+          to: input.status
+        }
+      ];
+    }
+  }
+
+  if (Object.prototype.hasOwnProperty.call(input, "adminMemo")) {
+    update.admin_memo = input.adminMemo ?? null;
+  }
+
+  const { data, error } = await supabase
+    .from("inquiries")
+    .update(update)
+    .eq("id", id)
+    .select("*")
+    .single();
+
+  if (!error) {
+    return data;
+  }
+
+  if (!isMissingColumnError(error)) {
+    throw error;
+  }
+
+  const legacyUpdate: Database["public"]["Tables"]["inquiries"]["Update"] = {};
+
+  if (input.status) {
+    legacyUpdate.status = input.status;
+  }
+
+  const { data: legacyData, error: legacyError } = await supabase
+    .from("inquiries")
+    .update(legacyUpdate)
+    .eq("id", id)
+    .select("*")
+    .single();
+
+  if (legacyError) {
+    throw legacyError;
+  }
+
+  return legacyData;
+}
+
+export async function listMessageTemplates(
+  supabase: SupabaseServerClient
+): Promise<MessageTemplateRow[]> {
+  const { data, error } = await supabase
+    .from("message_templates")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(100);
+
+  if (error) {
+    throw error;
+  }
+
+  return data ?? [];
+}
+
+export async function createMessageTemplate(
+  supabase: SupabaseServerClient,
+  input: MessageTemplateInput
+): Promise<MessageTemplateRow> {
+  const template: TemplateInsert = {
+    body: input.body,
+    title: input.title,
+    variables: input.variables ?? []
+  };
+  const { data, error } = await supabase
+    .from("message_templates")
+    .insert(template)
+    .select("*")
+    .single();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
+export async function updateMessageTemplate(
+  supabase: SupabaseServerClient,
+  id: string,
+  input: MessageTemplateInput
+): Promise<MessageTemplateRow> {
+  const { data, error } = await supabase
+    .from("message_templates")
+    .update({
+      body: input.body,
+      title: input.title,
+      updated_at: new Date().toISOString(),
+      variables: input.variables ?? []
+    })
+    .eq("id", id)
+    .select("*")
+    .single();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
 }
 
 export async function getTeamApplicationStatuses(

@@ -2,16 +2,15 @@ import { NextResponse } from "next/server";
 import { authorizeAdminRequest } from "@/lib/server/admin";
 import {
   createServerSupabaseClient,
-  isApplicationStatus,
-  updateApplication,
-  type ApplicationUpdateInput
+  isInquiryStatus,
+  updateInquiry,
+  type InquiryUpdateInput
 } from "@/lib/server/applications";
 
-const MAX_ADMIN_NOTE = 2000;
+const MAX_ADMIN_MEMO = 2000;
 
-type UpdateApplicationRequest = {
+type UpdateInquiryRequest = {
   adminMemo?: unknown;
-  adminNote?: unknown;
   status?: unknown;
 };
 
@@ -43,30 +42,28 @@ export async function PATCH(
     return jsonError("Supabase 서버 설정이 필요해요.", 500);
   }
 
-  let body: UpdateApplicationRequest;
+  let body: UpdateInquiryRequest;
 
   try {
-    body = (await request.json()) as UpdateApplicationRequest;
+    body = (await request.json()) as UpdateInquiryRequest;
   } catch {
     return jsonError("요청을 확인할 수 없어요.");
   }
 
-  const update: ApplicationUpdateInput = {};
+  const update: InquiryUpdateInput = {};
 
   if (typeof body.status !== "undefined") {
     const status = clean(body.status, 80);
 
-    if (!isApplicationStatus(status)) {
-      return jsonError("신청 상태를 확인해주세요.");
+    if (!isInquiryStatus(status)) {
+      return jsonError("문의 상태를 확인해주세요.");
     }
 
     update.status = status;
   }
 
   if (typeof body.adminMemo !== "undefined") {
-    update.adminMemo = clean(body.adminMemo, MAX_ADMIN_NOTE) || null;
-  } else if (typeof body.adminNote !== "undefined") {
-    update.adminMemo = clean(body.adminNote, MAX_ADMIN_NOTE) || null;
+    update.adminMemo = clean(body.adminMemo, MAX_ADMIN_MEMO) || null;
   }
 
   if (!update.status && !Object.prototype.hasOwnProperty.call(update, "adminMemo")) {
@@ -76,13 +73,13 @@ export async function PATCH(
   const { id } = await params;
 
   try {
-    const application = await updateApplication(supabase, id, update);
+    const inquiry = await updateInquiry(supabase, id, update);
 
     return NextResponse.json({
       ok: true,
-      application
+      inquiry
     });
   } catch {
-    return jsonError("신청 정보를 저장하지 못했어요.", 500);
+    return jsonError("문의 정보를 저장하지 못했어요.", 500);
   }
 }

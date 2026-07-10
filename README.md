@@ -52,8 +52,12 @@ create table if not exists public.applications (
   motivation text,
   availability text,
   source text,
+  cohort text,
+  admin_memo text,
   admin_note text,
-  status text not null default 'new',
+  status text not null default '신규',
+  status_changed_at timestamptz,
+  status_history jsonb not null default '[]'::jsonb,
   notified_at timestamptz,
   notification_error text
 );
@@ -67,10 +71,24 @@ create table if not exists public.inquiries (
   contact text not null,
   message text not null,
   source text,
-  status text not null default 'new'
+  admin_memo text,
+  status text not null default '미답변',
+  status_changed_at timestamptz,
+  status_history jsonb not null default '[]'::jsonb
 );
 
 alter table public.inquiries enable row level security;
+
+create table if not exists public.message_templates (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz,
+  title text not null,
+  body text not null,
+  variables text[] not null default '{}'
+);
+
+alter table public.message_templates enable row level security;
 ```
 
 이 폼은 클라이언트에서 Supabase 테이블에 직접 접근하지 않습니다. 모든 insert는 `app/api/apply/route.ts`에서 service role 키로 실행됩니다.
@@ -90,8 +108,12 @@ alter table public.inquiries enable row level security;
 - `international_school`: 국제 학교 경험
 - `motivation`: 지원 동기
 - `availability`: 기존 운영 화면/데이터와 호환하기 위한 신청 상세 요약
-- `admin_note`: 관리자 메모
-- `status`: 신청 상태. 기본값은 `new`
+- `cohort`: 기수
+- `admin_memo`: 관리자 메모
+- `admin_note`: 기존 관리자 메모 호환 컬럼
+- `status`: 신청 상태. 기본값은 `신규`
+- `status_changed_at`: 마지막 상태 변경 시각
+- `status_history`: 상태 변경 이력 JSON 배열
 - `notified_at`: 마지막 알림 성공 시각
 - `notification_error`: 마지막 알림 실패 내용
 
@@ -106,7 +128,11 @@ alter table public.applications
   add column if not exists speaking_test_score text,
   add column if not exists overseas_experience text,
   add column if not exists international_school text,
+  add column if not exists cohort text,
+  add column if not exists admin_memo text,
   add column if not exists admin_note text,
+  add column if not exists status_changed_at timestamptz,
+  add column if not exists status_history jsonb not null default '[]'::jsonb,
   add column if not exists notified_at timestamptz,
   add column if not exists notification_error text;
 
@@ -114,6 +140,43 @@ update public.applications
 set phone = contact
 where phone is null
   and contact is not null;
+
+update public.applications
+set status = case status
+  when 'new' then '신규'
+  when 'contacted' then '연락완료'
+  when 'level_check_scheduled' then '검토중'
+  when 'accepted' then '확정'
+  when 'waitlist' then '입금대기'
+  when 'rejected' then '거절'
+  else status
+end
+where status in ('new', 'contacted', 'level_check_scheduled', 'accepted', 'waitlist', 'rejected');
+
+update public.applications
+set admin_memo = admin_note
+where admin_memo is null
+  and admin_note is not null;
+
+alter table public.inquiries
+  add column if not exists admin_memo text,
+  add column if not exists status_changed_at timestamptz,
+  add column if not exists status_history jsonb not null default '[]'::jsonb;
+
+update public.inquiries
+set status = '미답변'
+where status = 'new';
+
+create table if not exists public.message_templates (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz,
+  title text not null,
+  body text not null,
+  variables text[] not null default '{}'
+);
+
+alter table public.message_templates enable row level security;
 ```
 
 문의 폼 입력값은 `inquiries` 테이블에 이렇게 저장합니다.
@@ -122,6 +185,10 @@ where phone is null
 - `contact`: 휴대폰번호, 이메일이 있으면 `휴대폰번호 / 이메일`
 - `message`: 문의사항
 - `source`: 문의 유입 source
+- `admin_memo`: 관리자 메모
+- `status`: 문의 상태. 기본값은 `미답변`
+- `status_changed_at`: 마지막 상태 변경 시각
+- `status_history`: 상태 변경 이력 JSON 배열
 
 ## Vercel 배포
 
@@ -132,18 +199,27 @@ where phone is null
 
 ## Admin 운영
 
-`/admin`은 Supabase Auth 로그인 후 접근합니다. 서버 API는 로그인된 사용자의 access token을 검증하고, 이메일이 `ADMIN_EMAILS`에 포함된 경우에만 신청 목록 조회와 상태/메모 수정을 허용합니다.
+`/admin`은 Supabase Auth 로그인 후 접근합니다. 서버 API는 로그인된 사용자의 access token을 검증하고, 이메일이 `ADMIN_EMAILS`에 포함된 경우에만 신청/문의/템플릿 목록 조회와 상태/메모 수정을 허용합니다.
 
 Supabase Dashboard에서 운영자 계정을 먼저 생성한 뒤 `ADMIN_EMAILS`에 같은 이메일을 추가합니다. 신청 상세 컬럼, 관리자 메모, 알림 상태를 사용하려면 위의 기존 DB 컬럼 추가 SQL을 먼저 반영해야 합니다.
 
 Admin에서 사용할 수 있는 신청 상태는 아래와 같습니다.
 
-- `new`: 새 신청
-- `contacted`: 연락 완료
-- `level_check_scheduled`: 레벨 체크 예정
-- `accepted`: 참여 확정
-- `waitlist`: 대기
-- `rejected`: 불가
+- `신규`
+- `검토중`
+- `연락완료`
+- `입금대기`
+- `확정`
+- `거절`
+- `이탈`
+
+문의 상태는 아래와 같습니다.
+
+- `미답변`
+- `답변완료`
+- `보류`
+
+메시지 템플릿은 `message_templates` 테이블에 저장합니다. 템플릿 본문에서는 `{{이름}}`, `{{기수}}`, `{{레벨}}`, `{{수업일}}`, `{{연락처}}`, `{{상태}}` 변수를 사용할 수 있고, 신청 상세 패널에서 치환된 메시지를 클립보드에 복사합니다.
 
 ## 운영자 메일 알림
 
@@ -160,12 +236,14 @@ Resend 설정 순서:
 
 ## 콘텐츠 수정 위치
 
-모집 상태, 정원, 레벨 옵션, source 값은 `lib/content.ts`에서 수정합니다.
+모집 상태, 정원, 기수, 레벨 옵션, source 값은 `lib/content.ts`에서 수정합니다.
 
 - `landingContent.teams`: 초급/중급/고급 팀 설명, 정원, 모집 상태
+- `cohortOptions`: 신청 폼에서 선택 가능한 기수
+- `landingContent.apply.defaultCohort`: 신청 폼의 기본 기수
 - `levelOptions`: 신청 폼의 영어 레벨 선택지
 - `landingContent.apply.source`: Supabase에 저장되는 유입 source
-- `TEAM_CAPACITY`: 반별 정원. 현재 6명이며, `/api/status`와 `/api/apply`가 이 값을 기준으로 모집 마감 여부를 판단합니다.
+- `TEAM_CAPACITY`: 기수별/반별 정원. 현재 6명이며, `/api/status`와 `/api/apply`가 이 값을 기준으로 모집 마감 여부를 판단합니다.
 
 ## 보안 메모
 

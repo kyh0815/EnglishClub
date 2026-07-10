@@ -1,6 +1,7 @@
 export type ApplicationNotificationPayload = {
   applicationDate: string;
   applicationId: string;
+  cohort: string;
   gender: string;
   internationalSchool: string;
   level: string;
@@ -59,6 +60,7 @@ function getPlainText(payload: ApplicationNotificationPayload): string {
     `이름: ${payload.name}`,
     `전화번호: ${payload.phone}`,
     `이메일: ${payload.email || "-"}`,
+    `신청 기수: ${payload.cohort}`,
     `성별: ${payload.gender}`,
     `수업 가능 일자: ${payload.applicationDate}`,
     `레벨: ${payload.level}`,
@@ -76,6 +78,7 @@ function getHtml(payload: ApplicationNotificationPayload): string {
     ["이름", payload.name],
     ["전화번호", payload.phone],
     ["이메일", payload.email || "-"],
+    ["신청 기수", payload.cohort],
     ["성별", payload.gender],
     ["수업 가능 일자", payload.applicationDate],
     ["레벨", payload.level],
@@ -132,7 +135,7 @@ async function sendResendEmail(payload: ApplicationNotificationPayload): Promise
     body: JSON.stringify({
       from,
       to: recipients,
-      subject: `[The Round] 새 신청: ${payload.name} / ${payload.level}`,
+      subject: `[The Round] 새 신청: ${payload.cohort} / ${payload.name} / ${payload.level}`,
       html: getHtml(payload),
       text: getPlainText(payload),
       tags: [

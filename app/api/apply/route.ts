@@ -1,5 +1,11 @@
 import { NextResponse } from "next/server";
-import { applicationDateOptions, landingContent, levelOptions, TEAM_CAPACITY } from "@/lib/content";
+import {
+  applicationDateOptions,
+  cohortOptions,
+  landingContent,
+  levelOptions,
+  TEAM_CAPACITY
+} from "@/lib/content";
 import { sendNotification } from "@/lib/notifications";
 import {
   countApplicationsByLevel,
@@ -16,6 +22,7 @@ type ApplyRequest = {
   phone?: unknown;
   email?: unknown;
   contact?: unknown;
+  cohort?: unknown;
   applicationDate?: unknown;
   level?: unknown;
   speakingTestScore?: unknown;
@@ -98,6 +105,7 @@ export async function POST(request: Request) {
   const gender = clean(body.gender, MAX_SHORT);
   const phone = clean(body.phone, MAX_SHORT) || clean(body.contact, MAX_SHORT);
   const email = clean(body.email, MAX_SHORT);
+  const cohort = clean(body.cohort, MAX_SHORT) || landingContent.apply.defaultCohort;
   const applicationDate = clean(body.applicationDate, MAX_SHORT);
   const level = clean(body.level, MAX_SHORT);
   const submittedSpeakingTestScore = clean(body.speakingTestScore, MAX_SHORT);
@@ -117,6 +125,7 @@ export async function POST(request: Request) {
   const motivation = clean(body.motivation, MAX_LONG);
   const legacyAvailability = clean(body.availability, MAX_LONG);
   const availability = [
+    `신청 기수: ${cohort}`,
     email ? `이메일: ${email}` : "",
     `수업 가능 일자: ${applicationDate}`,
     `성별: ${gender}`,
@@ -133,6 +142,7 @@ export async function POST(request: Request) {
     !name ||
     !gender ||
     !phone ||
+    !cohort ||
     !applicationDate ||
     !level ||
     !overseasExperience ||
@@ -147,6 +157,10 @@ export async function POST(request: Request) {
 
   if (email && !isValidEmail(email)) {
     return jsonError("이메일 형식으로 입력해주세요.");
+  }
+
+  if (!cohortOptions.includes(cohort as (typeof cohortOptions)[number])) {
+    return jsonError("신청 기수를 선택해주세요.");
   }
 
   if (!levelOptions.includes(level as (typeof levelOptions)[number])) {
@@ -206,7 +220,7 @@ export async function POST(request: Request) {
       }
 
       if (matchedTeamStatus !== "사전예약") {
-        const currentCount = await countApplicationsByLevel(supabase, level, source);
+        const currentCount = await countApplicationsByLevel(supabase, level, cohort);
 
         if (currentCount >= TEAM_CAPACITY) {
           return jsonError(`${matchedTeam.name}은 현재 모집이 마감됐어요.`, 409);
@@ -231,6 +245,7 @@ export async function POST(request: Request) {
       name,
       phone,
       email: email || null,
+      cohort,
       gender,
       applicationDate,
       level,
@@ -240,7 +255,7 @@ export async function POST(request: Request) {
       motivation: motivation || null,
       availability: availability || null,
       source,
-      status: "new"
+      status: "신규"
     });
   } catch {
     return jsonError("신청 저장에 실패했어요. 잠시 후 다시 시도해주세요.", 500);
@@ -250,6 +265,7 @@ export async function POST(request: Request) {
     await sendNotification({
       applicationDate,
       applicationId: application.id,
+      cohort,
       gender,
       internationalSchool,
       level,

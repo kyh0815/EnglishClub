@@ -65,7 +65,7 @@ export default function Nav({ ctaHref = "/apply", transparentOnTop = false }: Na
   }, [usesTransparentTop]);
 
   useEffect(() => {
-    setMenuOpen(false);
+    queueMicrotask(() => setMenuOpen(false));
   }, [pathname]);
 
   useEffect(() => {

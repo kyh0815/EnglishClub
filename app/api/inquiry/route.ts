@@ -77,7 +77,7 @@ export async function POST(request: Request) {
     contact: email ? `${phone} / ${email}` : phone,
     message,
     source: landingContent.inquiry.source,
-    status: "new"
+    status: "미답변"
   });
 
   if (error) {
