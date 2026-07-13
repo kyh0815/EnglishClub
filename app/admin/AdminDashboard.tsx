@@ -288,6 +288,7 @@ export default function AdminDashboard({ initialView = "dashboard" }: AdminDashb
   const [templateVariables, setTemplateVariables] = useState("");
   const [isApplicationSheetOpen, setIsApplicationSheetOpen] = useState(false);
   const [isInquirySheetOpen, setIsInquirySheetOpen] = useState(false);
+  const [isAuthChecking, setIsAuthChecking] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -356,6 +357,12 @@ export default function AdminDashboard({ initialView = "dashboard" }: AdminDashb
     };
   }, [applications]);
   const activeNavItem = navItems.find((item) => item.view === activeView);
+  const activeRecordCount =
+    activeView === "applications"
+      ? visibleApplications.length
+      : activeView === "inquiries"
+        ? visibleInquiries.length
+        : null;
   const accountEmail = viewerEmail || session?.user.email || "";
   const accountInitials = getInitials(accountEmail);
 
@@ -364,18 +371,27 @@ export default function AdminDashboard({ initialView = "dashboard" }: AdminDashb
       return;
     }
 
-    void supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
+    void supabase.auth
+      .getSession()
+      .then(({ data }) => {
+        setSession(data.session);
 
-      if (data.session) {
-        void loadAdminData(data.session);
-      }
-    });
+        if (data.session) {
+          void loadAdminData(data.session);
+        }
+      })
+      .catch(() => {
+        setSession(null);
+      })
+      .finally(() => {
+        setIsAuthChecking(false);
+      });
 
     const {
       data: { subscription }
     } = supabase.auth.onAuthStateChange((_event, nextSession) => {
       setSession(nextSession);
+      setIsAuthChecking(false);
 
       if (nextSession) {
         void loadAdminData(nextSession);
@@ -440,13 +456,8 @@ export default function AdminDashboard({ initialView = "dashboard" }: AdminDashb
           currentSession
         );
         setTemplates(templatesResult.templates ?? []);
-      } catch (templateError) {
+      } catch {
         setTemplates([]);
-        setMessage(
-          templateError instanceof Error
-            ? templateError.message
-            : "메시지 템플릿을 불러오지 못했어요."
-        );
       }
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Admin 데이터를 불러오지 못했어요.");
@@ -668,6 +679,7 @@ export default function AdminDashboard({ initialView = "dashboard" }: AdminDashb
 
   function handleNavigate(view: AdminView) {
     setActiveView(view);
+    setMessage("");
     setIsMobileSidebarOpen(false);
   }
 
@@ -681,6 +693,10 @@ export default function AdminDashboard({ initialView = "dashboard" }: AdminDashb
         </section>
       </main>
     );
+  }
+
+  if (isAuthChecking) {
+    return <main aria-busy="true" aria-label="Admin 인증 확인 중" className={styles.shell} />;
   }
 
   if (!session) {
@@ -819,6 +835,7 @@ export default function AdminDashboard({ initialView = "dashboard" }: AdminDashb
           </button>
           <div className={styles.pageTitle}>
             <h1>{activeNavItem?.label}</h1>
+            {activeRecordCount !== null ? <span>{activeRecordCount}건</span> : null}
           </div>
           <button
             className={styles.iconButton}
@@ -888,7 +905,7 @@ export default function AdminDashboard({ initialView = "dashboard" }: AdminDashb
         ) : null}
 
         {activeView === "applications" ? (
-          <section className={styles.viewStack}>
+          <section className={cx(styles.viewStack, styles.tableViewStack)}>
             <div className={styles.toolbar}>
               <label>
                 기수
@@ -942,11 +959,7 @@ export default function AdminDashboard({ initialView = "dashboard" }: AdminDashb
               </label>
             </div>
 
-            <section className={styles.panel}>
-              <div className={styles.panelHead}>
-                <strong>신청 {visibleApplications.length}건</strong>
-                {isLoading ? <span>불러오는 중</span> : null}
-              </div>
+            <section className={styles.tableSection}>
               <div className={styles.tableWrap}>
                 <table>
                   <thead>
@@ -991,8 +1004,8 @@ export default function AdminDashboard({ initialView = "dashboard" }: AdminDashb
         ) : null}
 
         {activeView === "inquiries" ? (
-          <section className={styles.viewStack}>
-            <div className={styles.toolbar}>
+          <section className={cx(styles.viewStack, styles.tableViewStack)}>
+            <div className={cx(styles.toolbar, styles.inquiryToolbar)}>
               <label>
                 상태
                 <select
@@ -1021,11 +1034,7 @@ export default function AdminDashboard({ initialView = "dashboard" }: AdminDashb
               </label>
             </div>
 
-            <section className={styles.panel}>
-              <div className={styles.panelHead}>
-                <strong>문의 {visibleInquiries.length}건</strong>
-                {isLoading ? <span>불러오는 중</span> : null}
-              </div>
+            <section className={styles.tableSection}>
               <div className={styles.tableWrap}>
                 <table>
                   <thead>

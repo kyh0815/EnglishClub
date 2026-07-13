@@ -2442,6 +2442,7 @@ h2 {
   border-bottom: 1px solid var(--line);
   border-radius: 0;
   padding: 11px 2px;
+  line-height: 1.5;
   transition: 0.25s;
 }
 
@@ -2463,6 +2464,9 @@ h2 {
 .field input::placeholder,
 .field textarea::placeholder {
   color: var(--ink-faint);
+  font-weight: 300;
+  line-height: inherit;
+  opacity: 1;
 }
 
 .choice-field {

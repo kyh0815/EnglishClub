@@ -117,8 +117,32 @@
 .toolbar input,
 .formStack input,
 .formStack select {
-  height: 36px;
+  min-height: 38px;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.loginPanel input,
+.toolbar input,
+.formStack input {
+  height: auto;
+  padding: 7px 10px;
+}
+
+.toolbar select,
+.formStack select {
+  height: 38px;
   padding: 0 10px;
+}
+
+.loginPanel input::placeholder,
+.toolbar input::placeholder,
+.formStack input::placeholder,
+.formStack textarea::placeholder {
+  color: #9a9a9f;
+  font-weight: 300;
+  line-height: inherit;
+  opacity: 1;
 }
 
 .toolbar select,
@@ -584,11 +608,21 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 18px;
-  margin-bottom: 20px;
+  margin-bottom: 6px;
 }
 
 .pageTitle {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
   min-width: 0;
+}
+
+.pageTitle > span {
+  color: #737373;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 .topbar h1 {
@@ -625,6 +659,10 @@
 .viewStack {
   display: grid;
   gap: 14px;
+}
+
+.tableViewStack {
+  gap: 0;
 }
 
 .metrics {
@@ -703,6 +741,14 @@
   color: #171717;
 }
 
+.tableSection {
+  min-width: 0;
+}
+
+.tableSection .tableWrap th {
+  background: #fcfcfd;
+}
+
 .toolbar {
   display: grid;
   grid-template-columns: minmax(120px, 150px) minmax(150px, 180px) minmax(150px, 180px) minmax(260px, 1fr);
@@ -714,9 +760,14 @@
   padding: 14px;
 }
 
+.inquiryToolbar {
+  grid-template-columns: minmax(120px, 150px) minmax(280px, 1fr);
+}
+
 .searchField span {
   position: relative;
   display: block;
+  min-width: 0;
 }
 
 .searchField svg {
@@ -728,6 +779,7 @@
 }
 
 .searchField input {
+  min-width: 0;
   padding-left: 34px;
 }
 
