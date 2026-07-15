@@ -26,6 +26,14 @@ import {
   type InquiryStatus
 } from "@/lib/applications";
 import { cohortOptions } from "@/lib/content";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
 import Image from "next/image";
 import styles from "./AdminDashboard.module.css";
 
@@ -98,6 +106,18 @@ type AdminListResponse = {
   viewerEmail?: string;
 };
 
+type AdminSelectOption = {
+  label: string;
+  value: string;
+};
+
+type AdminSelectProps = {
+  ariaLabel: string;
+  onValueChange: (value: string) => void;
+  options: AdminSelectOption[];
+  value: string;
+};
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 const isConfigured = Boolean(supabaseUrl && supabaseAnonKey);
@@ -120,6 +140,25 @@ const confirmedStatuses = new Set<string>(["확정", "accepted"]);
 
 function cx(...classes: Array<string | false | null | undefined>): string {
   return classes.filter(Boolean).join(" ");
+}
+
+function AdminSelect({ ariaLabel, onValueChange, options, value }: AdminSelectProps) {
+  return (
+    <Select value={value} onValueChange={onValueChange}>
+      <SelectTrigger aria-label={ariaLabel} className={styles.adminSelectTrigger}>
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent className={styles.adminSelectContent}>
+        <SelectGroup>
+          {options.map((option) => (
+            <SelectItem className={styles.adminSelectItem} key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  );
 }
 
 function formatDateTime(value: string | null | undefined): string {
@@ -751,12 +790,7 @@ export default function AdminDashboard({ initialView = "dashboard" }: AdminDashb
       />
       <aside className={styles.sidebar}>
         <div className={styles.sidebarBrand}>
-          <Link
-            aria-label="The Round Admin home"
-            className={styles.brandLink}
-            href="/admin"
-            onClick={() => handleNavigate("dashboard")}
-          >
+          <div className={styles.brandHeader}>
             <Image
               alt=""
               aria-hidden="true"
@@ -767,7 +801,7 @@ export default function AdminDashboard({ initialView = "dashboard" }: AdminDashb
               width={18}
             />
             <span>The Round Admin</span>
-          </Link>
+          </div>
         </div>
         <div className={styles.sidebarNav} role="navigation" aria-label="Admin navigation">
           {navItems.map((item) => {
@@ -907,44 +941,42 @@ export default function AdminDashboard({ initialView = "dashboard" }: AdminDashb
         {activeView === "applications" ? (
           <section className={cx(styles.viewStack, styles.tableViewStack)}>
             <div className={styles.toolbar}>
-              <label>
-                기수
-                <select
+              <div className={styles.controlField}>
+                <span>기수</span>
+                <AdminSelect
+                  ariaLabel="기수"
                   value={applicationCohortFilter}
-                  onChange={(event) => setApplicationCohortFilter(event.target.value)}
-                >
-                  <option value="all">전체</option>
-                  {cohortOptions.map((cohort) => (
-                    <option key={cohort} value={cohort}>
-                      {cohort}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                상태
-                <select
+                  onValueChange={setApplicationCohortFilter}
+                  options={[
+                    { label: "전체", value: "all" },
+                    ...cohortOptions.map((cohort) => ({ label: cohort, value: cohort }))
+                  ]}
+                />
+              </div>
+              <div className={styles.controlField}>
+                <span>상태</span>
+                <AdminSelect
+                  ariaLabel="신청 상태"
                   value={applicationStatusFilter}
-                  onChange={(event) => setApplicationStatusFilter(event.target.value)}
-                >
-                  <option value="all">전체</option>
-                  {APPLICATION_STATUSES.map((status) => (
-                    <option key={status} value={status}>
-                      {status}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                신청일 정렬
-                <select
+                  onValueChange={setApplicationStatusFilter}
+                  options={[
+                    { label: "전체", value: "all" },
+                    ...APPLICATION_STATUSES.map((status) => ({ label: status, value: status }))
+                  ]}
+                />
+              </div>
+              <div className={styles.controlField}>
+                <span>신청일 정렬</span>
+                <AdminSelect
+                  ariaLabel="신청일 정렬"
                   value={applicationSort}
-                  onChange={(event) => setApplicationSort(event.target.value as "desc" | "asc")}
-                >
-                  <option value="desc">최신순</option>
-                  <option value="asc">오래된순</option>
-                </select>
-              </label>
+                  onValueChange={(value) => setApplicationSort(value as "desc" | "asc")}
+                  options={[
+                    { label: "최신순", value: "desc" },
+                    { label: "오래된순", value: "asc" }
+                  ]}
+                />
+              </div>
               <label className={styles.searchField}>
                 검색
                 <span>
@@ -1006,20 +1038,18 @@ export default function AdminDashboard({ initialView = "dashboard" }: AdminDashb
         {activeView === "inquiries" ? (
           <section className={cx(styles.viewStack, styles.tableViewStack)}>
             <div className={cx(styles.toolbar, styles.inquiryToolbar)}>
-              <label>
-                상태
-                <select
+              <div className={styles.controlField}>
+                <span>상태</span>
+                <AdminSelect
+                  ariaLabel="문의 상태"
                   value={inquiryStatusFilter}
-                  onChange={(event) => setInquiryStatusFilter(event.target.value)}
-                >
-                  <option value="all">전체</option>
-                  {INQUIRY_STATUSES.map((status) => (
-                    <option key={status} value={status}>
-                      {status}
-                    </option>
-                  ))}
-                </select>
-              </label>
+                  onValueChange={setInquiryStatusFilter}
+                  options={[
+                    { label: "전체", value: "all" },
+                    ...INQUIRY_STATUSES.map((status) => ({ label: status, value: status }))
+                  ]}
+                />
+              </div>
               <label className={styles.searchField}>
                 검색
                 <span>
@@ -1213,19 +1243,15 @@ export default function AdminDashboard({ initialView = "dashboard" }: AdminDashb
             </div>
 
             <div className={styles.formStack}>
-              <label>
-                상태
-                <select
+              <div className={styles.controlField}>
+                <span>상태</span>
+                <AdminSelect
+                  ariaLabel="신청 상태"
                   value={applicationStatus}
-                  onChange={(event) => setApplicationStatus(event.target.value as ApplicationStatus)}
-                >
-                  {APPLICATION_STATUSES.map((status) => (
-                    <option key={status} value={status}>
-                      {status}
-                    </option>
-                  ))}
-                </select>
-              </label>
+                  onValueChange={(value) => setApplicationStatus(value as ApplicationStatus)}
+                  options={APPLICATION_STATUSES.map((status) => ({ label: status, value: status }))}
+                />
+              </div>
               <label>
                 운영자 메모
                 <textarea
@@ -1310,19 +1336,15 @@ export default function AdminDashboard({ initialView = "dashboard" }: AdminDashb
             </div>
 
             <div className={styles.formStack}>
-              <label>
-                상태
-                <select
+              <div className={styles.controlField}>
+                <span>상태</span>
+                <AdminSelect
+                  ariaLabel="문의 상태"
                   value={inquiryStatus}
-                  onChange={(event) => setInquiryStatus(event.target.value as InquiryStatus)}
-                >
-                  {INQUIRY_STATUSES.map((status) => (
-                    <option key={status} value={status}>
-                      {status}
-                    </option>
-                  ))}
-                </select>
-              </label>
+                  onValueChange={(value) => setInquiryStatus(value as InquiryStatus)}
+                  options={INQUIRY_STATUSES.map((status) => ({ label: status, value: status }))}
+                />
+              </div>
               <label>
                 운영자 메모
                 <textarea

@@ -11,7 +11,6 @@
 .shell button,
 .adminApp input,
 .adminApp button,
-.adminApp select,
 .adminApp textarea {
   font-family: "Pretendard", "Pretendard Variable", -apple-system, BlinkMacSystemFont,
     "Apple SD Gothic Neo", "Segoe UI", sans-serif;
@@ -87,6 +86,7 @@
 
 .loginPanel label,
 .toolbar label,
+.toolbar .controlField,
 .formStack label {
   display: grid;
   gap: 7px;
@@ -95,11 +95,17 @@
   font-weight: 600;
 }
 
+.formStack .controlField {
+  display: grid;
+  gap: 7px;
+  color: #525252;
+  font-size: 12px;
+  font-weight: 600;
+}
+
 .loginPanel input,
-.toolbar select,
 .toolbar input,
 .formStack input,
-.formStack select,
 .formStack textarea {
   width: 100%;
   border: 1px solid #dedee2;
@@ -113,10 +119,8 @@
 }
 
 .loginPanel input,
-.toolbar select,
 .toolbar input,
-.formStack input,
-.formStack select {
+.formStack input {
   min-height: 38px;
   font-weight: 400;
   line-height: 1.45;
@@ -129,12 +133,6 @@
   padding: 7px 10px;
 }
 
-.toolbar select,
-.formStack select {
-  height: 38px;
-  padding: 0 10px;
-}
-
 .loginPanel input::placeholder,
 .toolbar input::placeholder,
 .formStack input::placeholder,
@@ -145,18 +143,6 @@
   opacity: 1;
 }
 
-.toolbar select,
-.formStack select {
-  appearance: none;
-  background-color: #fff;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238a8a8a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-  background-position: right 10px center;
-  background-repeat: no-repeat;
-  background-size: 16px 16px;
-  font-weight: 400;
-  padding-right: 34px;
-}
-
 .formStack textarea {
   min-height: 130px;
   padding: 10px;
@@ -164,11 +150,85 @@
   resize: vertical;
 }
 
+:global(.select-trigger).adminSelectTrigger {
+  width: 100%;
+  height: 38px;
+  min-height: 38px;
+  border: 1px solid #dedee2;
+  border-radius: 6px;
+  background: #fff;
+  color: #171717;
+  padding: 0 10px;
+  font-family: "Pretendard", "Pretendard Variable", -apple-system, BlinkMacSystemFont,
+    "Apple SD Gothic Neo", "Segoe UI", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.45;
+  transition: border-color 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+}
+
+:global(.select-trigger).adminSelectTrigger:hover {
+  border-color: #d0d0d4;
+  background: #fdfdfd;
+}
+
+:global(.select-trigger).adminSelectTrigger:focus,
+:global(.select-trigger).adminSelectTrigger:focus-visible,
+:global(.select-trigger).adminSelectTrigger[data-state="open"] {
+  border-color: #9a9a9f;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(23, 23, 23, 0.07);
+}
+
+.adminSelectTrigger :global(.select-icon) {
+  width: 15px;
+  height: 15px;
+  margin-right: 1px;
+  color: #858589;
+}
+
+:global(.select-content).adminSelectContent {
+  z-index: 120;
+  border: 1px solid #dedee2;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(23, 23, 23, 0.12), 0 2px 8px rgba(23, 23, 23, 0.06);
+}
+
+.adminSelectContent :global(.select-viewport) {
+  padding: 4px;
+}
+
+:global(.select-item).adminSelectItem {
+  min-height: 34px;
+  border-radius: 4px;
+  padding: 7px 10px 7px 30px;
+  color: #292929;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+:global(.select-item).adminSelectItem[data-highlighted] {
+  background: rgba(23, 23, 23, 0.04);
+}
+
+:global(.select-item).adminSelectItem[data-state="checked"] {
+  background: rgba(23, 23, 23, 0.055);
+}
+
+.adminSelectItem :global(.select-item-indicator) {
+  left: 8px;
+}
+
+.adminSelectItem :global(.select-check) {
+  width: 14px;
+  height: 14px;
+}
+
 .loginPanel input:focus,
-.toolbar select:focus,
 .toolbar input:focus,
 .formStack input:focus,
-.formStack select:focus,
 .formStack textarea:focus {
   border-color: #9a9a9f;
   box-shadow: 0 0 0 3px rgba(23, 23, 23, 0.07);
@@ -263,7 +323,7 @@
   padding: 2px 0 8px;
 }
 
-.brandLink {
+.brandHeader {
   display: inline-flex;
   min-width: 0;
   flex: 1;
@@ -275,16 +335,10 @@
   font-size: 16px;
   font-weight: 650;
   line-height: 1.2;
-  text-decoration: none;
   white-space: nowrap;
-  transition: opacity 120ms ease, background-color 120ms ease;
 }
 
-.brandLink:hover {
-  background: rgba(23, 23, 23, 0.03);
-}
-
-.brandLink span {
+.brandHeader span {
   display: block;
   min-width: 0;
   overflow: hidden;
@@ -566,7 +620,7 @@
   color: #171717;
 }
 
-.sidebarCollapsed .brandLink,
+.sidebarCollapsed .brandHeader,
 .sidebarCollapsed .accountButton {
   justify-content: center;
   padding-right: 0;
@@ -1159,7 +1213,7 @@
   }
 
   .sidebarCollapsed .sidebarNav a,
-  .sidebarCollapsed .brandLink,
+  .sidebarCollapsed .brandHeader,
   .sidebarCollapsed .accountButton {
     justify-content: flex-start;
     padding-right: 8px;
