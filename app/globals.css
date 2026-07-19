@@ -2634,32 +2634,30 @@ h2 {
 .venue-confirmation-card {
   min-height: 58px;
   height: auto;
-  display: flex;
+  display: grid;
   align-items: center;
-  padding: 13px 14px;
+  padding: 0 14px;
   text-align: left;
 }
 
 .venue-confirmation-card span {
-  position: absolute;
-  top: 50%;
-  left: 14px;
-  right: 100px;
-  width: auto;
-  min-height: 0;
-  display: block;
-  padding-right: 0;
+  position: static;
+  width: 100%;
+  min-height: 58px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
   color: inherit;
   font-size: 14px;
   line-height: 1.5;
-  transform: translateY(-50%);
+  transform: none;
+  overflow-wrap: anywhere;
   word-break: keep-all;
 }
 
 .venue-confirmation-card small {
-  position: absolute;
-  top: 50%;
-  right: 14px;
+  position: static;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2671,7 +2669,8 @@ h2 {
   border-radius: 999px;
   padding: 5px 8px;
   background: transparent;
-  transform: translateY(-50%);
+  transform: none;
+  white-space: nowrap;
 }
 
 .venue-confirmation-card:has(input:checked) small {
